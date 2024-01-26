@@ -1,26 +1,22 @@
 require('dotenv').config();
-
 const express = require('express');
 const mongoose = require('mongoose')
 
+const userRoutes = require('./routes/user')
+
 const app = express()
 
-mongoose.connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
+app.use(express.json())
 
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-db.once('open', function() {
-    console.log('Connected to the database');
-});
+app.use('/api/user', userRoutes)
 
-
-app.get('/', (req, res) => {
-    res.send('Hello, World!');
-});
-
-app.listen(3001, ()=>{
-    console.log("Server is running")
-})
+// connect to db
+mongoose.connect(process.env.MONGO_URI)
+    .then((result) => {
+        app.listen(process.env.PORT, () => {
+        console.log('Connected to db and Listening on port', process.env.PORT);
+        })
+    })
+    .catch((err) => {
+        console.log(err);
+    })
