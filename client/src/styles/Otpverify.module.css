@@ -1,0 +1,29 @@
+.otp-field {
+    flex-direction: row;
+    column-gap: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .otp-field input {
+    height: 45px;
+    width: 80px; /* Increase width to accommodate 4 digits */
+    border-radius: 6px;
+    outline: none;
+    font-size: 1.125rem;
+    text-align: center;
+    border: 1px solid #ddd;
+  }
+  
+  /* Add styling for focusing on individual input fields */
+  .otp-field input:focus {
+    border-color: #007bff; /* Example color for focus */
+  }
+  
+  /* Hide spin buttons */
+  .otp-field input::-webkit-inner-spin-button,
+  .otp-field input::-webkit-outer-spin-button {
+    display: none;
+  }
+  

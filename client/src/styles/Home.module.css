@@ -7,4 +7,28 @@
   box-sizing: border-box;
   min-height: calc(100vh - 70px);
   color: var(--text);
+  height: 100vh;
+  margin: 0;
+}
+
+.centered-container {
+  text-align: center;
+  padding: 20   px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+  position: relative; 
+  z-index: 1; 
+}
+
+.img {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  max-height: 300px;
+  display: block;
+  position: absolute; 
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Center the image */
+  z-index: 0; 
 }
