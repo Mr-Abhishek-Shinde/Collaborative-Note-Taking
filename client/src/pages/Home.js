@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styles from '../styles/Home.module.css';
-import img1 from '../image/main.png';
+// import img1 from '../image/main.png';
 
 const Home = () => {
   return (

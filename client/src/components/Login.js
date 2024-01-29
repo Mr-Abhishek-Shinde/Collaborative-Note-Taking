@@ -1,15 +1,13 @@
-import React from 'react';
+import React from "react";
 import styles from "../styles/Login.module.css";
-import loginimg from "../image/loginimg.png"
+import loginimg from "../image/loginimg.png";
 
 const Login = () => {
   return (
     <div className={styles["container"]}>
-      {/* <input type="checkbox" id="flip" /> */}
       <div className={styles["cover"]}>
         <div className={styles["front"]}>
           <img src={loginimg} alt="not found" />
-          
         </div>
       </div>
       <div className={styles["forms"]}>
@@ -19,22 +17,21 @@ const Login = () => {
             <form action="#">
               <div className={styles["input-boxes"]}>
                 <div className={styles["input-box"]}>
-                  <i className="fas fa-envelope"></i>
                   <input type="text" placeholder="Enter your email" required />
                 </div>
                 <div className={styles["input-box"]}>
-                  <i className="fas fa-lock"></i>
-                  <input type="password" placeholder="Enter your password" required />
+                  <input
+                    type="password"
+                    placeholder="Enter your password"
+                    required
+                  />
                 </div>
-                {/* <div className={styles["text"]}><a href="#">Forgot password?</a></div> */}
                 <div className={`${styles["button"]} ${styles["input-box"]}`}>
                   <input type="submit" value="Submit" />
                 </div>
-                
               </div>
             </form>
           </div>
-          
         </div>
       </div>
     </div>
