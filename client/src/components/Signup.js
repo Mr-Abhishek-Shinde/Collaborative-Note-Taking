@@ -1,20 +1,21 @@
 import React, { useState } from 'react';
 import styles from "../styles/Signup.module.css";
-import Otp from "./Otpverify";
+import OtpVerify from "./OtpVerify";
 
 const Signup = () => {
   const [isOtpVisible, setIsOtpVisible] = useState(false);
 
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
+  const [name, setName] = useState('');
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Add validation logic here
-    // Display the OTP component when the form is submitted
+
+    // validation logic here
+
     setIsOtpVisible(true);
   };
 
@@ -25,22 +26,22 @@ const Signup = () => {
         {!isOtpVisible ? (
           <form onSubmit={handleSubmit}>
             <div className={styles.inputBox}>
-              <label htmlFor="firstName">First Name</label>
+              <label htmlFor="name">Name</label>
               <input
                 type="text"
-                id="firstName"
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
+                id="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
                 required
               />
             </div>
             <div className={styles.inputBox}>
-              <label htmlFor="lastName">Last Name</label>
+              <label htmlFor="username">Username</label>
               <input
                 type="text"
-                id="lastName"
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
+                id="username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
                 required
               />
             </div>
@@ -75,11 +76,11 @@ const Signup = () => {
               />
             </div>
             <div className={styles.button}>
-              <button type="submit">Submit</button>
+              <button type="submit">Proceed</button>
             </div>
           </form>
         ) : (
-          <Otp />
+          <OtpVerify />
         )}
       </div>
     </div>
