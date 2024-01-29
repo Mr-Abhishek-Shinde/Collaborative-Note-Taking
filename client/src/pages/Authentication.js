@@ -9,8 +9,9 @@ const Authentication = () => {
   return (
     <div className={styles["authentication-container"]}>
       <div>
-        <p onClick={() => setIsLogin(true)}>Login</p>
-        <p onClick={() => setIsLogin(false)}>Signup</p>
+        <button onClick={() => setIsLogin(true)}>Login</button>
+        
+        <button onClick={() => setIsLogin(false)}>Signup</button>
       </div>
 
       <div>
