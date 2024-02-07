@@ -2,6 +2,7 @@ import { React, useState } from "react";
 import styles from "../styles/Authentication.module.css";
 import Login from "../components/Login";
 import Signup from "../components/Signup";
+import { ToastContainer, toast } from 'react-toastify';
 
 const Authentication = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -17,6 +18,7 @@ const Authentication = () => {
       <div>
         {isLogin ? <Login /> : <Signup />}
       </div>
+      <ToastContainer />
     </div>
   );
 };

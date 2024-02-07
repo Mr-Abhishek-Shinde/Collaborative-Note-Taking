@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useSignup } from "../hooks/useSignup";
 import styles from "../styles/Signup.module.css";
+import { toast } from "react-toastify";
+import {useEffect } from "react";
 
 const Signup = () => {
   const [name, setName] = useState("");
@@ -10,10 +12,20 @@ const Signup = () => {
 
   const { signup, error, isLoading } = useSignup();
 
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+    }
+  }, [error]);
+
+
   const handleSignup = async (e) => {
     e.preventDefault();
 
     await signup(name, username, email, password);
+    if(!error){
+      toast.success("Signing up")
+    }
   };
 
   return (
