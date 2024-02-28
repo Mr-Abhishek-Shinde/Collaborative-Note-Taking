@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useSignup } from "../hooks/useSignup";
 import styles from "../styles/Signup.module.css";
+import loginimg from "../image/loginimg.png";
 
 const Signup = () => {
   const [name, setName] = useState("");
@@ -17,13 +18,19 @@ const Signup = () => {
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.form}>
-        <div className={styles.title}>Signup</div>
+    <div className={styles["main-container"]}>
+      {/* <div className={styles["image-container"]}>
+          <img src={loginimg} alt="not found" />
+      </div> */}
+      <div className={styles["forms"]}>
+        <div className={styles["form-content"]}>
+          <div className={styles["login-form"]}>
+            <div className={styles["title"]}>SignUp</div>
             <form>
-              <div className={styles.inputBox}>
-                <label htmlFor="name">Name</label>
+              <div className={styles["inputBox"]}>
+                {/* <label htmlFor="name">Name</label> */}
                 <input
+                  placeholder="Enter your Name"
                   type="text"
                   id="name"
                   value={name}
@@ -31,9 +38,10 @@ const Signup = () => {
                   required
                 />
               </div>
-              <div className={styles.inputBox}>
-                <label htmlFor="username">Username</label>
+              <div className={styles["inputBox"]}>
+                {/* <label htmlFor="username">Username</label> */}
                 <input
+                  placeholder="Enter the Username"
                   type="text"
                   id="username"
                   value={username}
@@ -41,9 +49,10 @@ const Signup = () => {
                   required
                 />
               </div>
-              <div className={styles.inputBox}>
-                <label htmlFor="email">Email</label>
+              <div className={styles["inputBox"]}>
+                {/* <label htmlFor="email">Email</label> */}
                 <input
+                  placeholder="Enter your email"
                   type="email"
                   id="email"
                   value={email}
@@ -51,9 +60,10 @@ const Signup = () => {
                   required
                 />
               </div>
-              <div className={styles.inputBox}>
-                <label htmlFor="password">Password</label>
+              <div className={styles["inputBox"]}>
+                {/* <label htmlFor="password">Password</label> */}
                 <input
+                  placeholder="Enter the Password"
                   type="password"
                   id="password"
                   value={password}
@@ -64,14 +74,17 @@ const Signup = () => {
 
               <button
                 onClick={handleSignup}
-                className={styles.button}
+                className={styles["button-input-box"]}
                 disabled={isLoading}
               >
                 Sign Up
               </button>
             </form>
             {error && <div className="error">{error}</div>}
+          </div>
+        </div>
       </div>
+      
     </div>
   );
 };

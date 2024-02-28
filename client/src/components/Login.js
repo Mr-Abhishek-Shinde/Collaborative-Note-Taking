@@ -18,10 +18,10 @@ const Login = () => {
 
   return (
     <div className={styles["container"]}>
-      <div className={styles["cover"]}>
-        <div className={styles["front"]}>
+      <div className={styles["image-container"]}>
+        {/* <div className={styles["image"]}>
           <img src={loginimg} alt="not found" />
-        </div>
+        </div> */}
       </div>
       <div className={styles["forms"]}>
         <div className={styles["form-content"]}>
@@ -49,7 +49,7 @@ const Login = () => {
                 </div>
                 <button
                   onClick={handleLogin}
-                  className="button input-box"
+                  className={styles["button-input-box"]}
                   disabled={isLoading}
                 >
                   Login
