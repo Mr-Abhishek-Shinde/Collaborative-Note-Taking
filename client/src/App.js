@@ -6,6 +6,7 @@ import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Authentication from "./pages/Authentication";
 import Dashboard from "./pages/Dashboard";
+import Notes from "./pages/Notes";
 
 function App() {
   const { user } = useAuthContext();
@@ -18,6 +19,7 @@ function App() {
         <Routes>
           <Route exact path="/" element={<Home />} />
           <Route exact path="/authentication" element={user ? <Dashboard /> : <Authentication />} />
+          <Route exact path="/notes" element={ <Notes />} />
         </Routes>
       </BrowserRouter>
     </div>
