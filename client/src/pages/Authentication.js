@@ -2,7 +2,8 @@ import { React, useState } from "react";
 import styles from "../styles/Authentication.module.css";
 import Login from "../components/Login";
 import Signup from "../components/Signup";
-import imgAuth from '../image/authBG.png';
+import { ToastContainer, toast } from 'react-toastify';
+
 const Authentication = () => {
   const [isLogin, setIsLogin] = useState(true);
 
@@ -19,6 +20,7 @@ const Authentication = () => {
         <div className={styles["main-box"]}>
           {isLogin ? <Login /> : <Signup />}
         </div>
+      <ToastContainer />
         
       
     </div>

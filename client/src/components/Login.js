@@ -1,21 +1,38 @@
 import React, { useState } from "react";
 import styles from "../styles/Login.module.css";
 import loginimg from "../image/loginimg.png";
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import {useEffect } from "react";
 import { useLogin } from "../hooks/useLogin";
+
+
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const [text, setText]=useState("");
   const { login, error, isLoading } = useLogin();
+  
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+    }
+    
+  }, [error]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
     await login(email, password);
+    console.log(error);
+    
+    
   };
 
+  
+
+  
   return (
     <div className={styles["container"]}>
       <div className={styles["image-container"]}>
@@ -48,18 +65,21 @@ const Login = () => {
                   />
                 </div>
                 <button
-                  onClick={handleLogin}
-                  className={styles["button-input-box"]}
+                  onClick={
+                    handleLogin}
+                  className="button input-box"
                   disabled={isLoading}
                 >
                   Login
                 </button>
+                <ToastContainer />
               </div>
             </form>
           </div>
         </div>
       </div>
-      {error && <div className="error">{error}</div>}
+      
+      
     </div>
   );
 };
