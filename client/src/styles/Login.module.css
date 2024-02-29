@@ -2,13 +2,17 @@
     position: relative;
     max-width: 1000px;
     width: 600px;
-    background: #fff;
+    background-color: rgba(255, 255, 255, 0.8);
     padding: 40px 30px;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
     perspective: 2700px;
+    border-radius: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(9px);
+    -webkit-backdrop-filter: blur(9px);
   }
   
-  .cover {
+  .image-container {
     position: absolute;
     top: 0;
     left: 50%;
@@ -20,8 +24,7 @@
     transform-style: preserve-3d;
   }
   
-  .cover .front,
-  .cover .back {
+  .image-container .image {
     position: absolute;
     top: 0;
     left: 0;
@@ -29,13 +32,13 @@
     width: 100%;
   }
   
-  .cover .back {
+  .image-container .back {
     transform: rotateY(180deg);
     backface-visibility: hidden;
   }
   
-  .cover::before,
-  .cover::after {
+  .image-container::before,
+  .image-container::after {
     content: '';
     position: absolute;
     height: 100%;
@@ -45,13 +48,13 @@
     z-index: 12;
   }
   
-  .cover::after {
+  .image-container::after {
     opacity: 0.3;
     transform: rotateY(180deg);
     backface-visibility: hidden;
   }
   
-  .cover img {
+  .image-container img {
     position: absolute;
     height: 100%;
     width: 100%;
@@ -59,7 +62,7 @@
     z-index: 10;
   }
   
-  .cover .text {
+  .image-container .text {
     position: absolute;
     z-index: 130;
     height: 100%;
@@ -70,15 +73,15 @@
     justify-content: center;
   }
   
-  .cover .text .text-1,
-  .cover .text .text-2 {
+  .image-container .text .text-1,
+  .image-container .text .text-2 {
     font-size: 26px;
     font-weight: 600;
-    color: #fff;
+    /* color: #fff; */
     text-align: center;
   }
   
-  .cover .text .text-2 {
+  .image-container .text .text-2 {
     font-size: 15px;
     font-weight: 500;
   }
@@ -86,7 +89,7 @@
   .forms {
     height: 100%;
     width: 100%;
-    background: #fff;
+    /* background: #fff; */
   }
   
   .form-content {
@@ -105,6 +108,7 @@
     font-size: 24px;
     font-weight: 500;
     color: #333;
+    font-weight: bold;
   }
   
   .form-content .title:before {
@@ -114,7 +118,7 @@
     bottom: 0;
     height: 3px;
     width: 25px;
-    background: #7d2ae8;
+    /* background: #7d2ae8; */
   }
   
   .signup-form .title:before {
@@ -170,25 +174,6 @@
   .form-content .text a:hover {
     text-decoration: underline;
   }
-  
-  .form-content .button {
-    color: #fff;
-    margin-top: 40px;
-  }
-  
-  .form-content .button input {
-    color: #fff;
-    background: #7d2ae8;
-    border-radius: 6px;
-    padding: 0;
-    cursor: pointer;
-    transition: all 0.4s ease;
-  }
-  
-  .form-content .button input:hover {
-    background: #5b13b9;
-  }
-  
   .form-content label {
     color: #5b13b9;
     cursor: pointer;
@@ -209,7 +194,7 @@
   }
   
   @media (max-width: 730px) {
-    .cover {
+    .image-container {
       display: none;
     }
   
@@ -230,4 +215,29 @@
       display: none;
     }
   }
+  
+  .button-input-box {
+    cursor: pointer;
+    outline: 0;
+    display: inline-block;
+    font-weight: 400;
+    line-height: 1;
+    text-align: center;
+    background-color: transparent;
+    border: 1px solid transparent;
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    border-radius: .25rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    color: black;
+    border-color: var(--accent);
+ 
+  }
+
+  .button-input-box:hover {
+    color: #fff;
+    background-color: var(--primary);
+    border-color: var(--accent);
+  }
+
   
