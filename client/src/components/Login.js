@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styles from "../styles/Login.module.css";
-import loginimg from "../image/loginimg.png";
+// import loginimg from "../image/loginimg.png";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {useEffect } from "react";
@@ -11,7 +11,7 @@ import { useLogin } from "../hooks/useLogin";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [text, setText]=useState("");
+  // const [text, setText]=useState("");
   const { login, error, isLoading } = useLogin();
   
   useEffect(() => {
