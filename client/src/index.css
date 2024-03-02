@@ -20,3 +20,10 @@ code {
   --secondary: #c9eaf8;
   --accent: #37c6c8;
 }
+
+.editor{
+  background-color: white;
+  position: relative;
+  top:100px;
+  height:800px;
+}
