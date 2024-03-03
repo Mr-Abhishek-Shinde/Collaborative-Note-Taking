@@ -8,16 +8,16 @@ const Authentication = () => {
   const [isLogin, setIsLogin] = useState(true);
 
   return (
-    <div className={styles["authentication-container"]}>
-        <div className={styles["image-container"]}>
-          <img src={imgAuth} alt="notfound" />
+    <div className={styles.authenticationContainer}>
+        <div className={styles.imageContainer}>
+          <img src={imgAuth} alt="" />
         </div>
-        <div className={styles["page-container"]}>
-          <button className={styles["login-button"]} onClick={() => setIsLogin(true)}>Login</button>
+        <div className={styles.pageContainer}>
+          <button className={styles.loginButton} onClick={() => setIsLogin(true)}>Login</button>
           
-          <button className={styles["signup-button"]} onClick={() => setIsLogin(false)}>Signup</button>
+          <button className={styles.signupButton} onClick={() => setIsLogin(false)}>Signup</button>
         </div>  
-        <div className={styles["main-box"]}>
+        <div className={styles.mainBox}>
           {isLogin ? <Login /> : <Signup />}
         </div>
         

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Editor from "../components/Editor";
+import styles from "../styles/Notes.module.css";
 
 // Import socket.io-client
 import io from "socket.io-client";
@@ -21,21 +22,28 @@ const INITIAL_DATA = {
 const Notes = () => {
   const [data, setData] = useState(INITIAL_DATA);
 
-  const socket = io('http://localhost:4000'); // Connect to server
+  const socket = io("http://localhost:4000"); // Connect to server
 
   return (
-    <div className="editor">
-      <Editor data={data} onChange={setData} editorblock="editorjs-container" socket={socket}/>
-      <button
-        className="savebtn"
-        onClick={() => {
-          alert(JSON.stringify(data));
-        }}
-      >
-        Save
-      </button>
+    <div className={styles.editorContainer}>
+      <div className={styles.editor}>
+        <Editor
+          data={data}
+          onChange={setData}
+          editorblock="editorjs-container"
+          socket={socket}
+        />
+      </div>
+        <button
+          className={styles.saveBtn}
+          onClick={() => {
+            alert(JSON.stringify(data));
+          }}
+        >
+          Save
+        </button>
     </div>
   );
-}
+};
 
 export default Notes;

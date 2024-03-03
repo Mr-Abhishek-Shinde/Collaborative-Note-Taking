@@ -1,39 +1,30 @@
-.authentication-container {
+.authenticationContainer {
   display: flex;
   align-items: center;
   justify-content: flex-start;
   flex-direction: column;
   width: 100%;
   box-sizing: border-box;
-  /* min-height: calc(100vh - 70px); */
   height: 100vh;
   color: var(--text);
-  /* margin-top: 30px; */
   background-color: #b6f3f3c0;
-  
 }
 
-.main-box{
+.mainBox{
   margin-top: 10px;
 }
 
-.page-container {
+.pageContainer {
   display: flex;
   align-items: center;
   justify-content: center;
   margin-top: 80px; 
 }
 
-
-
-.login-button, .signup-button {
+.loginButton, .signupButton {
     margin-top: 60px;
-
-  /* margin-right: 15px; space between buttons */
-  /* to change size */
   width: 90px;
   height: 18px;
-  
   font-size: 18px;
   margin-bottom: 30px;
   align-items: center;
@@ -66,41 +57,39 @@
   font-size: 18px;
 }
 
-
-.login-button:hover , .signup-button:hover {
+.loginButton:hover , .signupButton:hover {
   box-shadow: rgba(45, 35, 66, .4) 0 4px 8px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #064e58 0 -3px 0 inset;
   transform: translateY(-2px);
-
 }
 
-.login-button:focus, .signup-button:focus{
+.loginButton:focus, .signupButton:focus{
   box-shadow: rgba(45, 35, 66, .4) 0 4px 8px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #064e58 0 -3px 0 inset;
 }
 
-.login-button:active, .signup-button:active {
+.loginButton:active, .signupButton:active {
   box-shadow: #0fb2c7 0 3px 7px inset;
   transform: translateY(2px);
 }
 
-.login-button {
+.loginButton {
   margin-right: 15px;
 }
 
-.signup-button {
+.signupButton {
   margin-left: 15px;
 }
 
-.image-container {
+.imageContainer {
   width: 100%;
   height: 100%;
   position: fixed;
   top: 0;
   left: 0;
   z-index: -1;
-  overflow: hidden; /* Ensure the image does not overflow the container */
+  overflow: hidden; 
 }
 
-.image-container img {
-  width: 100%; /* Ensure the image fills the container width */
-  height: auto; /* Automatically calculate height to maintain aspect ratio */
+.imageContainer img {
+  width: 100%; 
+  height: auto;
 }

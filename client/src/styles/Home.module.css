@@ -1,76 +1,45 @@
-.main-container {
+.mainContainer {
   background-color: #b6f3f3c0;
-  z-index: 0;
-  
 }
 
-.home-container {
+.homeContainer {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   width: 100%;
   box-sizing: border-box;
-  min-height: calc(100vh - 70px);
+  min-height: 100vh;
   color: var(--text);
-  height: 100vh;
-  margin: 0;
-  color: var(--text);
-  /* background-color: var(--backgroundx); */
 }
 
-.centered-container {
-  
+.centeredContainer {
   text-align: center;
-  margin-top: 15%;
-  
+  margin-top: 55px;
   padding: 100px;
-  
   border-radius: 10px;
   position: relative; 
   z-index: 10; 
-  
 }
-
 
 .img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Ensures the image covers the entire container */
-  position: fixed; /* Fixed position to cover the entire viewport */
+  object-fit: cover;
+  position: fixed;
   top: 0;
   left: 0;
-  z-index: 1; /* Set the z-index to -1 to ensure it's behind the content */
+  z-index: 1;
 }
 
-
-
-.centered-container h1 {
-  
+.centeredContainer h1 {
   font-size: 3rem;
   text-shadow: 2px 2px #616161e6;
 }
 
-/* .centered-container button {
-  width: 150px; 
-  height: 40px; 
-  font-size: 1rem; 
-  margin-top: 20px; 
-  background-color: #0b141893; 
-  color: var(--text);
-  border: none; 
-  border-radius: 7px; 
-  cursor: pointer; 
-} */
-
-
-
-.centered-container button{
-  /* margin-right: 15px; space between buttons */
-  /* to change size */
+.centeredContainer button{
   width: 150px;
   height: 30px;
-  
   font-size: 1px;
   margin-bottom: 30px;
   align-items: center;
@@ -104,17 +73,16 @@
 }
 
 
-.centered-container button:hover {
+.centeredContainer button:hover {
   box-shadow: rgba(45, 35, 66, .4) 0 4px 8px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #064e58 0 -3px 0 inset;
   transform: translateY(-2px);
-
 }
 
-.centered-container button:focus{
+.centeredContainer button:focus{
   box-shadow: rgba(45, 35, 66, .4) 0 4px 8px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #064e58 0 -3px 0 inset;
 }
 
-.centered-container button:active {
+.centeredContainer button:active {
   box-shadow: #0fb2c7 0 3px 7px inset;
   transform: translateY(2px);
 }

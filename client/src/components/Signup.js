@@ -26,13 +26,11 @@ const Signup = () => {
   };
 
   return (
-    <div className={styles["main-container"]}>
-      <div className={styles["forms"]}>
-        <div className={styles["form-content"]}>
-          <div className={styles["login-form"]}>
-            <div className={styles["title"]}>SignUp</div>
+    <div className={styles.signupContainer}>
+          <div className={styles.loginForm}>
+            <div className={styles.title}>SignUp</div>
             <form >
-              <div className={styles["inputBox"]}>
+              <div className={styles.inputBox}>
                 {/* <label htmlFor="name">Name</label> */}
                 <input
                   placeholder="Enter your Name"
@@ -44,7 +42,7 @@ const Signup = () => {
                   autocomplete="off"
                 />
               </div>
-              <div className={styles["inputBox"]}>
+              <div className={styles.inputBox}>
                 {/* <label htmlFor="username">Username</label> */}
                 <input
                   placeholder="Enter the Username"
@@ -56,7 +54,7 @@ const Signup = () => {
                   autocomplete="off"
                 />
               </div>
-              <div className={styles["inputBox"]}>
+              <div className={styles.inputBox}>
                 {/* <label htmlFor="email">Email</label> */}
                 <input
                   placeholder="Enter your email"
@@ -68,7 +66,7 @@ const Signup = () => {
                   autocomplete="off"
                 />
               </div>
-              <div className={styles["inputBox"]}>
+              <div className={styles.inputBox}>
                 {/* <label htmlFor="password">Password</label> */}
                 <input
                   placeholder="Enter the Password"
@@ -83,16 +81,13 @@ const Signup = () => {
 
               <button
                 onClick={handleSignup}
-                className={styles["button-input-box"]}
+                className={styles.btn}
                 disabled={isLoading}
               >
                 Sign Up
               </button>
             </form>
-            {/* {error && <div className="error">{error}</div>} */}
           </div>
-        </div>
-      </div>
     </div>
   );
 };

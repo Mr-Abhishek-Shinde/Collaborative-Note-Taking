@@ -9,19 +9,16 @@ const Home = () => {
   
   
   return (
-    <div className={styles["main-container"]}>
-      <div className={styles["home-container"]}>
-        <div className={styles["centered-container"]}> 
-          <h1 className={styles["title"]}>Elevate Team Collaboration:<br></br>Unite Notes, Ignite Ideas</h1>
-          {/* <p>Elevate Teamwork: where notes unite and ideas ignite</p> */}
-          
+    <div className={styles.mainContainer}>
+      <div className={styles.homeContainer}>
+        <div className={styles.centeredContainer}> 
+          <h1 className={styles.title}>Elevate Team Collaboration:<br></br>Unite Notes, Ignite Ideas</h1>
           <Link to="/authentication">
             <button>Get Started</button>
           </Link>
           
         </div>
-        <img src={img1} alt="notfound" className={styles["img"]}/>
-        
+        <img src={img1} alt="notfound" className={styles.img}/>
       </div>
     </div>
   );
