@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "../styles/Navbar.module.css";
 import { Link } from "react-router-dom";
+import Swal from 'sweetalert2';
 import { useLogout } from "../hooks/useLogout";
 import { useAuthContext } from "../hooks/useAuthContext";
 
@@ -9,7 +10,23 @@ const Navbar = () => {
   const { user } = useAuthContext();
 
   const handleLogoutClick = () => {
-    logout();
+    Swal.fire({
+      title: "Confirm?",
+      text: "Are you sure you want to log out?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, logout!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        logout()
+        Swal.fire({
+          title: "Logged out!",
+          icon: "success"
+        });
+      }
+    });
   };
 
   return (

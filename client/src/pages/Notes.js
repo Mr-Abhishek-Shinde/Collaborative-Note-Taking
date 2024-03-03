@@ -21,7 +21,7 @@ const INITIAL_DATA = {
 const Notes = () => {
   const [data, setData] = useState(INITIAL_DATA);
 
-  const socket = io('http://localhost:5000'); // Connect to server
+  const socket = io('http://localhost:4000'); // Connect to server
 
   return (
     <div className="editor">

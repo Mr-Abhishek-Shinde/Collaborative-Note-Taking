@@ -1,14 +1,15 @@
 import { useState } from 'react'
+import Swal from 'sweetalert2';
 import { useAuthContext } from './useAuthContext'
 
 export const useSignup = () => {
-  const [error, setError] = useState(null)
+  // const [error, setError] = useState(null)
   const [isLoading, setIsLoading] = useState(null)
   const { dispatch } = useAuthContext()
 
   const signup = async (name, username, email, password) => {
     setIsLoading(true)
-    setError(null)
+    // setError(null)
 
     const response = await fetch('http://127.0.0.1:4000/api/user/signup', {
       method: 'POST',
@@ -20,7 +21,11 @@ export const useSignup = () => {
     console.log(response);
     if (!response.ok) {
       setIsLoading(false)
-      setError(json.error)
+      Swal.fire({
+        title: "Error!",
+        text: json.error,
+        icon: "error"
+      });
     }
     if (response.ok) {
       // saving the user to local storage
@@ -31,8 +36,13 @@ export const useSignup = () => {
 
       // updating loading state
       setIsLoading(false)
+
+      Swal.fire({
+        text: "Signup Successful!",
+        icon: "success"
+      });
     }
   }
 
-  return { signup, isLoading, error }
+  return { signup, isLoading }
 }
