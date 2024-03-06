@@ -28,7 +28,7 @@ const Navbar = () => {
         <li>
           <div className={styles.dropdown}>
             <button className={styles.dropbtn} onClick={toggleDropdown}>
-             +
+             <h3 className={styles.plus}>+</h3>
             </button>
             {isDropdownOpen && (
               <div className={styles.dropdowncontent}>

@@ -37,12 +37,18 @@
 }
 
 .dropbtn {
-  background-color: #4CAF50;
-  color: white;
+   background-color: var(--primary);;
+  color: rgb(14, 13, 13);
   padding: 16px;
   font-size: 16px;
   border: none;
   cursor: pointer;
+  
+}
+
+.plus:hover{
+  transform: scale(1.2); /* You can adjust the scale factor as needed */
+  transition: transform 0.3s ease; 
 }
 
 .dropdown {
@@ -53,7 +59,7 @@
 .dropdowncontent {
   /* display: none; */
   position: absolute;
-  background-color: #f9f9f9;
+
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
@@ -67,12 +73,14 @@
   display: block;
 }
 
-.dropdowncontent a:hover {background-color: #f1f1f1}
+
 
 .dropdown:hover .dropdown-content {
   display: block;
+  
 }
 
-.dropdown:hover .dropbtn {
-  background-color: #3e8e41;
+.plus:hover {
+  transform: scale(1.5); /* You can adjust the scale factor as needed */
+  transition: transform 0.3s ease; /* Add a smooth transition effect */
 }

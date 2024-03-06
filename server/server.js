@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 
 const userRoutes = require("./routes/user");
+const notesRoutes = require("./routes/createNotes")
 
 const app = express();
 app.use(express.json());
@@ -14,6 +15,7 @@ const http = require('http').createServer(app);
 const { Server } = require("socket.io");
 
 app.use("/api/user", userRoutes);
+app.use("/api/notes", notesRoutes);
 
 // connect to db
 mongoose

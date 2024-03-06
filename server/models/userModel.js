@@ -25,6 +25,8 @@ const userSchema = new Schema({
     }
 });
 
+
+
 // static signup method:
 userSchema.statics.signup = async function(name, username, email, password){
     // validation:
@@ -53,6 +55,8 @@ userSchema.statics.signup = async function(name, username, email, password){
 
     return user;
 }
+// save in database 
+
 
 
 // static login method:

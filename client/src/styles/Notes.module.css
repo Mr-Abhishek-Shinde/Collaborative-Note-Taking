@@ -41,22 +41,36 @@
     border: 1px solid #ccc; /* Optional: Add border for better visibility */
   }
   
-  .sidenav {
-    
-    height: 100%; /* 100% Full-height */
-    width: 0px; /* 0 width - change this with JavaScript */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Stay on top */
-    top: 0; /* Stay at the top */
-    left: 0;
-    background-color: #eeeeee; /* Black*/
-    overflow-x: hidden; /* Disable horizontal scroll */
-    margin-top: 70px; /* Place content 60px from the top */
-    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
-    
+  /* Notes.module.css */
+
+/* ... existing styles ... */
+
+#lines {
+    font-size: 25px;
+    cursor: pointer;
+    position: relative;
+    left: 5px;
+     top: -30px;
+    color: black;
   }
   
-  /* The navigation menu links */
+  #lines:hover {
+    font-size: 30px;
+  }
+  
+  .sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #eeeeee;
+    overflow-x: hidden;
+    margin-top: 50px;
+    transition: 0.5s;
+  }
+  
   .sidenav a {
     padding: 8px 8px 8px 32px;
     text-decoration: none;
@@ -64,29 +78,14 @@
     color: #818181;
     display: block;
     transition: 0.3s;
-    
   }
   
-  /* When you mouse over the navigation links, change their color */
   .sidenav a:hover {
     color: #0f0f0f;
-    font-weight:bolder;
+    font-weight: bolder;
     font-size: 30px;
   }
   
-  #lines{
-     font-size: 25px;
-     cursor:pointer;
-     position: fixed;
-      left: 5px;
-      top:70px;
-      color: black;
-  }
-  
-  #lines:hover{
-    font-size: 30px;
-  }
-  /* Position and style the close button (top right corner) */
   .sidenav .closebtn {
     position: absolute;
     top: 0;
@@ -95,14 +94,10 @@
     margin-left: 50px;
   }
   
-  /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
-  @media screen and (max-height: 450px) {
-    .sidenav {padding-top: 15px;}
-    .sidenav a {font-size: 18px;}
-  }
-  *,
-  *::before,
-  *::after {
-    box-sizing: border-box;
+  .sidenav.open {
+    width: 250px; /* Set the desired width when open */
   }
   
+  .plus:hover{
+    transform: scale(1.2);
+  }
