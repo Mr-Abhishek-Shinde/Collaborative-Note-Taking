@@ -10,6 +10,7 @@ export const useNotes = () =>{
         setError(null)
         console.log("Below data")
         console.log(JSON.stringify({data}))
+        
     const response = await fetch('http://127.0.0.1:4000/api/notes/note', {
         method : 'POST',
         headers : {'Content-Type': 'application/json'},

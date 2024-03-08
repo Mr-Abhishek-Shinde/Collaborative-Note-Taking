@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import styles from "../styles/Notes.module.css";
 import io from "socket.io-client";
 import { useNotes } from "../hooks/useNotes";
+import { useUploadNotes } from "../hooks/useUploadNotes";
+import { useEffect } from 'react'
 
 // Initial Data
 const INITIAL_DATA = {
@@ -26,7 +28,8 @@ const Notes = () => {
   const [isSideNavOpen, setIsSideNavOpen] = useState(false);
   const socket = io('http://localhost:5000'); // Connect to server
   const { notes, error, isLoading } = useNotes();
-
+  const {getNotes, Error , isloading} = useUploadNotes();
+  const [email, setEmail] = useState('');
 
   const openSideNav = () => {
     setIsSideNavOpen(true);
@@ -36,20 +39,22 @@ const Notes = () => {
     setIsSideNavOpen(false);
   };
 
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    setEmail(user.email);
+  }, []);
+
   const handleNotes = async (e) => {
     e.preventDefault();
-  
+
     try {
-      // const updatedData = {
-      //   ...data,
-      //   time: new Date().getTime(),
-      //   version: 1,
-      // };
-       console.log(data)
-      // Assuming 'notes' returns a Promise
-      await notes(data);
-      
-      alert(JSON.stringify(data));
+      // Add the user's email to the data
+      const newData = { ...data, email: email };
+
+      // Save the notes with the updated data
+      await notes(newData);
+
+      alert(JSON.stringify(newData));
     } catch (error) {
       console.error("Error saving notes:", error);
     }
@@ -60,10 +65,10 @@ const Notes = () => {
       <div id={styles.lines} onClick={openSideNav}>&#9776;</div>
       <div className={`${styles.sidenav} ${isSideNavOpen ? styles.open : ''}`}>
         <div className={styles.closebtn} onClick={closeSideNav}>&times;</div>
-        {/* Add your navigation links here */}
+        
         <Link to="/">Home</Link>
         <Link to="/about">About</Link>
-        {/* ... other navigation links */}
+        
       </div>
       <Editor data={data} onChange={setData} editorblock="editorjs-container" socket={socket}/>
       <button
