@@ -17,14 +17,33 @@ const noteUser = async (req, res) => {
 };
 
 const uploadNotes = async (req, res) => {
-    const { email } = req.body;
+    const { email } = req.query;
+  
     try {
-        const uploadnotes = await Note.getNotes(email);
-        res.json(uploadnotes);
+      const uploadnotes = await Note.getNotes(email);
+      console.log("here")
+      console.log(uploadnotes)
+      res.json({ uploadnotes });
     } catch (err) {
-        console.log(err);
-        res.status(500).json({ error: "Internal Server Error" });
+      console.error(err);
+      res.status(500).json({ error: "Internal Server Error", details: err.message });
+    } finally {
+      res.end();
     }
-};
+  };
+  
 
-module.exports = { noteUser , uploadNotes };
+  const addUser = async (e) => {
+      const {emai_id,name }= req.body;
+      console.log(email_id, name);
+      try{
+        const detail = await Note.addUser(email, name);
+        res.status(200).json({email,name});
+    } catch (err) {
+       
+        console.log(err.message);
+        res.status(400).json({ error: err.message });
+    }
+  }
+
+module.exports = { noteUser , uploadNotes, addUser };

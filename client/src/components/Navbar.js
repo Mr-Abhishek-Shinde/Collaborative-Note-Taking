@@ -3,11 +3,14 @@ import styles from "../styles/Navbar.module.css";
 import { Link } from "react-router-dom";
 import { useLogout } from "../hooks/useLogout";
 import { useAuthContext } from "../hooks/useAuthContext";
+import Access from "../components/Access.js";
 
 
 const Navbar = () => {
   const { logout } = useLogout();
   const { user } = useAuthContext();
+  const [access, setAccess] = useState(false);
+
 
   const [isDropdownOpen, setDropdownOpen] = useState(false);
 
@@ -17,6 +20,11 @@ const Navbar = () => {
 
   const toggleDropdown = () => {
     setDropdownOpen(!isDropdownOpen);
+  };
+
+  const handleAccessClick = () => {
+    setDropdownOpen(!isDropdownOpen);
+    setAccess(true);
   };
 
   return (
@@ -32,11 +40,15 @@ const Navbar = () => {
             </button>
             {isDropdownOpen && (
               <div className={styles.dropdowncontent}>
-                <a href="#">Give access</a>
-                <a href="#">New note</a>
-                <a href="#">Add Comments</a>
+                <Link onClick={() => handleAccessClick()} >Give access</Link>
+
+                <Link >New note</Link>
+                <Link >Add Comments</Link>
               </div>
             )}
+            <div className={styles["main-box"]}>
+          {access ? <Access /> : ""}
+        </div>
           </div>
         </li>
         <li className={styles["home-icon"]}>

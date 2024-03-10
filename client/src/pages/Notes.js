@@ -1,11 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Editor from "../components/Editor";
-import { Link } from "react-router-dom";
 import styles from "../styles/Notes.module.css";
 import io from "socket.io-client";
 import { useNotes } from "../hooks/useNotes";
-import { useUploadNotes } from "../hooks/useUploadNotes";
-import { useEffect } from 'react'
+import Axios from 'axios';
 
 // Initial Data
 const INITIAL_DATA = {
@@ -13,23 +11,26 @@ const INITIAL_DATA = {
   blocks: [
     {
       type: "header",
-      data: {
-        // text: "Start Typing...",
-        // level: 1,
-      },
+      data: {},
     },
   ],
 };
-
-
 
 const Notes = () => {
   const [data, setData] = useState(INITIAL_DATA);
   const [isSideNavOpen, setIsSideNavOpen] = useState(false);
   const socket = io('http://localhost:5000'); // Connect to server
-  const { notes, error, isLoading } = useNotes();
-  const {getNotes, Error , isloading} = useUploadNotes();
+  const { notes } = useNotes();
   const [email, setEmail] = useState('');
+  const [list, setList] = useState([]);
+  const [emailSet, setEmailSet] = useState(false);
+  const [respo, setRespo] = useState(false);
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    setEmail(user.email);
+    setEmailSet(true);
+  }, []);
 
   const openSideNav = () => {
     setIsSideNavOpen(true);
@@ -40,9 +41,18 @@ const Notes = () => {
   };
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem('user'));
-    setEmail(user.email);
-  }, []);
+    if (emailSet) {
+       Axios.get(`http://127.0.0.1:4000/api/notes/getnotes?email=${email}`)
+        .then((response) => {
+          console.log(response)
+          setList(response.data);
+          setRespo(true)
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
+    }
+  }, [email, emailSet]);
 
   const handleNotes = async (e) => {
     e.preventDefault();
@@ -52,34 +62,68 @@ const Notes = () => {
       const newData = { ...data, email: email };
 
       // Save the notes with the updated data
+      // Assuming notes is a function that handles saving data
       await notes(newData);
 
       alert(JSON.stringify(newData));
     } catch (error) {
       console.error("Error saving notes:", error);
     }
-  };
+  }
+
+  let keys;
+  // console.log(typeof(list))
+   
+  //  console.log(list)
+  if (respo) {
+    // console.log("new6")
+    // console.log(list);
+  
+    try {
+      let parsedList = JSON.parse(list.uploadnotes); // Parse the JSON string
+      console.log(parsedList);
+    
+      if (Array.isArray(parsedList)) {
+        keys = (
+          <ul>
+            {parsedList.map((subArray, index) => (
+              <li key={index}>
+                <ul>
+                  {subArray.map((item) => (
+                    <li key={item.id}>{item.id}</li>
+                  ))}
+                </ul>
+              </li>
+            ))}
+          </ul>
+        );
+      } else {
+        keys = <li>Object is not available.</li>;
+      }
+    } catch (error) {
+      console.error('Error rendering keys:', error);
+      keys = <li>Error rendering keys.</li>;
+    }
+    
+  }
   
   return (
     <div className={styles.editor}>
       <div id={styles.lines} onClick={openSideNav}>&#9776;</div>
       <div className={`${styles.sidenav} ${isSideNavOpen ? styles.open : ''}`}>
         <div className={styles.closebtn} onClick={closeSideNav}>&times;</div>
-        
-        <Link to="/">Home</Link>
-        <Link to="/about">About</Link>
-        
+        {keys}
       </div>
       <Editor data={data} onChange={setData} editorblock="editorjs-container" socket={socket}/>
       <button
-  className={styles.savebtn}
-  onClick={(e) => {
-     handleNotes(e);
-    alert(JSON.stringify(data));
-  }}
->
-  Save
-</button>
+        className={styles.savebtn}
+        onClick={(e) => {
+          handleNotes(e);
+          alert(JSON.stringify(data));
+        }}
+      >
+        Save
+      </button>
     </div>
   );
 }
