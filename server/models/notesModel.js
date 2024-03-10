@@ -38,7 +38,11 @@ noteSchema.statics.notes = async function(time,blocks,version,email){
 
 noteSchema.statics.getNotes = async function (email) {
     console.log('Email value:', email);
-    const users = await this.find({ email });
+    const users = await this.find(
+        { email: { $in: [email] } },
+    
+    );
+
 
     if (!users || users.length === 0) {
         throw new Error('Incorrect email or user not found!');
