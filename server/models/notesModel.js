@@ -51,18 +51,23 @@ noteSchema.statics.getNotes = async function (email) {
     return JSON.stringify(blocksArrays);
 };
 
-noteSchema.statics.addUser = async function (email_id, nameid){
-    console.log(email , nameid)
-    if(!email || !nameid){
+noteSchema.statics.addUser = async function (email, name){
+    console.log(email , name)
+    if(!email ){
         throw new Error("Incorrcet email or user not found");
     } 
 
-    const detail = await this.findOne({ nameid });
+    const detail = await this.findOneAndUpdate(
+        { name }, // Filter criteria
+        { $push: { email } }, // Update criteria
+        { new: true } // Return the modified document
+    );
+    console.log("Details " ,detail)
     if(!detail){
         throw new Error("No notes named ")
     }
 
-    console.log(detail)
+    return detail;
 
 
 }

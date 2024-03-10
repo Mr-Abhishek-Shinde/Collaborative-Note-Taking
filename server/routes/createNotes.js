@@ -4,6 +4,7 @@ const {noteUser, uploadNotes, addUser}  = require('../controllers/notesControlle
 const router = express.Router();
 router.post('/note', noteUser);
 router.get('/getnotes', uploadNotes);
-router.get('/add',addUser);
+router.post('/addUser',addUser);
+
 
 module.exports = router;

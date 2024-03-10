@@ -33,17 +33,21 @@ const uploadNotes = async (req, res) => {
   };
   
 
-  const addUser = async (e) => {
-      const {emai_id,name }= req.body;
-      console.log(email_id, name);
-      try{
-        const detail = await Note.addUser(email, name);
-        res.status(200).json({email,name});
-    } catch (err) {
-       
-        console.log(err.message);
-        res.status(400).json({ error: err.message });
-    }
+  // notesController.js
+const addUser = async (req, res) => { 
+  const { email, name } = req.body; 
+
+  console.log(email, name);
+  try {
+    const detail = await Note.addUser(email, name);
+    res.status(200).json({ email, name });
+  } catch (err) {
+    console.log(err.message);
+    res.status(400).json({ error: err.message });
   }
+};
+
+module.exports = { noteUser, uploadNotes, addUser };
+
 
 module.exports = { noteUser , uploadNotes, addUser };

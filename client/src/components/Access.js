@@ -25,8 +25,7 @@ const Access = () => {
       console.log(err);
     }
 
-    alert(id.value);
-    alert(name.value);
+   
   };
 
   return (
