@@ -2,39 +2,41 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-
-const userRoutes = require("./routes/user");
-const notesRoutes = require("./routes/createNotes")
-
-const app = express();
-app.use(express.json());
-
-app.use(cors());
-
-const http = require('http').createServer(app);
+const { createServer } = require("http");
 const { Server } = require("socket.io");
 
+const userRoutes = require("./routes/user");
+const notesRoutes = require("./routes/createNotes");
+
+const app = express();
+const httpServer = createServer(app);
+const io = new Server(httpServer, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+  },
+});
+
+app.use(express.json());
+app.use(cors());
+
+// Define routes
 app.use("/api/user", userRoutes);
 app.use("/api/notes", notesRoutes);
 
-// connect to db
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then((result) => {
-    app.listen(process.env.PORT, () => {
-      console.log("Connected to db and Listening on port", process.env.PORT);
+// Connect to MongoDB
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => {
+    console.log("Connected to MongoDB");
+    // Start the HTTP server
+    const PORT = process.env.PORT || 4000;
+    httpServer.listen(PORT, () => {
+      console.log(`Server listening on port ${PORT}`);
     });
   })
   .catch((err) => {
-    console.log(err);
+    console.error("Error connecting to MongoDB:", err);
   });
-
-const io = new Server(http, {
-  cors: {
-    origin: "http://localhost:3000",
-    methods: ["GET", "POST"], // Optional: specify allowed HTTP methods
-  },
-});
 
 let data = {
   time: new Date().getTime(),
@@ -55,12 +57,8 @@ io.on("connection", (socket) => {
 
   // Listen for data changes from clients
   socket.on("data-change", (newData) => {
-    data = newData; // Update server-side data
+    data = newData;
     // Broadcast the updated data to all connected clients
     io.emit("update-data", data);
   });
-});
-
-http.listen(5000, () => {
-  console.log("Server listening on port 5000");
 });

@@ -1,4 +1,4 @@
-.main-container {
+.signupContainer {
   display: flex;
   position: relative;
   max-width: 1000px;
@@ -14,19 +14,15 @@
   border: 1px solid rgba(255, 255, 255, 0.5);
   backdrop-filter: blur(9px);
   -webkit-backdrop-filter: blur(9px);
-  
 }
 
-.text-container {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  flex: 1;
+.loginForm {
+  width: 500px;
 }
-
-
 
 .title {
+  width: 100%;
+  text-align: center;
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 20px;
@@ -38,115 +34,43 @@
   display: flex;
   align-items: center;
   height: 50px;
-  width: 100%;    
+  width: 100%;
   position: relative;
 }
 
 .inputBox input {
   height: 100%;
-    width: 90%;
-    outline: none;
-    border: none;
-    padding: 0 30px;
-    font-size: 16px;
-    font-weight: 500;
-    border-bottom: 2px solid rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
+  width: 100%;
+  outline: none;
+  border: none;
+  padding: 0 30px;
+  font-size: 16px;
+  font-weight: 500;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
 }
 
-.button-input-box {
+.inputBox input:focus,
+.inputBox input:valid {
+  border-color: #7d2ae8;
+}
+
+.btn {
+  align-self: center;
   cursor: pointer;
-  outline: 0;
-  display: inline-block;
-  font-weight: 400;
-  line-height: 1;
-  text-align: center;
   background-color: transparent;
-  border: 1px solid transparent;
-  padding: 6px 12px;
-  font-size: 0.8rem;
-  border-radius: .25rem;
-  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-  color: black;
-  border-color: var(--accent);
+  margin: 0 10px;
+  padding: 7px 14px;
+  border: 2px solid var(--primary);
+  border-radius: 8px;
+  font-size: 18px;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+  font-weight: 700;
 }
 
-.button-input-box:hover {
+.btn:hover {
   color: #fff;
   background-color: var(--primary);
   border-color: var(--accent);
 }
-
-.inputBox input:focus,
-  .inputBox input:valid {
-    border-color: #7d2ae8;
-  }
-  
-
-.image-container {
-  position: relative;
-  flex: 1;
-}
-
-.image-container img {
-  width: 100%;
-  height: auto;
-  display: block;
-  border-radius: 10px;
-}
-
-
-  
-  .image-container .back {
-    transform: rotateY(180deg);
-    backface-visibility: hidden;
-  }
-  
-  .image-container::before,
-  .image-container::after {
-    content: '';
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    opacity: 0.5;
-    z-index: 12;
-  }
-  
-  .image-container::after {
-    opacity: 0.3;
-    transform: rotateY(180deg);
-    backface-visibility: hidden;
-  }
-  
-  .image-container img {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-    z-index: 10;
-  }
-  
-  .image-container .text {
-    position: absolute;
-    z-index: 130;
-    height: 100%;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .image-container .text .text-1,
-  .image-container .text .text-2 {
-    font-size: 26px;
-    font-weight: 600;
-    color: #fff;
-    text-align: center;
-  }
-  
-  .image-container .text .text-2 {
-    font-size: 15px;
-    font-weight: 500;
-  }
-  

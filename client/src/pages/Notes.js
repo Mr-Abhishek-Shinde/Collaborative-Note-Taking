@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Editor from "../components/Editor";
 import styles from "../styles/Notes.module.css";
+
+// Import socket.io-client
 import io from "socket.io-client";
 import { useNotes } from "../hooks/useNotes";
 import Axios from 'axios';
@@ -72,13 +74,7 @@ const Notes = () => {
   }
 
   let keys;
-  // console.log(typeof(list))
-   
-  //  console.log(list)
   if (respo) {
-    // console.log("new6")
-    // console.log(list);
-  
     try {
       let parsedList = JSON.parse(list.uploadnotes); // Parse the JSON string
       console.log(parsedList);
@@ -104,7 +100,6 @@ const Notes = () => {
       console.error('Error rendering keys:', error);
       keys = <li>Error rendering keys.</li>;
     }
-    
   }
   
   return (
@@ -126,6 +121,6 @@ const Notes = () => {
       </button>
     </div>
   );
-}
+};
 
 export default Notes;

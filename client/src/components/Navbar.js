@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styles from "../styles/Navbar.module.css";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 import { useLogout } from "../hooks/useLogout";
 import { useAuthContext } from "../hooks/useAuthContext";
 import Access from "../components/Access.js";
@@ -15,12 +16,32 @@ const Navbar = () => {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
 
   const handleLogoutClick = () => {
-    logout();
+    Swal.fire({
+      title: "Confirm?",
+      text: "Are you sure you want to log out?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, logout!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        logout();
+        Swal.fire({
+          title: "Logged out!",
+          icon: "success",
+        });
+      }
+    });
   };
 
   const toggleDropdown = () => {
     setDropdownOpen(!isDropdownOpen);
   };
+
+  
+
+ 
 
   const handleAccessClick = () => {
     setDropdownOpen(!isDropdownOpen);
@@ -28,10 +49,8 @@ const Navbar = () => {
   };
 
   return (
-    <div className={styles["navbar"]}>
-      <div className={styles["navbar-heading"]}>
-        <h1>CollabNote</h1>
-      </div>
+    <div className={styles.navbar}>
+      <h1 className={styles.navbarHeading}>CollabNote</h1>
       <ul>
         <li>
           <div className={styles.dropdown}>
@@ -51,7 +70,7 @@ const Navbar = () => {
         </div>
           </div>
         </li>
-        <li className={styles["home-icon"]}>
+        <li className={styles.homeIcon}>
           <Link to="/">
             <svg
               style={{ cursor: "pointer" }}
@@ -66,13 +85,11 @@ const Navbar = () => {
             </svg>
           </Link>
         </li>
-        {user && (
-          <li>
-            <button className="logout-button" onClick={handleLogoutClick}>
-              Log Out
-            </button>
-          </li>
-        )}
+        {user && <li>
+          <button className="logout-button" onClick={handleLogoutClick}>
+            Log Out
+          </button>
+        </li>}
       </ul>
     </div>
   );
