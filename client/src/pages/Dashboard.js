@@ -1,33 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "../styles/Dashboard.module.css";
 
 const Dashboard = () => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
   const openNav = () => {
-    const sidenav = document.getElementById("mainSideNav");
-    if (sidenav) {
-      sidenav.style.width = "250px";
-    } else {
-      alert("Not found");
-    }
+    setIsSidebarOpen(true);
   };
 
   const closeNav = () => {
-    const sidenav = document.getElementById("mainSideNav");
-    if (sidenav) {
-      sidenav.style.width = "0";
-    }
+    setIsSidebarOpen(false);
   };
 
   return (
     <>
       <div className={styles.main}>
-        <div id="mainSideNav" className={styles.sidenav}>
-          <a
-            href={{javascript:void(0)}}
-            className={styles.closebtn}
-            onClick={closeNav}
-          >
+        <div
+          id="mainSideNav"
+          className={`${styles.sidenav} ${isSidebarOpen ? styles.open : ""}`}
+        >
+          {/* eslint-disable-next-line */}
+          <a href="javascript:void(0)" className={styles.closebtn} onClick={closeNav}>
             &times;
           </a>
           <Link to="/">About</Link>
@@ -84,7 +78,7 @@ const Dashboard = () => {
               </div>
             </div>
           </li>
-        </ul>
+        </ul>
       </div>
     </>
   );

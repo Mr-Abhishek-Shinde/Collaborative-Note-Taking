@@ -39,6 +39,54 @@
   height: 50%;
 }
 
+.dropbtn {
+   background-color: var(--primary);;
+  color: rgb(14, 13, 13);
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  
+}
+
+.plus:hover{
+  transform: scale(1.2); /* You can adjust the scale factor as needed */
+  transition: transform 0.3s ease; 
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdowncontent {
+  /* display: none; */
+  position: absolute;
+
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  font-weight: 20px;
+}
+
+.dropdowncontent a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+
+
+.dropdown:hover .dropdown-content {
+  display: block;
+  
+}
+
+.plus:hover {
+  transform: scale(1.5); /* You can adjust the scale factor as needed */
+  transition: transform 0.3s ease; /* Add a smooth transition effect */
+}
 .logoutButton{
   background-color: transparent;
   margin: 0 10px;

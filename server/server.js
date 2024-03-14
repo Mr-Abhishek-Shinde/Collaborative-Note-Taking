@@ -6,6 +6,7 @@ const { createServer } = require("http");
 const { Server } = require("socket.io");
 
 const userRoutes = require("./routes/user");
+const notesRoutes = require("./routes/createNotes");
 
 const app = express();
 const httpServer = createServer(app);
@@ -18,7 +19,24 @@ const io = new Server(httpServer, {
 
 app.use(express.json());
 app.use(cors());
+
+// Define routes
 app.use("/api/user", userRoutes);
+app.use("/api/notes", notesRoutes);
+
+// Connect to MongoDB
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => {
+    console.log("Connected to MongoDB");
+    // Start the HTTP server
+    const PORT = process.env.PORT || 4000;
+    httpServer.listen(PORT, () => {
+      console.log(`Server listening on port ${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error("Error connecting to MongoDB:", err);
+  });
 
 let data = {
   time: new Date().getTime(),
@@ -43,13 +61,4 @@ io.on("connection", (socket) => {
     // Broadcast the updated data to all connected clients
     io.emit("update-data", data);
   });
-});
-
-// connect to db and start the server
-mongoose.connect(process.env.MONGO_URI).then(() => {
-  httpServer.listen(process.env.PORT || 4000, () => {
-    console.log("Server listening on port", process.env.PORT || 4000);
-  });
-}).catch((err) => {
-  console.error("Error connecting to the database:", err);
 });

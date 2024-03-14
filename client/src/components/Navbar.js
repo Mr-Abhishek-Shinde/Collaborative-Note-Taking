@@ -1,13 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "../styles/Navbar.module.css";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import { useLogout } from "../hooks/useLogout";
 import { useAuthContext } from "../hooks/useAuthContext";
+import Access from "../components/Access.js";
+
 
 const Navbar = () => {
   const { logout } = useLogout();
   const { user } = useAuthContext();
+  const [access, setAccess] = useState(false);
+
+
+  const [isDropdownOpen, setDropdownOpen] = useState(false);
 
   const handleLogoutClick = () => {
     Swal.fire({
@@ -29,10 +35,41 @@ const Navbar = () => {
     });
   };
 
+  const toggleDropdown = () => {
+    setDropdownOpen(!isDropdownOpen);
+  };
+
+  
+
+ 
+
+  const handleAccessClick = () => {
+    setDropdownOpen(!isDropdownOpen);
+    setAccess(true);
+  };
+
   return (
     <div className={styles.navbar}>
       <h1 className={styles.navbarHeading}>CollabNote</h1>
       <ul>
+        <li>
+          <div className={styles.dropdown}>
+            <button className={styles.dropbtn} onClick={toggleDropdown}>
+             <h3 className={styles.plus}>+</h3>
+            </button>
+            {isDropdownOpen && (
+              <div className={styles.dropdowncontent}>
+                <Link onClick={() => handleAccessClick()} >Give access</Link>
+
+                <Link >New note</Link>
+                <Link >Add Comments</Link>
+              </div>
+            )}
+            <div className={styles["main-box"]}>
+          {access ? <Access /> : ""}
+        </div>
+          </div>
+        </li>
         <li className={styles.homeIcon}>
           <Link to="/">
             <svg
