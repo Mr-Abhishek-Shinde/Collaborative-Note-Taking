@@ -22,17 +22,17 @@ const noteSchema = new Schema({
         type: Array,
         required : true
     },
-    name : {
+    noteName : {
         type : String,
-        required : false
+        required : true
     }
    
 });
 
 
-noteSchema.statics.notes = async function(time,blocks,version,email){
+noteSchema.statics.notes = async function(time,blocks,version,email,noteName){
 
-    let note = await this.create({time, blocks, version,email});
+    let note = await this.create({time, blocks, version,email,noteName});
     return note;
 }
 

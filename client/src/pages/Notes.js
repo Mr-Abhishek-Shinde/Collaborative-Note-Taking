@@ -27,6 +27,7 @@ const Notes = () => {
   const [list, setList] = useState([]);
   const [emailSet, setEmailSet] = useState(false);
   const [respo, setRespo] = useState(false);
+  const [noteName, setNoteName] = useState('');
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('user'));
@@ -56,23 +57,32 @@ const Notes = () => {
     }
   }, [email, emailSet]);
 
-  const handleNotes = async (e) => {
-    e.preventDefault();
-
-    try {
-      // Add the user's email to the data
-      const newData = { ...data, email: email };
-
-      // Save the notes with the updated data
-      // Assuming notes is a function that handles saving data
-      await notes(newData);
-
-      alert(JSON.stringify(newData));
-    } catch (error) {
-      console.error("Error saving notes:", error);
+  const handleNotes = async () => {
+    // Prompt the user to enter the note name
+    const nName = prompt("Enter the name of the note:");
+  
+    // Check if the user entered a note name
+    if (nName !== null && nName.trim() !== "") {
+      try {
+        // Set the note name state
+        setNoteName(nName);
+  
+        // Add the user's email and note name to the data
+        const newData = { ...data, email: email, noteName: nName };
+  
+        // Save the notes with the updated data
+        // Assuming notes is a function that handles saving data
+        await notes(newData);
+  
+        alert(`Note "${nName}" saved successfully.`);
+      } catch (error) {
+        console.error("Error saving notes:", error);
+      }
+    } else {
+      alert("Please enter a valid note name.");
     }
-  }
-
+  };
+  
   let keys;
   if (respo) {
     try {
@@ -114,7 +124,7 @@ const Notes = () => {
         className={styles.savebtn}
         onClick={(e) => {
           handleNotes(e);
-          alert(JSON.stringify(data));
+          // alert(JSON.stringify(data));
         }}
       >
         Save
