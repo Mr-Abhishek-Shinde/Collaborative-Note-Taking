@@ -22,17 +22,17 @@ const noteSchema = new Schema({
         type: Array,
         required : true
     },
-    name : {
+    noteName : {
         type : String,
-        required : false
+        required : true
     }
    
 });
 
 
-noteSchema.statics.notes = async function(time,blocks,version,email){
+noteSchema.statics.notes = async function(time,blocks,version,email,noteName){
 
-    let note = await this.create({time, blocks, version,email});
+    let note = await this.create({time, blocks, version,email,noteName});
     return note;
 }
 
@@ -49,20 +49,26 @@ noteSchema.statics.getNotes = async function (email) {
     }
 
     // Extract blocks array from all users
-    const blocksArrays = users.map(user => user.blocks);
+    const blocksArrays = users.map(user => ({ time : user.time, blocks: user.blocks, noteName: user.noteName }));
     console.log(blocksArrays);
-
+    
     return JSON.stringify(blocksArrays);
+    
+
+   // return JSON.stringify(blocksArrays);
 };
 
-noteSchema.statics.addUser = async function (email, name){
-    console.log(email , name)
+noteSchema.statics.addUser = async function (email, noteName){
+    console.log(email , noteName)
     if(!email ){
         throw new Error("Incorrcet email or user not found");
     } 
+    if(!noteName) {
+        throw new Error("user not found");
+    }
 
     const detail = await this.findOneAndUpdate(
-        { name }, // Filter criteria
+        { noteName }, // Filter criteria
         { $push: { email } }, // Update criteria
         { new: true } // Return the modified document
     );

@@ -4,9 +4,10 @@ import { EDITOR_JS_TOOLS } from "./tools";
 
 const Editor = ({ initialData, onChange, editorblock, socket }) => {
   const ref = useRef();
-
+  
   useEffect(() => {
     //Initialize editorjs if we don't have a reference
+    
     if (!ref.current) {
       const editor = new EditorJS({
         holder: editorblock,
@@ -27,6 +28,9 @@ const Editor = ({ initialData, onChange, editorblock, socket }) => {
           ref.current.render(newData);
         }
       });
+    }else{
+      socket.emit("data-change", initialData);    //when an existing note is requested
+      onChange(initialData);
     }
 
     return () => {
@@ -35,7 +39,7 @@ const Editor = ({ initialData, onChange, editorblock, socket }) => {
       }
     };
     // eslint-disable-next-line
-  }, []);
+  }, [initialData]);
   return <div id={editorblock} />;
 };
 

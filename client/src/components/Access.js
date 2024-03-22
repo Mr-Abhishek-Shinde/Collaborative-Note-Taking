@@ -17,9 +17,10 @@ const Access = () => {
   const handleClick = async (e) => {
     e.preventDefault();
     const id = document.querySelector("#email_id");
-    const name = document.querySelector("#name_id");
+    const noteName = document.querySelector("#name_id");
     try {
-      await addCollaborator(id.value, name.value); // Assuming addCollaborator takes id and name as arguments
+      await addCollaborator(id.value, noteName.value); // Assuming addCollaborator takes id and name as arguments
+      alert(noteName.value);
       alert("Done");
     } catch (err) {
       console.log(err);

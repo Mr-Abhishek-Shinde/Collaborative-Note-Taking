@@ -5,17 +5,17 @@ export const useCollaborator = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const addCollaborator = async (email, name) => {
+  const addCollaborator = async (email, noteName) => {
     setIsLoading(true);
     setError(null);
-    console.log(email, name)
+    console.log(email, noteName);
 
     try {
       // Your fetch logic here
       const response = await fetch('http://127.0.0.1:4000/api/notes/addUser', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, name }),
+      body: JSON.stringify({ email, noteName }),
     });
 
      
