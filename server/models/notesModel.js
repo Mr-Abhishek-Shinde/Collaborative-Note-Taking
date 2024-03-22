@@ -31,8 +31,14 @@ const noteSchema = new Schema({
 
 
 noteSchema.statics.notes = async function(time,blocks,version,email,noteName){
-
-    let note = await this.create({time, blocks, version,email,noteName});
+    const user = await this.findOne({noteName});
+    let note;
+    if(user){
+        note = await this.findOneAndUpdate({ noteName }, { time, blocks, version, email, noteName });
+        console.log("Done",note) 
+        return note;
+    }
+    else note = await this.create({time, blocks, version,email,noteName});
     return note;
 }
 
