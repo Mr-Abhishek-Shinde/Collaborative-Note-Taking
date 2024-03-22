@@ -36,12 +36,12 @@ const uploadNotes = async (req, res) => {
 
   // notesController.js
 const addUser = async (req, res) => { 
-  const { email, name } = req.body; 
+  const { email, noteName } = req.body; 
 
-  console.log(email, name);
+  console.log(email, noteName);
   try {
-    const detail = await Note.addUser(email, name);
-    res.status(200).json({ email, name });
+    const detail = await Note.addUser(email, noteName);
+    res.status(200).json({ email, noteName });
   } catch (err) {
     console.log(err.message);
     res.status(400).json({ error: err.message });
