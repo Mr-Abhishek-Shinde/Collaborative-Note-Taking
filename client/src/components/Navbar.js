@@ -1,18 +1,15 @@
 import React, { useState } from "react";
 import styles from "../styles/Navbar.module.css";
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"; // Import Link
 import Swal from "sweetalert2";
 import { useLogout } from "../hooks/useLogout";
 import { useAuthContext } from "../hooks/useAuthContext";
 import Access from "../components/Access.js";
 
-
 const Navbar = () => {
   const { logout } = useLogout();
   const { user } = useAuthContext();
   const [access, setAccess] = useState(false);
-
-
   const [isDropdownOpen, setDropdownOpen] = useState(false);
 
   const handleLogoutClick = () => {
@@ -39,52 +36,67 @@ const Navbar = () => {
     setDropdownOpen(!isDropdownOpen);
   };
 
-  
-
- 
-
   const handleAccessClick = () => {
     setDropdownOpen(!isDropdownOpen);
     setAccess(true);
   };
 
+  
+  // const [clicked, setClicked] = useState(false);
+  // const handleClick = () => {
+  //   setClicked(!clicked);
+  // };
+  
   return (
     <div className={styles.navbar}>
-      <h1 className={styles.navbarHeading}>CollabNote</h1>
-      <ul>
-        <li>
+      <Link to="/" className={styles.navbarHeading}> {/* Wrap heading inside Link */}
+        CollabNote
+      </Link>
+      
+      {/* note : dont change classname for <i> tags as they are extensions */}
+      {/* for responsiveness */}
+      {/* <div className={styles.menuicons} onClick={handleClick}>
+        <i className={clicked ? "fas fa-times" : "fas fa-bars"}></i>
+      </div> */}
+
+      <ul className={styles.linkref}>
+        <li className={styles.navLink}>
+          <Link to="/">
+            <i class="fa-sharp fa-solid fa-house-user"></i>
+            Home
+          </Link>
+        </li>
+        <li className={styles.navLink}>
+          <Link to="/">
+            <i class="fa-solid fa-circle-info"></i>
+            AboutUs
+          </Link>
+        </li> 
+        <li className={styles.navLink}>
+          <Link to="/">
+            <i class="fa-solid fa-address-book"></i>
+            Contacts
+          </Link>
+        </li>
+
+        <li className={styles.navLink}>
           <div className={styles.dropdown}>
             <button className={styles.dropbtn} onClick={toggleDropdown}>
-             <h3 className={styles.plus}>+</h3>
+              <h3 className={styles.plus}>+</h3>
             </button>
             {isDropdownOpen && (
               <div className={styles.dropdowncontent}>
                 <Link onClick={() => handleAccessClick()} >Give access</Link>
-
-                <Link >New note</Link>
-                <Link >Add Comments</Link>
+                <Link>New note</Link>
+                <Link>Add Comments</Link>
               </div>
             )}
             <div className={styles["main-box"]}>
-          {access ? <Access /> : ""}
-        </div>
+              {access ? <Access /> : ""}
+            </div>
           </div>
         </li>
-        <li className={styles.homeIcon}>
-          <Link to="/">
-            <svg
-              style={{ cursor: "pointer" }}
-              xmlns="http://www.w3.org/2000/svg"
-              x="0px"
-              y="0px"
-              width="40"
-              height="40"
-              viewBox="0 0 24 24"
-            >
-              <path d="M 12 2.0996094 L 1 12 L 4 12 L 4 21 L 11 21 L 11 15 L 13 15 L 13 21 L 20 21 L 20 12 L 23 12 L 12 2.0996094 z M 12 4.7910156 L 18 10.191406 L 18 11 L 18 19 L 15 19 L 15 13 L 9 13 L 9 19 L 6 19 L 6 10.191406 L 12 4.7910156 z"></path>
-            </svg>
-          </Link>
-        </li>
+        
         {user && (
           <li>
             <button className={styles.logoutButton} onClick={handleLogoutClick}>
@@ -93,6 +105,8 @@ const Navbar = () => {
           </li>
         )}
       </ul>
+      
+      
     </div>
   );
 };
