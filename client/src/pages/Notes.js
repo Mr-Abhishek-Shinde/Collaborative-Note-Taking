@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Editor from "../components/Editor";
 import styles from "../styles/Notes.module.css";
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import io from "socket.io-client";
 import { useNotes } from "../hooks/useNotes";
 import Axios from 'axios';
@@ -26,6 +26,7 @@ const Notes = () => {
   const [list, setList] = useState([]);
   const [emailSet, setEmailSet] = useState(false);
   const [respo, setRespo] = useState(false);
+  // eslint-disable-next-line
   const [noteName, setNoteName] = useState('');
 
   //to extract the user email.id from the token
