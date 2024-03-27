@@ -67,7 +67,7 @@ const Navbar = () => {
           </Link>
         </li>
         <li className={styles.navLink}>
-          <Link to="/">
+          <Link to="/about">
             <i class="fa-solid fa-circle-info"></i>
             AboutUs
           </Link>

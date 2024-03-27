@@ -1,0 +1,149 @@
+.aboutus {
+    width: 100%;
+    margin-block: 5rem;
+}
+
+.aboutus_box {
+    width: 80%;
+    margin:  0 auto;
+}
+
+.aboutus_box_hero {
+    display: flex; /* Change from grid to flex */
+    justify-content: center; /* Center-align content horizontally */
+    align-items: center; /* Center-align content vertically */
+}
+
+.aboutus_box_hero_left {
+    max-width: 50%; /* Limit the width of the left column */
+    color: var(--text); /* Set text color */
+}
+
+.aboutus_box_hero_left h1{
+    font-size: 3rem;
+    line-height:  .5;
+}
+
+.aboutus_box_hero_left p{
+    font-size: 1.5rem;
+    line-height: 1.5;
+}
+
+.aboutus_box_hero_right {
+    max-width: 50%; /* Limit the width of the right column */
+}
+
+.aboutus_box_hero_right img {
+    width: 100%; /* Ensure the image takes up the full width of its container */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 1rem; /* Add border-radius if needed */
+}
+
+.aboutus_box_titles {
+    margin-top: 5rem;
+    color: var(--text); /* Set text color */
+}
+
+.aboutus_box_titles h2 {
+    font-size: 3rem;
+    line-height: 1;
+}
+
+.aboutus_box_titles p {
+    font-size: 1.5rem;
+    line-height: 1.2;
+    width: 40%;
+}
+
+.aboutus_box_founder {
+    margin-top: 5rem;
+    margin-bottom: 10rem;
+}
+
+.aboutus_box_founder_box {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.aboutus_box_founder_box_img {
+    background-color: var(--secondary);
+    color: var(--text);
+    padding: 1rem;
+    border-radius: 1rem;
+    max-width: 100%; /* Ensure the image doesn't exceed its container's width */
+    max-height: 100%; /* Ensure the image doesn't exceed its container's height */
+    overflow: hidden; /* Hide overflow if the image exceeds its container */
+}
+
+.aboutus_box_founder_box_img_img {
+    width: 100%; /* Ensure the image takes up the full width of its container */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 1rem;
+}
+
+.aboutus_box_founder_box_img h3 {
+    line-height: 0;
+    font-size: 2rem;
+}
+
+.aboutus_box_founder_box_img p {
+    line-height: 0;
+    font-size: 1.2rem;
+}
+
+.aboutus_box_facts {
+    color: var(--text); /* Set text color */
+}
+
+.aboutus_box_facts_box {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 4rem;
+}
+
+.aboutus_box_facts_box_info {
+    background-color: var(--secondary);
+    padding: 1rem 3rem;
+    border-radius: 1rem;
+}
+
+.aboutus_box_facts_box_info h3 {
+    font-size: 4rem;
+    line-height: 0;
+}
+
+@media screen and (max-width: 35em) {
+    .aboutus_box {
+        width: 90%;
+    }
+
+    .aboutus_box_hero {
+        grid-template-columns: 1fr;
+    }
+
+    .aboutus_box_founder {
+        margin-top: 5rem;
+    }
+
+    .aboutus_box_title p {
+        width: 100%;
+    }
+
+    .aboutus_box_founder_box {
+        grid-template-columns: 1fr;
+        gap: 4rem;
+    }
+
+    .aboutus_box_facts_box {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        margin-top: 4rem;
+    }
+
+    .aboutus_box_facts_box_info h3 {
+        font-size: 2rem;
+    }
+}

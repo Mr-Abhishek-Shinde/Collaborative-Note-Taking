@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import Authentication from "./pages/Authentication";
 import Dashboard from "./pages/Dashboard";
 import Notes from "./pages/Notes";
+import About from "./pages/About"
 
 function App() {
   const { user } = useAuthContext();
@@ -21,6 +22,7 @@ function App() {
           <Route exact path="/authentication" element={user ? <Dashboard /> : <Authentication />} />
           <Route exact path="/notes" element={ <Notes />} />
           <Route exact path="/dashboard" element={user ? <Dashboard /> : <Navigate to="/" />} />
+          <Route exact path="/about" element={<About />}/>
         </Routes>
       </BrowserRouter>
     </div>
