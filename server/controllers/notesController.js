@@ -1,51 +1,169 @@
+const User = require("../models/userModel");
 const Note = require("../models/notesModel");
+const SharedNotes = require("../models/sharedNotesModel");
+const UserNotes = require("../models/userNotesModel");
 
-// Route to create new or update existing note:
-const createOrUpdateNote = async (req, res) => {
-  const { time, blocks, version, email, noteName } = req.body;
 
+// Route to create a new note
+const createNote = async (req, res) => {
   try {
-    const note = await Note.createOrUpdateNote(
+    const { time, blocks, version, title, createdBy } = req.body;
+    const note = new Note({
       time,
       blocks,
       version,
-      email,
-      noteName
+      title,
+      createdBy,
+    });
+    await note.save();
+
+    const userNote = await UserNotes.findOneAndUpdate(
+      { user: createdBy },
+      { $push: { notes: note._id } },
+      { new: true, upsert: true }
     );
 
-    res.status(200).json({ time, blocks, version, email, noteName });
-  } catch (err) {
-    res.status(400).json({ error: err.message });
+    res.status(201).json({ note, userNote });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server error" });
   }
 };
 
-// Route to get all notes of particular user
-const getAllNotesByUser = async (req, res) => {
-  const { email } = req.query;
 
+// Route to update a note
+const updateNote = async (req, res) => {
   try {
-    const uploadnotes = await Note.getAllNotesByUser(email);
+    const { noteId } = req.params;
+    const { time, blocks, version, title } = req.body;
 
-    res.json({ uploadnotes });
-  } catch (err) {
-    res.status(500).json({ error: "Internal Server Error", error: err.message });
+    const updatedNote = await Note.findByIdAndUpdate(
+      noteId,
+      { time, blocks, version, title },
+      { new: true }
+    );
+
+    res.json(updatedNote);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server error" });
   }
 };
 
-const addUserToNote = async (req, res) => {
-  const { email, noteName } = req.body;
 
+// Route to get all notes by user ID
+const getAllNotesByUserId = async (req, res) => {
   try {
-    const detail = await Note.addUserToNote(email, noteName);
+    const { userId } = req.params;
+    const userNotes = await UserNotes.findOne({ user: userId }).populate(
+      "notes"
+    );
 
-    res.status(200).json({ email, noteName });
-  } catch (err) {
-    res.status(400).json({ error: err.message });
+    res.json(userNotes);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server error" });
   }
 };
 
-module.exports = { 
-  createOrUpdateNote, 
-  getAllNotesByUser, 
-  addUserToNote,
+
+// Route to get a note by note ID
+const getNoteByNoteId = async (req, res) => {
+  try {
+    const { noteId } = req.params;
+    const note = await Note.findById(noteId);
+
+    if (!note) {
+      return res.status(404).json({ error: "Note not found" });
+    }
+
+    res.json(note);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
+
+// Route to get collaborators by note ID
+const getCollaboratorsByNoteId = async (req, res) => {
+  try {
+    const { noteId } = req.params;
+    const sharedNote = await SharedNotes.findOne({ note: noteId }).populate({
+      path: "sharedWith",
+      select: "username email",
+    });
+
+    if (!sharedNote) {
+      return res.status(404).json({ error: "Note not found or not shared" });
+    }
+
+    res.json(sharedNote.sharedWith);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
+
+// Route to add a collaborator to a note by email
+const addCollaborator = async (req, res) => {
+  try {
+    const { noteId } = req.params;
+    const { email } = req.body;
+
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const sharedNote = await SharedNotes.findOneAndUpdate(
+      { note: noteId },
+      { $addToSet: { sharedWith: user._id } },
+      { new: true, upsert: true }
+    );
+
+    res.json(sharedNote);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
+
+// Route to remove a collaborator from a note by email
+const removeCollaborator = async (req, res) => {
+  try {
+    const { noteId } = req.params;
+    const { email } = req.body;
+
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const sharedNote = await SharedNotes.findOneAndUpdate(
+      { note: noteId },
+      { $pull: { sharedWith: user._id } },
+      { new: true }
+    );
+
+    res.json(sharedNote);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
+
+module.exports = {
+  createNote,
+  updateNote,
+  getAllNotesByUserId,
+  getNoteByNoteId,
+  getCollaboratorsByNoteId,
+  addCollaborator,
+  removeCollaborator,
 };

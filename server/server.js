@@ -6,7 +6,7 @@ const { createServer } = require("http");
 const { Server } = require("socket.io");
 
 const userRoutes = require("./routes/user");
-const notesRoutes = require("./routes/createNotes");
+const notesRoutes = require("./routes/note");
 
 const app = express();
 const httpServer = createServer(app);
@@ -22,7 +22,7 @@ app.use(cors());
 
 // Define routes
 app.use("/api/user", userRoutes);
-app.use("/api/notes", notesRoutes);
+app.use("/api/note", notesRoutes);
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI)

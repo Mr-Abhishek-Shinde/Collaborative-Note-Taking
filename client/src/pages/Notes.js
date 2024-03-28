@@ -47,7 +47,7 @@ const Notes = () => {
   //To get the all saved notes of the specified user
   useEffect(() => {
     if (emailSet) {
-       Axios.get(`http://127.0.0.1:4000/api/notes/getAllNotesByUser?email=${email}`)
+       Axios.get(`http://127.0.0.1:4000/api/note/getAllNotesByUser?email=${email}`)
         .then((response) => {
           console.log(response)
           setList(response.data);
