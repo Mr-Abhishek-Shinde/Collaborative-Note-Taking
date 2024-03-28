@@ -1,10 +1,11 @@
 const express = require('express');
-const {noteUser, uploadNotes, addUser}  = require('../controllers/notesController');
+const { createOrUpdateNote, getAllNotesByUser, addUserToNote }  = require('../controllers/notesController');
 
 const router = express.Router();
-router.post('/note', noteUser);
-router.get('/getnotes', uploadNotes);
-router.post('/addUser',addUser);
+
+router.post('/createOrUpdateNote', createOrUpdateNote);
+router.get('/getAllNotesByUser', getAllNotesByUser);
+router.post('/addUserToNote',addUserToNote);
 
 
 module.exports = router;

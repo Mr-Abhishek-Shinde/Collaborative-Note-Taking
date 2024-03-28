@@ -1,9 +1,6 @@
-const User = require('../models/userModel');
 const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
-
-
 
 const noteSchema = new Schema({
     time: {
@@ -26,13 +23,12 @@ const noteSchema = new Schema({
         type : String,
         required : true
     }
-   
 });
 
 
-noteSchema.statics.notes = async function(time,blocks,version,email,noteName){
-    const user = await this.findOne({noteName});
-    let note;
+noteSchema.statics.createOrUpdateNote = async function(time,blocks,version,email,noteName){
+    const note = await this.findOne({noteName});
+
     if(user){
         note = await this.findOneAndUpdate({ noteName }, { time, blocks, version, email, noteName });
         console.log("Done",note) 
@@ -42,11 +38,10 @@ noteSchema.statics.notes = async function(time,blocks,version,email,noteName){
     return note;
 }
 
-noteSchema.statics.getNotes = async function (email) {
+noteSchema.statics.getAllNotesByUser = async function (email) {
     console.log('Email value:', email);
     const users = await this.find(
         { email: { $in: [email] } },
-    
     );
 
 
@@ -64,7 +59,7 @@ noteSchema.statics.getNotes = async function (email) {
    // return JSON.stringify(blocksArrays);
 };
 
-noteSchema.statics.addUser = async function (email, noteName){
+noteSchema.statics.addUserToNote = async function (email, noteName){
     console.log(email , noteName)
     if(!email ){
         throw new Error("Incorrcet email or user not found");
@@ -84,11 +79,6 @@ noteSchema.statics.addUser = async function (email, noteName){
     }
 
     return detail;
-
-
 }
 
-
-const Note = mongoose.model('Note', noteSchema);
-
-module.exports = Note;
+module.exports = mongoose.model('Note', noteSchema);
