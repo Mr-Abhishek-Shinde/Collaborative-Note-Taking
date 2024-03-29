@@ -17,6 +17,8 @@ const Notes = () => {
   const [isSideNavOpen, setIsSideNavOpen] = useState(false);
   const [notesList, setNotesList] = useState([]);
   const [sharedNotesList, setSharedNotesList] = useState([]);
+  const [extractedText, setExtractedText] = useState('');
+  const [isSpeech, setisSpeech] = useState(false);
 
   const openSideNav = () => {
     fetchNotes();
@@ -93,8 +95,8 @@ const Notes = () => {
         closeSideNav={closeSideNav}
         isSideNavOpen={isSideNavOpen}
       />
-      <SubNavbar handleAccess={handleAccess} />
-      <NoteEditor user={user} />
+      <SubNavbar handleAccess={handleAccess} setExtractedText={setExtractedText} setisSpeech={setisSpeech} />
+      <NoteEditor user={user}  extractedText={extractedText} isSpeech={isSpeech} />
     </>
   );
 };
