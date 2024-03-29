@@ -1,38 +1,13 @@
 import React from "react";
-import { useAuthContext } from "../hooks/useAuthContext";
 import styles from "../styles/Dashboard.module.css";
-import { useNavigate } from 'react-router-dom';
-import axios from "axios";
+import { Link } from 'react-router-dom';
 
 const Dashboard = () => {
-  const { user } = useAuthContext();
-  const navigate = useNavigate();
-
-  const createBlankNote = () => {
-    axios
-      .post("http://localhost:4000/api/note/createNote", {
-        title: "Untitled",
-        content: {
-          "ops": [
-            {
-              "insert": "Start Typing...\n"
-            }
-          ]
-        },
-        username: user.username,
-      })
-      .then((response) => {
-        navigate(`/notes/${response.data.noteId}`);
-      })
-      .catch((error) => {
-        console.error("Error saving note:", error);
-      });
-  };
-
   return (
     <>
       <ul className={styles.cards}>
-        <li className={styles.cards_item} onClick={createBlankNote}>
+        <Link to="/notes">
+        <li className={styles.cards_item}>
           <div className={styles.card}>
             <div className={styles.card_img}>
               <img src="" alt="" />
@@ -48,6 +23,7 @@ const Dashboard = () => {
             </div>
           </div>
         </li>
+        </Link>
         <li className={styles.cards_item}>
           <div className={styles.card}>
             <div className={styles.card_img}>

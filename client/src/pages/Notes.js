@@ -1,9 +1,9 @@
-import { React, useState, useEffect } from "react";
+import { React, useState } from "react";
 import Sidebar from "../components/Sidebar";
 import SubNavbar from "../components/SubNavbar";
 import NoteEditor from "../components/NoteEditor";
 import { useAuthContext } from "../hooks/useAuthContext";
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from "react-router-dom";
 import styles from "../styles/Notes.module.css";
 import axios from "axios";
 
@@ -29,7 +29,7 @@ const Notes = () => {
 
   const handleNoteClick = (noteId) => {
     closeSideNav();
-    navigate(`/notes/${noteId}`);
+    navigate(`/notes/note/${noteId}`);
     // window.location.href = `/notes/${noteId}`;
   };
 
@@ -38,41 +38,34 @@ const Notes = () => {
       .post("http://localhost:4000/api/note/createNote", {
         title: "Untitled",
         content: {
-          "ops": [
+          ops: [
             {
-              "insert": "Start Typing...\n"
-            }
-          ]
+              insert: "Start Typing...\n",
+            },
+          ],
         },
         username: user.username,
       })
       .then((response) => {
-        navigate(`/notes/${response.data.noteId}`);
+        navigate(`/notes/note/${response.data.noteId}`);
       })
       .catch((error) => {
         console.error("Error saving note:", error);
       });
-      closeSideNav();
+    closeSideNav();
   };
 
   const fetchNotes = async () => {
     axios
       .get("http://localhost:4000/api/note/getAllNotes/" + user.username)
       .then((response) => {
-        setNotesList(response.data.notes)
-        setSharedNotesList(response.data.sharedNotes)
+        setNotesList(response.data.notes);
+        setSharedNotesList(response.data.sharedNotes);
       })
       .catch((error) => {
         console.error("Error Fetching Notes:", error);
       });
   };
-
-  useEffect(() => {
-    if (user) {
-      fetchNotes();
-    }
-    // eslint-disable-next-line
-  }, [user]);
 
   const handleAccess = (username) => {
     axios
@@ -80,12 +73,12 @@ const Notes = () => {
         username: username,
       })
       .then((response) => {
-        console.log(response.data)
+        console.log(response.data);
       })
       .catch((error) => {
         console.error("Error saving note:", error);
       });
-  }
+  };
 
   return (
     <>

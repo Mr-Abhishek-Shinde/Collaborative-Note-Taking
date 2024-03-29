@@ -3,7 +3,6 @@ const Note = require("../models/notesModel");
 const SharedNotes = require("../models/sharedNotesModel");
 const UserNotes = require("../models/userNotesModel");
 
-
 // Route to create a new note
 const createNote = async (req, res) => {
   try {
@@ -54,6 +53,55 @@ const updateNote = async (req, res) => {
   }
 };
 
+// Route to delete a note by note ID
+const deleteNote = async (req, res) => {
+  try {
+    const { noteId } = req.params;
+    const { username } = req.body;
+
+    // Find the user using the provided username
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // Check if the note exists
+    const note = await Note.findById(noteId);
+    if (!note) {
+      return res.status(404).json({ error: "Note not found" });
+    }
+
+    // Check if the authenticated user is the owner of the note
+    if (note.createdBy.toString() !== user._id.toString()) {
+      return res
+        .status(403)
+        .json({ error: "You are not authorized to delete this note" });
+    }
+
+    // Delete the note
+    await Note.findByIdAndDelete(noteId);
+
+    // Remove the note from user's notes
+    await UserNotes.findOneAndUpdate(
+      { user: user._id },
+      { $pull: { notes: noteId } }
+    );
+
+    // Remove the note from shared notes of other users
+    await SharedNotes.findOneAndDelete({ note: noteId });
+
+    // Remove the note from sharedNotes array in other users' UserNotes
+    await UserNotes.updateMany(
+      { sharedNotes: noteId },
+      { $pull: { sharedNotes: noteId } }
+    );
+
+    res.json({ message: "Note deleted successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
 
 // Route to get all notes and shared notes by user ID using username
 const getAllNotesByUsername = async (req, res) => {
@@ -67,10 +115,14 @@ const getAllNotesByUsername = async (req, res) => {
     }
 
     // Fetch user notes and populate the 'notes' array
-    const userNotes = await UserNotes.findOne({ user: user._id }).populate("notes");
+    const userNotes = await UserNotes.findOne({ user: user._id }).populate(
+      "notes"
+    );
 
     // Fetch user notes and populate the 'sharedNotes' array
-    const sharedUserNotes = await UserNotes.findOne({ user: user._id }).populate("sharedNotes");
+    const sharedUserNotes = await UserNotes.findOne({
+      user: user._id,
+    }).populate("sharedNotes");
 
     // Extract the notes and sharedNotes arrays from the populated objects
     const notes = userNotes ? userNotes.notes : [];
@@ -82,7 +134,6 @@ const getAllNotesByUsername = async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 };
-
 
 // Route to get a note by note ID
 const getNoteByNoteId = async (req, res) => {
@@ -99,7 +150,6 @@ const getNoteByNoteId = async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 };
-
 
 // Route to get collaborators by note ID
 const getCollaboratorsByNoteId = async (req, res) => {
@@ -120,7 +170,6 @@ const getCollaboratorsByNoteId = async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 };
-
 
 // Route to add a collaborator to a note by email
 const addCollaborator = async (req, res) => {
@@ -153,7 +202,6 @@ const addCollaborator = async (req, res) => {
   }
 };
 
-
 // Route to remove a collaborator from a note by email
 const removeCollaborator = async (req, res) => {
   try {
@@ -179,10 +227,10 @@ const removeCollaborator = async (req, res) => {
   }
 };
 
-
 module.exports = {
   createNote,
   updateNote,
+  deleteNote,
   getAllNotesByUsername,
   getNoteByNoteId,
   getCollaboratorsByNoteId,
