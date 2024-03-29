@@ -176,7 +176,7 @@ const NoteEditor = ({ user, data }) => {
       }
     }
   };
-
+  
   function handleSummary() {
     // Perform the action of summarizing the selected text
     console.log('Summary option clicked');
@@ -199,7 +199,6 @@ const NoteEditor = ({ user, data }) => {
       // Here you can store the formatted text in the database or perform any other operation.
     }
   }
-  
 
   // const handleRetrieveNotes = () => {
   //   axios
@@ -221,14 +220,15 @@ const NoteEditor = ({ user, data }) => {
 
   return (
     <div style={{ margin: '5%', border: '1px solid', fontFamily: 'Arial, sans-serif' }}>
-      <div id='editor' style={{ marginBottom: '20px', fontSize: '16px', color: '#333' }}></div>
-      {/* Contextual menu */}
-      <div ref={menuRef} style={{ position: 'absolute', display: 'none', border: '2px solid black', padding: '5px', backgroundColor: 'white', boxShadow: '0px 0px 5px rgba(0, 0, 0, 0.2)', borderRadius: '5px' }}>
-        <button style={{ marginRight: '5px', cursor: 'pointer', border: 'none', backgroundColor: 'white',borderRight: '1px', color: 'black', padding: '5px 10px', fontFamily: 'Times New Roman", Times, serif' }} onClick={handleSummary}>Read aloud</button>
-        <button style={{ cursor: 'pointer', border: 'none', backgroundColor: 'white', borderRight: '1px',color: 'black', padding: '5px 10px',fontFamily: 'Times New Roman", Times, serif' }} onClick={handleTransformation}>Summarize text</button>
-        {/* Add more options as needed */}
-      </div>
-      <button style={{ cursor: 'pointer', border: 'none', backgroundColor: '#007bff', color: 'white', padding: '10px 20px', borderRadius: '5px', fontFamily: 'Arial, sans-serif' }} onClick={handleLogFormattedText}>Log Formatted Text</button>
+    <div id='editor' style={{ marginBottom: '20px', fontSize: '16px', color: '#333' }}></div>
+    {/* Contextual menu */}
+    <div ref={menuRef} style={{ position: 'absolute', display: 'none', border: '2px solid black', padding: '5px', backgroundColor: 'white', boxShadow: '0px 0px 5px rgba(0, 0, 0, 0.2)', borderRadius: '5px' }}>
+      <button style={{ marginRight: '5px', cursor: 'pointer', border: 'none', backgroundColor: 'white',borderRight: '1px', color: 'black', padding: '5px 10px', fontFamily: 'Times New Roman", Times, serif' }} onClick={handleSummary}>Read aloud</button>
+      <button style={{ cursor: 'pointer', border: 'none', backgroundColor: 'white', borderRight: '1px',color: 'black', padding: '5px 10px',fontFamily: 'Times New Roman", Times, serif' }} onClick={handleTransformation}>Summarize text</button>
+      {/* Add more options as needed */}
+    </div>
+
+      <button onClick={handleSaveNote}>Save Note</button>
     </div>
   );
 }
