@@ -17,7 +17,7 @@ const connection = new Sharedb.Connection(socket);
 // Querying for our document
 const doc = connection.get("documents", "firstDocument");
 
-const NoteEditor = ({ user, data }) => {
+const NoteEditor = ({ user, data, extractedText, isSpeech }) => {
   const { noteId } = useParams();
   const [dataNew, setDataNew] = useState();
   const menuRef = useRef(null); // Reference to the contextual menu
@@ -177,6 +177,13 @@ const NoteEditor = ({ user, data }) => {
     }
   };
   
+  useEffect(() => {
+    // Insert extracted text into the editor when available
+    if (extractedText && isSpeech &&  editorRef.current) {
+      editorRef.current.clipboard.dangerouslyPasteHTML(extractedText);
+    }
+  }, [extractedText]);
+
   function handleSummary() {
     // Perform the action of summarizing the selected text
     console.log('Summary option clicked');

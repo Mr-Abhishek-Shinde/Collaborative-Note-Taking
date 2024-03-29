@@ -1,5 +1,7 @@
 {
   "dependencies": {
+    "@picovoice/leopard-react": "^2.0.2",
+    "@picovoice/web-voice-processor": "^4.0.9",
     "react-quill": "^2.0.0",
     "react-router-dom": "^6.21.3"
   }
