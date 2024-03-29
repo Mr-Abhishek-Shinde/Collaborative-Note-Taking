@@ -4,12 +4,10 @@ import { Link } from "react-router-dom"; // Import Link
 import Swal from "sweetalert2";
 import { useLogout } from "../hooks/useLogout";
 import { useAuthContext } from "../hooks/useAuthContext";
-import Access from "../components/Access.js";
 
 const Navbar = () => {
   const { logout } = useLogout();
   const { user } = useAuthContext();
-  const [access, setAccess] = useState(false);
   const [isDropdownOpen, setDropdownOpen] = useState(false);
 
   const handleLogoutClick = () => {
@@ -34,11 +32,6 @@ const Navbar = () => {
 
   const toggleDropdown = () => {
     setDropdownOpen(!isDropdownOpen);
-  };
-
-  const handleAccessClick = () => {
-    setDropdownOpen(!isDropdownOpen);
-    setAccess(true);
   };
 
   
@@ -86,14 +79,10 @@ const Navbar = () => {
             </button>
             {isDropdownOpen && (
               <div className={styles.dropdowncontent}>
-                <Link onClick={() => handleAccessClick()} >Give access</Link>
                 <Link>New note</Link>
                 <Link>Add Comments</Link>
               </div>
             )}
-            <div className={styles["main-box"]}>
-              {access ? <Access /> : ""}
-            </div>
           </div>
         </li>
         

@@ -18,7 +18,6 @@ export const useSignup = () => {
     })
     const json = await response.json()
 
-    console.log(response);
     if (!response.ok) {
       setIsLoading(false)
       Swal.fire({

@@ -9,7 +9,7 @@
   flex-direction: column;
   width: 100%;
   box-sizing: border-box;
-  min-height: 100vh;
+  height: calc(100vh - 60px);
   color: var(--text);
 }
 
