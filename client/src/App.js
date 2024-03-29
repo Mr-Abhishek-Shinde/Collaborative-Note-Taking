@@ -7,7 +7,9 @@ import Home from "./pages/Home";
 import Authentication from "./pages/Authentication";
 import Dashboard from "./pages/Dashboard";
 import Notes from "./pages/Notes";
+import About from "./pages/About"
 import NotesHome from "./pages/NotesHome";
+
 
 function App() {
   const { user } = useAuthContext();
@@ -23,6 +25,7 @@ function App() {
           <Route exact path="/notes/" element={user ? <NotesHome /> : <Navigate to="/" />} />
           <Route exact path="/notes/note/:noteId" element={user ? <Notes /> : <Navigate to="/" />} />
           <Route exact path="/dashboard" element={user ? <Dashboard /> : <Navigate to="/" />} />
+          <Route exact path="/about" element={<About />}/>
         </Routes>
       </BrowserRouter>
     </div>
