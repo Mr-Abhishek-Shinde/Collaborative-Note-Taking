@@ -9,6 +9,10 @@ const userNotesSchema = new mongoose.Schema({
   notes: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Note'
+  }],
+  sharedNotes: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Note'
   }]
 });
 

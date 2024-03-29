@@ -7,39 +7,43 @@ const UserNotes = require("../models/userNotesModel");
 // Route to create a new note
 const createNote = async (req, res) => {
   try {
-    const { time, blocks, version, title, createdBy } = req.body;
+    const { content, title, username } = req.body;
+
+    const user = await User.findOne({ username });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
     const note = new Note({
-      time,
-      blocks,
-      version,
+      content,
       title,
-      createdBy,
+      createdBy: user._id,
     });
     await note.save();
 
     const userNote = await UserNotes.findOneAndUpdate(
-      { user: createdBy },
+      { user: user._id },
       { $push: { notes: note._id } },
       { new: true, upsert: true }
     );
 
-    res.status(201).json({ note, userNote });
+    res.status(201).json({ noteId: note._id });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Server error" });
   }
 };
 
-
 // Route to update a note
 const updateNote = async (req, res) => {
   try {
     const { noteId } = req.params;
-    const { time, blocks, version, title } = req.body;
+    const { title, content } = req.body;
 
     const updatedNote = await Note.findByIdAndUpdate(
       noteId,
-      { time, blocks, version, title },
+      { title, content },
       { new: true }
     );
 
@@ -51,15 +55,28 @@ const updateNote = async (req, res) => {
 };
 
 
-// Route to get all notes by user ID
-const getAllNotesByUserId = async (req, res) => {
+// Route to get all notes and shared notes by user ID using username
+const getAllNotesByUsername = async (req, res) => {
   try {
-    const { userId } = req.params;
-    const userNotes = await UserNotes.findOne({ user: userId }).populate(
-      "notes"
-    );
+    const { username } = req.params;
 
-    res.json(userNotes);
+    const user = await User.findOne({ username });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // Fetch user notes and populate the 'notes' array
+    const userNotes = await UserNotes.findOne({ user: user._id }).populate("notes");
+
+    // Fetch user notes and populate the 'sharedNotes' array
+    const sharedUserNotes = await UserNotes.findOne({ user: user._id }).populate("sharedNotes");
+
+    // Extract the notes and sharedNotes arrays from the populated objects
+    const notes = userNotes ? userNotes.notes : [];
+    const sharedNotes = sharedUserNotes ? sharedUserNotes.sharedNotes : [];
+
+    res.json({ notes, sharedNotes });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Server error" });
@@ -76,7 +93,6 @@ const getNoteByNoteId = async (req, res) => {
     if (!note) {
       return res.status(404).json({ error: "Note not found" });
     }
-
     res.json(note);
   } catch (error) {
     console.error(error);
@@ -110,9 +126,9 @@ const getCollaboratorsByNoteId = async (req, res) => {
 const addCollaborator = async (req, res) => {
   try {
     const { noteId } = req.params;
-    const { email } = req.body;
+    const { username } = req.body;
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ username });
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
@@ -121,6 +137,12 @@ const addCollaborator = async (req, res) => {
     const sharedNote = await SharedNotes.findOneAndUpdate(
       { note: noteId },
       { $addToSet: { sharedWith: user._id } },
+      { new: true, upsert: true }
+    );
+
+    await UserNotes.findOneAndUpdate(
+      { user: user._id },
+      { $addToSet: { sharedNotes: noteId } },
       { new: true, upsert: true }
     );
 
@@ -161,7 +183,7 @@ const removeCollaborator = async (req, res) => {
 module.exports = {
   createNote,
   updateNote,
-  getAllNotesByUserId,
+  getAllNotesByUsername,
   getNoteByNoteId,
   getCollaboratorsByNoteId,
   addCollaborator,

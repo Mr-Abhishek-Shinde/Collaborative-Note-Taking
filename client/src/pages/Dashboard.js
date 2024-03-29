@@ -1,85 +1,84 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React from "react";
+import { useAuthContext } from "../hooks/useAuthContext";
 import styles from "../styles/Dashboard.module.css";
+import { useNavigate } from 'react-router-dom';
+import axios from "axios";
 
 const Dashboard = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const { user } = useAuthContext();
+  const navigate = useNavigate();
 
-  const openNav = () => {
-    setIsSidebarOpen(true);
-  };
-
-  const closeNav = () => {
-    setIsSidebarOpen(false);
+  const createBlankNote = () => {
+    axios
+      .post("http://localhost:4000/api/note/createNote", {
+        title: "Untitled",
+        content: {
+          "ops": [
+            {
+              "insert": "Start Typing...\n"
+            }
+          ]
+        },
+        username: user.username,
+      })
+      .then((response) => {
+        navigate(`/notes/${response.data.noteId}`);
+      })
+      .catch((error) => {
+        console.error("Error saving note:", error);
+      });
   };
 
   return (
     <>
-      <div className={styles.main}>
-        <div
-          id="mainSideNav"
-          className={`${styles.sidenav} ${isSidebarOpen ? styles.open : ""}`}
-        >
-          {/* eslint-disable-next-line */}
-          <a href="javascript:void(0)" className={styles.closebtn} onClick={closeNav}>
-            &times;
-          </a>
-          <Link to="/">About</Link>
-          <Link to="/">Services</Link>
-          <Link to="/">Clients</Link>
-          <Link to="/">Contact</Link>
-        </div>
-        <span id={styles.lines} onClick={openNav}>
-          &#9776;
-        </span>
-        <ul className={styles.cards}>
-          <li className={styles.cards_item}>
-            <div className={styles.card}>
-              <div className={styles.card_img}>
-                <img src="" alt="" />
-              </div>
-              <div className={styles.card_content}>
-                <h2 className={styles.card_title}>Notes</h2>
-                <p className={styles.card_text}>
-                  Demo of pixel perfect pure CSS simple responsive card grid
-                  layout
-                </p>
-                <button className={styles.btn}>Read More</button>
-              </div>
+      <ul className={styles.cards}>
+        <li className={styles.cards_item} onClick={createBlankNote}>
+          <div className={styles.card}>
+            <div className={styles.card_img}>
+              <img src="" alt="" />
             </div>
-          </li>
-          <li className={styles.cards_item}>
-            <div className={styles.card}>
-              <div className={styles.card_img}>
-                <img src="" alt="" />
-              </div>
-              <div className={styles.card_content}>
-                <h2 className={styles.card_title}>To-do List</h2>
-                <p className={styles.card_text}>
-                  Demo of pixel perfect pure CSS simple responsive card grid
-                  layout
-                </p>
-                <button className={styles.btn}>Read More</button>
-              </div>
+            <div className={styles.card_content}>
+              <h2 className={styles.card_title}>Notes</h2>
+              <p className={styles.card_text}>
+                Demo of pixel perfect pure CSS simple responsive card grid
+                layout
+              </p>
+              <h4>Click to create new note</h4>
+              <button className={styles.btn}>Read More</button>
             </div>
-          </li>
-          <li className={styles.cards_item}>
-            <div className={styles.card}>
-              <div className={styles.card_img}>
-                <img src="" alt="" />
-              </div>
-              <div className={styles.card_content}>
-                <h2 className={styles.card_title}>Mind-Map</h2>
-                <p className={styles.card_text}>
-                  Demo of pixel perfect pure CSS simple responsive card grid
-                  layout
-                </p>
-                <button className={styles.btn}>Read More</button>
-              </div>
+          </div>
+        </li>
+        <li className={styles.cards_item}>
+          <div className={styles.card}>
+            <div className={styles.card_img}>
+              <img src="" alt="" />
             </div>
-          </li>
-        </ul>
-      </div>
+            <div className={styles.card_content}>
+              <h2 className={styles.card_title}>To-do List</h2>
+              <p className={styles.card_text}>
+                Demo of pixel perfect pure CSS simple responsive card grid
+                layout
+              </p>
+              <button className={styles.btn}>Read More</button>
+            </div>
+          </div>
+        </li>
+        <li className={styles.cards_item}>
+          <div className={styles.card}>
+            <div className={styles.card_img}>
+              <img src="" alt="" />
+            </div>
+            <div className={styles.card_content}>
+              <h2 className={styles.card_title}>Mind-Map</h2>
+              <p className={styles.card_text}>
+                Demo of pixel perfect pure CSS simple responsive card grid
+                layout
+              </p>
+              <button className={styles.btn}>Read More</button>
+            </div>
+          </div>
+        </li>
+      </ul>
     </>
   );
 };

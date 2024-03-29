@@ -24,11 +24,11 @@
 
   }
 
-  #editorblock{
+  #editor{
     height:800px;
   }
 
-  .editor{
+  #editor{
     background-color: white;
     position: relative;
     top:80px;
@@ -43,7 +43,7 @@
   }
 
 
-#lines {
+.lines {
     font-size: 25px;
     cursor: pointer;
     position: relative;
@@ -52,7 +52,7 @@
     color: black;
   }
   
-  #lines:hover {
+  .lines:hover {
     font-size: 30px;
   }
   
@@ -182,4 +182,3 @@
     background-color: var(--primary);
     border-color: var(--accent);
   }
-  
