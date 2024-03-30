@@ -40,21 +40,38 @@ const ShareDB = require("sharedb");
 ShareDB.types.register(require("rich-text").type);
 
 const shareDBServer = new ShareDB();
-const connection = shareDBServer.connect();
 
-const doc = connection.get("documents", "firstDocument");
+const createWebSocketServer = (roomId) => {
+  const wss = new WebSocket.Server({ noServer: true });
 
-doc.fetch(function (err) {
-  if (err) throw err;
-  if (doc.type === null) {
-    doc.create([{ insert: "Hello World!" }], "rich-text", () => {
-      const wss = new WebSocket.Server({ host: "127.0.0.1", port: 8080 });
-
-      wss.on("connection", function connection(ws) {
-        const jsonStream = new WebSocketJSONStream(ws);
-        shareDBServer.listen(jsonStream);
-      });
+  wss.on("connection", function connection(ws) {
+    const jsonStream = new WebSocketJSONStream(ws);
+    const connection = shareDBServer.connect();
+    const doc = connection.get("documents", roomId);
+    doc.fetch(function (err) {
+      if (err) throw err;
+      if (doc.type === null) {
+        doc.create([{ insert: "Hello World!" }], "rich-text", () => {
+          shareDBServer.listen(jsonStream);
+        });
+        return;
+      }
+      shareDBServer.listen(jsonStream);
     });
-    return;
-  }
+  });
+
+  return wss;
+};
+
+const httpServer = require("http").createServer();
+httpServer.listen(8080);
+
+httpServer.on("upgrade", function upgrade(request, socket, head) {
+  const { pathname } = new URL(request.url, "http://localhost:8080");
+  const roomId = pathname.slice(1);
+
+  const wss = createWebSocketServer(roomId);
+  wss.handleUpgrade(request, socket, head, function done(ws) {
+    wss.emit("connection", ws, request);
+  });
 });
