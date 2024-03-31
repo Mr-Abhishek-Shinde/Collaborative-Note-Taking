@@ -1,28 +1,15 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import styles from "../styles/NotesHome.module.css";
-import mynotes from "../image/mynotes.jpg"
+import mynotes from "../image/mynotes.jpg";
 
 const NotesHome = () => {
   const { user } = useAuthContext();
   const navigate = useNavigate();
-  const [isMyNotesDropdownOpen, setMyNotesDropdownOpen] = useState(false);
-  const [isSharedNotesDropdownOpen, setSharedNotesDropdownOpen] = useState(false);
-  const myNotesDropdownRef = useRef(null);
-  const sharedNotesDropdownRef = useRef(null);
-
   const [notesList, setNotesList] = useState([]);
   const [sharedNotesList, setSharedNotesList] = useState([]);
-
-  const toggleMyNotesDropdown = () => {
-    setMyNotesDropdownOpen(!isMyNotesDropdownOpen);
-  };
-
-  const toggleSharedNotesDropdown = () => {
-    setSharedNotesDropdownOpen(!isSharedNotesDropdownOpen);
-  };
 
   const createBlankNote = () => {
     axios
@@ -45,48 +32,21 @@ const NotesHome = () => {
       });
   };
 
-  // useEffect for fetching notes
   useEffect(() => {
     const fetchNotes = async () => {
-      axios
-        .get("http://localhost:4000/api/note/getAllNotes/" + user.username)
-        .then((response) => {
-          setNotesList(response.data.notes);
-          setSharedNotesList(response.data.sharedNotes);
-        })
-        .catch((error) => {
-          console.error("Error Fetching Notes:", error);
-        });
+      try {
+        const response = await axios.get("http://localhost:4000/api/note/getAllNotes/" + user.username);
+        setNotesList(response.data.notes);
+        setSharedNotesList(response.data.sharedNotes);
+      } catch (error) {
+        console.error("Error Fetching Notes:", error);
+      }
     };
 
     if (user) {
       fetchNotes();
     }
   }, [user]);
-
-  // useEffect for handling click outside dropdowns
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        myNotesDropdownRef.current &&
-        !myNotesDropdownRef.current.contains(event.target)
-      ) {
-        setMyNotesDropdownOpen(false);
-      }
-      if (
-        sharedNotesDropdownRef.current &&
-        !sharedNotesDropdownRef.current.contains(event.target)
-      ) {
-        setSharedNotesDropdownOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
 
   return (
     <div className={styles.NotesHome}>
@@ -95,71 +55,61 @@ const NotesHome = () => {
         <div className={styles.headingNote}>
           <h1 className={styles.headingNoteH1}>NoteBook Options</h1>
         </div>
-        <hr></hr>
+        <hr />
 
-        <div className={styles.createContainer}>
+        <div className={styles.createNewNote}>
           <div className={styles.createBtn}>
-            <button onClick={createBlankNote}>Create new blank note</button>
+            <h3>Want to create new note?</h3>
+            
+            <button onClick={createBlankNote} >
+              <i class="fa-solid fa-plus"></i>Create</button>
           </div>
         </div>
 
-        <hr></hr>
+        <hr />
+        
         
         <div className={styles.cardContainer}>
           <div className={styles.card}>
-            
-            {/* <img src={mynotes} alt="My Notes" className={styles.cardImage} /> */}
             <div className={styles.cardContent}>
               <div className={styles.headLogo}>
-                
-                <h2>
-                  <i class="fa-solid fa-book"></i>
+                <h2 className={styles.heading}>
+                  <i className="fa-solid fa-book"></i>
                   My Notes
                 </h2>
               </div>
-              <button className={styles.dropdownButton} onClick={toggleMyNotesDropdown}>
-                <h3>Show Notes</h3>
-              </button>
-              {isMyNotesDropdownOpen && (
-                <div className={styles.dropdownContent}>
+              <div className={styles.notesList}>
+                <ul className={styles.notes}>
                   {notesList.map((note) => (
                     <li key={note._id} onClick={() => navigate(`/notes/note/${note._id}`)}>
-                      {note.title}
+                      <i class="fa-solid fa-angles-right"></i> {note.title} notes
                     </li>
                   ))}
-                </div>
-              )}
+                </ul>
+              </div>
             </div>
-            
           </div>
 
           <div className={styles.card}>
-            {/* <img src="/path_to_your_image" alt="Shared with me" className={styles.cardImage} /> */}
             <div className={styles.cardContent}>
-            <div className={styles.headLogo}>
-                
+              <div className={styles.headLogo}>
                 <h2>
-                <i class="fa-solid fa-layer-group"></i>
+                  <i className="fa-solid fa-layer-group"></i>
                   Shared with me
                 </h2>
               </div>
-              <button className={styles.dropdownButton} onClick={toggleSharedNotesDropdown}>
-                <h3>Show Notes</h3>
-              </button>
-              {isSharedNotesDropdownOpen && (
-                <div className={styles.dropdownContent}>
+              <div className={styles.notesList}>
+                <ul className={styles.notes}>
                   {sharedNotesList.map((note) => (
                     <li key={note._id} onClick={() => navigate(`/notes/note/${note._id}`)}>
-                      {note.title}
+                      <i class="fa-solid fa-angles-right"></i> {note.title} notes
                     </li>
                   ))}
-                </div>
-              )}
+                </ul>
+              </div>
             </div>
           </div>
         </div>
-
-        
       </div>
     </div>
   );
