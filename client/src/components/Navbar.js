@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styles from "../styles/Navbar.module.css";
-import { Link } from "react-router-dom"; // Import Link
+import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import { useLogout } from "../hooks/useLogout";
 import { useAuthContext } from "../hooks/useAuthContext";
@@ -9,6 +9,7 @@ const Navbar = () => {
   const { logout } = useLogout();
   const { user } = useAuthContext();
   const [isDropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
 
   const handleLogoutClick = () => {
     Swal.fire({
@@ -34,58 +35,61 @@ const Navbar = () => {
     setDropdownOpen(!isDropdownOpen);
   };
 
-  
-  // const [clicked, setClicked] = useState(false);
-  // const handleClick = () => {
-  //   setClicked(!clicked);
-  // };
-  
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <div className={styles.navbar}>
-      <Link to="/" className={styles.navbarHeading}> {/* Wrap heading inside Link */}
+      <Link to="/" className={styles.navbarHeading}>
         CollabNote
       </Link>
-      
-      {/* note : dont change classname for <i> tags as they are extensions */}
-      {/* for responsiveness */}
-      {/* <div className={styles.menuicons} onClick={handleClick}>
-        <i className={clicked ? "fas fa-times" : "fas fa-bars"}></i>
-      </div> */}
 
       <ul className={styles.linkref}>
         <li className={styles.navLink}>
           <Link to="/">
-            <i class="fa-sharp fa-solid fa-house-user"></i>
+            <i className="fa-sharp fa-solid fa-house-user"></i>
             Home
           </Link>
         </li>
         <li className={styles.navLink}>
           <Link to="/about">
-            <i class="fa-solid fa-circle-info"></i>
+            <i className="fa-solid fa-circle-info"></i>
             AboutUs
           </Link>
-        </li> 
+        </li>
         <li className={styles.navLink}>
           <Link to="/">
-            <i class="fa-solid fa-address-book"></i>
+            <i className="fa-solid fa-address-book"></i>
             Contacts
           </Link>
         </li>
 
-        <li className={styles.navLink}>
-          <div className={styles.dropdown}>
-            <button className={styles.dropbtn} onClick={toggleDropdown}>
-              <h3 className={styles.plus}>+</h3>
-            </button>
-            {isDropdownOpen && (
-              <div className={styles.dropdowncontent}>
-                <Link>New note</Link>
-                <Link>Add Comments</Link>
-              </div>
-            )}
-          </div>
-        </li>
-        
+        {user && (
+          <li className={styles.navLink} ref={dropdownRef}>
+            <div className={styles.dropdown}>
+              <button className={styles.dropbtn} onClick={toggleDropdown}>
+                <h3 className={styles.plus}>+</h3>
+              </button>
+              {isDropdownOpen && (
+                <div className={styles.dropdowncontent}>
+                  <Link>New note</Link>
+                  <Link>Add Comments</Link>
+                </div>
+              )}
+            </div>
+          </li>
+        )}
         {user && (
           <li>
             <button className={styles.logoutButton} onClick={handleLogoutClick}>
@@ -94,8 +98,6 @@ const Navbar = () => {
           </li>
         )}
       </ul>
-      
-      
     </div>
   );
 };

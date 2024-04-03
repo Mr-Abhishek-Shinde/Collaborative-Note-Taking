@@ -1,23 +1,29 @@
 .signupContainer {
-  display: flex;
-  position: relative;
-  max-width: 1000px;
-  width: 600px;
-  height: auto;
-  background: #fff;
+  
+  /* background-color: rgba(255, 255, 255, 0.8); */
   padding: 40px 30px;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  /* box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2); */
   perspective: 2700px;
-  border-radius: 5px;
-  background-color: rgba(255, 255, 255, 0.8);
-  padding: 40px 30px;
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(9px);
-  -webkit-backdrop-filter: blur(9px);
+  /* border-radius: 5px; */
+  /* border: 1px solid rgba(255, 255, 255, 0.5); */
+  /* backdrop-filter: blur(9px); */
+  /* -webkit-backdrop-filter: blur(9px); */
+  height: 520px;
+  width: 400px;
+  background-color: rgba(255,255,255,0.13);
+  position: relative;
+  transform: translate(-50%,-50%);
+  top: 50%;
+  left: 50%;
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255,255,255,0.1);
+  box-shadow: 0 0 20px rgba(8,7,16,0.6);
+  padding: 50px 35px;
 }
 
 .loginForm {
-  width: 500px;
+  width: 300px;
 }
 
 .title {
@@ -26,6 +32,10 @@
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 20px;
+}
+
+.loginForm .inputBoxes {
+  margin-top: 30px;
 }
 
 .inputBox {
@@ -44,15 +54,21 @@
   outline: none;
   border: none;
   padding: 0 30px;
+  margin-left: 10px;
   font-size: 16px;
   font-weight: 500;
   border-bottom: 2px solid rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease;
+  border-radius: 20px;
 }
 
 .inputBox input:focus,
 .inputBox input:valid {
   border-color: #7d2ae8;
+}
+.inputBox i{
+  color: var(--primary);
+  font-size: larger;
 }
 
 .btn {

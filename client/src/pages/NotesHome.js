@@ -1,12 +1,13 @@
-import { React, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
+import styles from "../styles/NotesHome.module.css";
+import mynotes from "../image/mynotes.jpg";
 
 const NotesHome = () => {
   const { user } = useAuthContext();
   const navigate = useNavigate();
-
   const [notesList, setNotesList] = useState([]);
   const [sharedNotesList, setSharedNotesList] = useState([]);
 
@@ -33,15 +34,13 @@ const NotesHome = () => {
 
   useEffect(() => {
     const fetchNotes = async () => {
-      axios
-        .get("http://localhost:4000/api/note/getAllNotes/" + user.username)
-        .then((response) => {
-          setNotesList(response.data.notes);
-          setSharedNotesList(response.data.sharedNotes);
-        })
-        .catch((error) => {
-          console.error("Error Fetching Notes:", error);
-        });
+      try {
+        const response = await axios.get("http://localhost:4000/api/note/getAllNotes/" + user.username);
+        setNotesList(response.data.notes);
+        setSharedNotesList(response.data.sharedNotes);
+      } catch (error) {
+        console.error("Error Fetching Notes:", error);
+      }
     };
 
     if (user) {
@@ -50,27 +49,70 @@ const NotesHome = () => {
   }, [user]);
 
   return (
-    <>
-      <div>
-        <button onClick={createBlankNote}>Create new blank note</button>
+    <div className={styles.NotesHome}>
+      <div className={styles.mainNoteHome}>
+
+        <div className={styles.headingNote}>
+          <h1 className={styles.headingNoteH1}>NoteBook Options</h1>
+        </div>
+        <hr />
+
+        <div className={styles.createNewNote}>
+          <div className={styles.createBtn}>
+            <h3>Want to create new note?</h3>
+            
+            <button onClick={createBlankNote} >
+              <i class="fa-solid fa-plus"></i>Create</button>
+          </div>
+        </div>
+
+        <hr />
+        
+        
+        <div className={styles.cardContainer}>
+          
+          <div className={styles.card}>
+            <div className={styles.cardContent}>
+              <div className={styles.headLogo}>
+                <h2 className={styles.heading}>
+                  <i className="fa-solid fa-book"></i>
+                  My Notes
+                </h2>
+              </div>
+              <div className={styles.notesList}>
+                <ul className={styles.notes}>
+                  {notesList.map((note) => (
+                    <li key={note._id} onClick={() => navigate(`/notes/note/${note._id}`)}>
+                      <i class="fa-solid fa-angles-right"></i> {note.title} notes
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div className={styles.card}>
+            <div className={styles.cardContent}>
+              <div className={styles.headLogo}>
+                <h2>
+                  <i className="fa-solid fa-layer-group"></i>
+                  Shared with me
+                </h2>
+              </div>
+              <div className={styles.notesList}>
+                <ul className={styles.notes}>
+                  {sharedNotesList.map((note) => (
+                    <li key={note._id} onClick={() => navigate(`/notes/note/${note._id}`)}>
+                      <i class="fa-solid fa-angles-right"></i> {note.title} notes
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div>
-        <h2>My Notes:</h2>
-        <ul>
-          {notesList.map((note) => (
-            <li key={note._id} onClick={() => navigate(`/notes/note/${note._id}`)}>{note.title}</li>
-          ))}
-        </ul>
-      </div>
-      <div>
-        <h2>Shared with me:</h2>
-        <ul>
-          {sharedNotesList.map((note) => (
-            <li key={note._id} onClick={() => navigate(`/notes/note/${note._id}`)}>{note.title}</li>
-          ))}
-        </ul>
-      </div>
-    </>
+    </div>
   );
 };
 
