@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import Swal from "sweetalert2";
+import styles from "../styles/Notes.module.css";
 
-const SubNavbar = ({ handleAccess, setExtractedText, setisSpeech }) => {
+const SubNavbar = ({ handleAccess, setExtractedText, setisSpeech, toggleDiscuss }) => {
   const [recognition, setRecognition] = useState(null);
 
   const showAccessForm = async () => {
@@ -84,16 +85,10 @@ const SubNavbar = ({ handleAccess, setExtractedText, setisSpeech }) => {
   };
 
   return (
-    <div
-      style={{
-        width: "100%",
-        height: "50px",
-        display: "flex",
-        justifyContent: "flex-end",
-      }}
-    >
+    <div className={styles.subnavbar}>
       <button onClick={showAccessForm}>Give Access</button>
       <button onClick={toggleRecognition}>Speech to text</button>
+      <button onClick={toggleDiscuss}>Discuss</button>
     </div>
   );
 };

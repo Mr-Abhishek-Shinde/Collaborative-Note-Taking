@@ -2,6 +2,7 @@ import { React, useState } from "react";
 import Sidebar from "../components/Sidebar";
 import SubNavbar from "../components/SubNavbar";
 import NoteEditor from "../components/NoteEditor";
+import Discussion from "../components/Discussion";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useNavigate, useParams } from "react-router-dom";
 import styles from "../styles/Notes.module.css";
@@ -17,8 +18,9 @@ const Notes = () => {
   const [isSideNavOpen, setIsSideNavOpen] = useState(false);
   const [notesList, setNotesList] = useState([]);
   const [sharedNotesList, setSharedNotesList] = useState([]);
-  const [extractedText, setExtractedText] = useState('');
+  const [extractedText, setExtractedText] = useState("");
   const [isSpeech, setisSpeech] = useState(false);
+  const [isDiscussionOpen, setIsDiscussionOpen] = useState(false);
 
   const openSideNav = () => {
     fetchNotes();
@@ -78,8 +80,12 @@ const Notes = () => {
         console.log(response.data);
       })
       .catch((error) => {
-        console.error("Error saving note:", error);
+        console.error("Error Adding Collaborator:", error);
       });
+  };
+
+  const toggleDiscuss = () => {
+    setIsDiscussionOpen(!isDiscussionOpen);
   };
 
   return (
@@ -95,8 +101,24 @@ const Notes = () => {
         closeSideNav={closeSideNav}
         isSideNavOpen={isSideNavOpen}
       />
-      <SubNavbar handleAccess={handleAccess} setExtractedText={setExtractedText} setisSpeech={setisSpeech} />
-      <NoteEditor user={user}  extractedText={extractedText} isSpeech={isSpeech} />
+      <div className={styles.notesContainer}>
+        <SubNavbar
+          handleAccess={handleAccess}
+          setExtractedText={setExtractedText}
+          setisSpeech={setisSpeech}
+          toggleDiscuss={toggleDiscuss}
+        />
+        <div className={styles.mainContainer}>
+          <NoteEditor
+            user={user}
+            extractedText={extractedText}
+            isSpeech={isSpeech}
+          />
+          {isDiscussionOpen && (
+            <Discussion username={user.username} roomId={noteId} />
+          )}
+        </div>
+      </div>
     </>
   );
 };
