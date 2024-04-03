@@ -1,0 +1,208 @@
+hr {
+    border: none; /* Remove default border */
+    background-color: #b6f3f3c0; /* Change the background color to your desired color */
+    height: 1.9px; 
+    margin: 20px 0; /* Adjust margin as needed */
+  }
+
+.NotesHome {
+    /* background-color: #b6f3f3c0; */
+    background-color: white;
+    width: 100vw; 
+    min-height: 100vh; 
+    overflow-x: hidden; 
+}
+
+.mainNoteHome {
+    padding: 5%;
+    padding-top: 10px;
+}
+
+
+
+.headingNoteH1 {
+    font-weight: bold;
+    margin-bottom: 2px;
+    color: rgb(36, 56, 50);
+    text-shadow: 1px 1px 3px rgba(72, 72, 72, 0.3);
+}
+
+
+.createBtn {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+
+
+.createBtn button {
+  background-color: #b6f3f3c0;
+  border: 0 solid #e2e8f0;
+  height: 40px;
+  border-radius: 1.5rem;
+  box-sizing: border-box;
+  color: rgb(26, 66, 61);
+  cursor: pointer;
+  display: inline-block;
+  font-family: "Basier circle",-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+  font-size: 1.1rem;
+  font-weight: 400;
+  line-height: 40px;
+  padding: 0 1.6rem;
+  text-align: center;
+  text-decoration: none #0d172a solid;
+  text-decoration-thickness: auto;
+  transition: all .1s cubic-bezier(.4, 0, .2, 1);
+  box-shadow: 0px 1px 2px rgba(35, 67, 138, 0.25);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.createBtn button:hover {
+  background-color: #1e293b;
+  color: #fff;
+}
+
+@media (min-width: 768px) {
+  .button-81 {
+    font-size: 1.125rem;
+    padding: 1rem 2rem;
+  }
+}
+
+
+.createBtn h3{
+    margin: 0;
+    padding-right: 10px;
+}
+
+.notesList {
+    height: 300px; 
+    overflow-y: auto; 
+    padding-right: 18px;
+    margin-top: 20px;
+}
+  
+.notes {
+    margin-top: 0;
+    margin-bottom: 0;
+    list-style: none;
+}
+
+.notes li {
+    margin-bottom: 10px;
+    /* padding-right: 0px; */
+}
+
+
+.notesList::-webkit-scrollbar {
+    width: 8px;
+    
+}
+  
+.notesList::-webkit-scrollbar-track {
+    background: #97dee78d; 
+    border-radius: 5px;
+}
+  
+  
+
+.notesList::-webkit-scrollbar-thumb {
+    background: #4e7f83; 
+    border-radius: 5px;
+}
+  
+
+.notesList::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+    
+}
+  
+
+.createContainer {
+    display: flex;
+    flex-direction: row;
+    
+    margin-bottom: 20px;
+}
+
+
+
+.cardContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    font-size: large;
+}
+
+
+
+.card {
+    margin-right: 15%;
+    margin-left: 0%;
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10px; 
+    margin-top: 10px;
+    /* background-color: #fff; */
+    background-color: #b6f3f3c0;
+    border-radius: 10px;
+}
+
+.cardContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+ 
+}
+
+.card h2,
+.card i {
+    margin: 0; /* Remove default margin */
+    padding-right: 10px;
+}
+.card h3 {
+    margin: 0; /* Remove default margin */
+}
+
+
+
+.cardImage {
+    width: auto;
+    height: 60%; /* Set image height to 60% of card container's height */
+    max-width: 100%; /* Ensure image does not exceed card container's width */
+    max-height: 100%; /* Ensure image does not exceed card container's height */
+    object-fit: cover; /* Maintain aspect ratio and cover the entire space */
+    border-radius: 4px 4px 0 0; /* Optional: Add rounded corners to the top */
+}
+
+.dropdownContent {
+    max-height: 40vh; /* Set a maximum height for the dropdown content */
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+
+.headLogo {
+    margin-bottom: 20px;
+}
+
+.headLogo h2,
+.headLogo i {
+    margin: 0; /* Remove default margin */
+    padding-right: 10px;
+}
+
+.headLogo {
+    margin-bottom: 20px;
+}
+
+
+
+  

@@ -1,3 +1,10 @@
+.dashBoardBg {
+  background-color: var(--accent);
+  backdrop-filter: blur(100%);
+  width: 100vw;
+  height: 100vh;
+  padding-top: 5%;
+}
 
 /* The side navigation menu */
 .sidenav {
@@ -92,6 +99,11 @@
   background-color: rgba(255, 255, 255, 0.12);
 }
 
+.card_link {
+  text-decoration: none;
+  
+}
+
 .cards {
   display: flex;
   flex-wrap: wrap;
@@ -100,18 +112,19 @@
   padding: 0;
   align-items: center;
   justify-content: center;
+  text-align: center;
+  
 }
 
 .cards_item {
+  flex: 1 1 auto; /* Set flex-grow, flex-shrink, and flex-basis */
   display: flex;
   padding: 1rem;
-  margin-bottom: 65px;
+  margin-bottom: 1.5rem; /* Adjust as needed */
   align-items: center;
   justify-content: center;
-  margin-top:100px;
   cursor: pointer;
   transition-duration: 0.2s;
- 
 }
 
 .cards_item:hover{
@@ -121,13 +134,22 @@
   .cards_item {
     width: 50%;
   }
+  
 }
 
-@media (min-width: 56rem) {
+@media (min-width: 66rem) {
   .cards_item {
     width: 33.3333%;
+  } 
+}
+
+@media (max-width: 66rem){
+  .dashBoardBg {
+    width: auto;
+    height: auto;
   }
 }
+
 
 .card {
   background-color: white;
@@ -139,16 +161,21 @@
   border-radius: 15px;
   align-items: center;
   justify-content: center;
+  width: 20rem;
+  
+  
 }
 
 .card_content {
   padding: 1rem;
-  
+  max-height: 80%; /* Set a maximum height for the content */
+  overflow: auto; /* Add scrollbars if content overflows */
+  padding-bottom: 0%;
 }
 
 .card_title {
   color: #000000;
-  font-size: 1.1rem;
+  font-size: 1.6rem;
   font-weight: 700;
   letter-spacing: 1px;
   text-transform: capitalize;
@@ -161,4 +188,11 @@
   line-height: 1.5;
   margin-bottom: 1.25rem;    
   font-weight: 400;
+  text-decoration: none;
+  margin-bottom: 0%;
+}
+
+.card_img img {
+  max-width: 90%; /* Ensure the image doesn't overflow its container */
+  max-height: 90%; /* Ensure the image doesn't overflow its container */
 }
