@@ -1,9 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 
 const SubNavbar = ({ handleAccess, setExtractedText, setisSpeech }) => {
   const [recognition, setRecognition] = useState(null);
   const [isRecognitionOn, setIsRecognitionOn] = useState(false);
+
+  useEffect(() => {
+    return () => {
+      if (recognition) {
+        recognition.stop();
+      }
+    };
+  }, [recognition]);
 
   const showAccessForm = async () => {
     const { value: username } = await Swal.fire({
