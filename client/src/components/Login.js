@@ -29,8 +29,11 @@ const Login = () => {
         <h1 className={styles.title}>Login</h1>
         <form action="#">
           <div className={styles.inputBoxes}>
+            
             <div className={styles.inputBox}>
+              <i class="fa-solid fa-user"></i>
               <input
+                
                 type="text"
                 placeholder="Enter your email"
                 value={email}
@@ -39,7 +42,9 @@ const Login = () => {
                 autocomplete="off"
               />
             </div>
+            
             <div className={styles.inputBox}>
+              <i class="fa-solid fa-lock"></i>
               <input
                 type="password"
                 placeholder="Enter your password"

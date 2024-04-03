@@ -32,7 +32,7 @@ const SubNavbar = ({ handleAccess, setExtractedText, setisSpeech }) => {
         newRecognition.onstart = function() {
           Swal.fire({
             icon: 'success',
-            title: 'Speech Recognition Started',
+            title: 'Speak Now...!',
           });
         };
         newRecognition.onresult = function(event) {

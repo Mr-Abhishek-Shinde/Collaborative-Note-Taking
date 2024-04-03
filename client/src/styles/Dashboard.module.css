@@ -134,13 +134,22 @@
   .cards_item {
     width: 50%;
   }
+  
 }
 
-@media (min-width: 56rem) {
+@media (min-width: 66rem) {
   .cards_item {
     width: 33.3333%;
+  } 
+}
+
+@media (max-width: 66rem){
+  .dashBoardBg {
+    width: auto;
+    height: auto;
   }
 }
+
 
 .card {
   background-color: white;

@@ -70,6 +70,7 @@ const NotesHome = () => {
         
         
         <div className={styles.cardContainer}>
+          
           <div className={styles.card}>
             <div className={styles.cardContent}>
               <div className={styles.headLogo}>
