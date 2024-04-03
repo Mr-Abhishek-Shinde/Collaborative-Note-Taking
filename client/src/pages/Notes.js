@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import React, { useState } from "react";
 import Sidebar from "../components/Sidebar";
 import SubNavbar from "../components/SubNavbar";
 import NoteEditor from "../components/NoteEditor";
@@ -10,9 +10,7 @@ import axios from "axios";
 
 const Notes = () => {
   const { noteId } = useParams();
-
   const { user } = useAuthContext();
-
   const navigate = useNavigate();
 
   const [isSideNavOpen, setIsSideNavOpen] = useState(false);
@@ -21,6 +19,7 @@ const Notes = () => {
   const [extractedText, setExtractedText] = useState("");
   const [isSpeech, setisSpeech] = useState(false);
   const [isDiscussionOpen, setIsDiscussionOpen] = useState(false);
+  const [mainContainerWidth, setMainContainerWidth] = useState('100%');
 
   const openSideNav = () => {
     fetchNotes();
@@ -34,7 +33,6 @@ const Notes = () => {
   const handleNoteClick = (noteId) => {
     closeSideNav();
     navigate(`/notes/note/${noteId}`);
-    // window.location.href = `/notes/${noteId}`;
   };
 
   const createBlankNote = () => {
@@ -86,6 +84,7 @@ const Notes = () => {
 
   const toggleDiscuss = () => {
     setIsDiscussionOpen(!isDiscussionOpen);
+    // setMainContainerWidth(isDiscussionOpen ? '100%' : '50%');
   };
 
   return (
@@ -108,12 +107,14 @@ const Notes = () => {
           setisSpeech={setisSpeech}
           toggleDiscuss={toggleDiscuss}
         />
-        <div className={styles.mainContainer}>
-          <NoteEditor
-            user={user}
-            extractedText={extractedText}
-            isSpeech={isSpeech}
-          />
+        <div className={styles.mainContainer} style={{ width: mainContainerWidth }}>
+          <div style={{ width: isDiscussionOpen ? '50%' : '100%' }}>
+            <NoteEditor
+              user={user}
+              extractedText={extractedText}
+              isSpeech={isSpeech}
+            />
+          </div >
           {isDiscussionOpen && (
             <Discussion username={user.username} roomId={noteId} />
           )}

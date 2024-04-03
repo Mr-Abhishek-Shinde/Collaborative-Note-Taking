@@ -1,31 +1,30 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import socketIOClient from 'socket.io-client';
 import axios from "axios";
+import styles from "../styles/Notes.module.css";
 
 const socket = socketIOClient('http://localhost:5000');
 
 const Discussion = ({ username, roomId }) => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
+  const messagesEndRef = useRef(null);
 
   useEffect(() => {
     socket.emit('join room', roomId);
-
-    // Fetch message history when the component mounts
     fetchMessages();
-
-    // Listen for new messages
     socket.on('chat message', (msg) => {
-      console.log(msg)
-      // Add the new message to the existing messages
       setMessages(prevMessages => [...prevMessages, msg]);
     });
 
     return () => {
-      // socket.off('chat message');
       socket.emit('leave room', roomId);
     };
   }, []);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   const fetchMessages = async () => {
     try {
@@ -39,7 +38,7 @@ const Discussion = ({ username, roomId }) => {
     }
   };
 
-  const handleMessageSubmit = (e) => {
+  const handleMessageSubmit = async (e) => {
     e.preventDefault();
     socket.emit('chat message', { roomId, user: username, text: input });
     saveMessage({ noteId: roomId, user: username, text: input });
@@ -58,24 +57,46 @@ const Discussion = ({ username, roomId }) => {
     }
   };
 
+  const scrollToBottom = () => {
+    messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
-    <div>
-      <h1>Discussion</h1>
-      <h4>You can discuss about this note with the collaborators</h4>
-      <ul>
+    <div className={styles.disContainer}>
+      <div className={styles.headerDis}>
+        <h1>
+          <i class="fa-regular fa-comments"></i>
+          Discuss
+        </h1>
+      </div>
+
+      <div className={styles.bodyDis}>
         {messages.map((message, index) => (
-          <li key={index}>{message.user}: {message.text}</li>
+          <div
+            key={index}
+            className={`${styles.message} ${message.user === username ? styles.myMessage : styles.otherMessage}`}
+          >
+            <span className={styles.username}>{message.user}: </span>
+            <span className={styles.messageContent}>{message.text}</span>
+          </div>
         ))}
-      </ul>
-      <form onSubmit={handleMessageSubmit}>
-        <input
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Type a message..."
-        />
-        <br />
-        <button type="submit">Send</button>
-      </form>
+        <div ref={messagesEndRef} />
+      </div>
+
+      <div className={styles.footerDis}>
+        <form onSubmit={handleMessageSubmit}>
+          <input
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="Type a message..."
+          />
+          <br />
+          <button type="submit">
+            <i class="fa-solid fa-paper-plane"></i>
+            Send
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
