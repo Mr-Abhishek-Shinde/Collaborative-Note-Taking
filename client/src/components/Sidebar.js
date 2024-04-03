@@ -6,7 +6,7 @@ const Sidebar = ({ notes, sharedNotes, handleNoteClick, handleNewNote, closeSide
     <div className={`${styles.sidenav} ${isSideNavOpen ? styles.open : ''}`}>
       <div className={styles.closebtn} onClick={closeSideNav}>&times;</div>
       <ul>
-        <h1>My Notes</h1>
+        <h1>My Note</h1>
         {notes.map((item, index) => (
           <li key={index} onClick={() => handleNoteClick(item._id)}>
             {item.title}
