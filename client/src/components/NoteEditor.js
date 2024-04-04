@@ -31,7 +31,7 @@ const NoteEditor = ({ user, data, extractedText, isSpeech }) => {
   const editorRef = useRef(null);
 
   useEffect(() => {
-    const socket = new WebSocket(`ws://127.0.0.1:8080/${noteId}`);
+    const socket = new WebSocket(`ws://10.1.85.125:8080/${noteId}`);
     const connection = new Sharedb.Connection(socket);
     const doc = connection.get("documents", noteId);
 

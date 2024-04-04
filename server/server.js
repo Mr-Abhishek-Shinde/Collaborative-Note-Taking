@@ -69,7 +69,7 @@ const httpServer = require("http").createServer();
 httpServer.listen(8080);
 
 httpServer.on("upgrade", function upgrade(request, socket, head) {
-  const { pathname } = new URL(request.url, "http://localhost:8080");
+  const { pathname } = new URL(request.url, "http://10.1.85.125:8080");
   const roomId = pathname.slice(1);
 
   const wss = createWebSocketServer(roomId);
@@ -87,7 +87,7 @@ const { Server } = require('socket.io');
 const server = http.createServer();
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: "http://10.1.85.125:3000",
     methods: ["GET", "POST"],
   },
 });
