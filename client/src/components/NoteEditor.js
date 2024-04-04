@@ -10,18 +10,11 @@ import richText from "rich-text";
 // with our quill editor
 Sharedb.types.register(richText.type);
 
-// Connecting to our socket server
-const socket = new WebSocket("ws://127.0.0.1:8080");
-const connection = new Sharedb.Connection(socket);
-
-// Querying for our document
-const doc = connection.get("documents", "firstDocument");
-
 const NoteEditor = ({ user, data, extractedText, isSpeech }) => {
   const { noteId } = useParams();
   const [dataNew, setDataNew] = useState();
   const menuRef = useRef(null); // Reference to the contextual menu
-  let message="";
+  let message = "";
 
   useEffect(() => {
     axios
@@ -32,13 +25,16 @@ const NoteEditor = ({ user, data, extractedText, isSpeech }) => {
       })
       .catch((error) => {
         console.error("Error retrieving notes:", error);
-      });  
-  }, [noteId])
-  
+      });
+  }, [noteId]);
 
   const editorRef = useRef(null);
 
   useEffect(() => {
+    const socket = new WebSocket(`ws://127.0.0.1:8080/${noteId}`);
+    const connection = new Sharedb.Connection(socket);
+    const doc = connection.get("documents", noteId);
+
     doc.subscribe(async function (err) {
       if (err) throw err;
 
@@ -64,7 +60,6 @@ const NoteEditor = ({ user, data, extractedText, isSpeech }) => {
       } else {
         quill.setContents(doc.data);
       }
-      
 
       /**
        * On Text change publishing to our server
@@ -75,53 +70,28 @@ const NoteEditor = ({ user, data, extractedText, isSpeech }) => {
         doc.submitOp(delta, { source: quill });
       });
 
-      quill.on('selection-change', (range, oldRange, source) => {
+      quill.on("selection-change", (range, oldRange, source) => {
         const menu = menuRef.current;
-  
+
         if (!menu) return;
-  
+
         if (range) {
           if (range.length > 0) {
             // If text is selected, display the menu at the selection position
             const selection = window.getSelection();
             const selectionRect = selection.getRangeAt(0).getBoundingClientRect();
             message = quill.getText(range.index, range.length);
-            console.log('User has highlighted', quill.on('selection-change', (range, oldRange, source) => {
-            const menu = menuRef.current;
-        
-            if (!menu) return;
-        
-            if (range) {
-              if (range.length > 0) {
-                // If text is selected, display the menu at the selection position
-                const selection = window.getSelection();
-                const selectionRect = selection.getRangeAt(0).getBoundingClientRect();
-                message = quill.getText(range.index, range.length);
-                console.log('User has highlighted', message);
-                menu.style.display = 'block';
-                menu.style.top = `${selectionRect.bottom}px`;
-                menu.style.left = `${selectionRect.left}px`;
-        
-                } else {
-                  // If no text is selected, hide the menu
-                  menu.style.display = 'none';
-                }
-              } else {
-                // If cursor is not in the editor, hide the menu
-                menu.style.display = 'none';
-              }
-            }));
-            menu.style.display = 'block';
+            console.log("User has highlighted", message);
+            menu.style.display = "block";
             menu.style.top = `${selectionRect.bottom}px`;
             menu.style.left = `${selectionRect.left}px`;
-  
           } else {
             // If no text is selected, hide the menu
-            menu.style.display = 'none';
+            menu.style.display = "none";
           }
         } else {
           // If cursor is not in the editor, hide the menu
-          menu.style.display = 'none';
+          menu.style.display = "none";
         }
       });
 
@@ -136,24 +106,18 @@ const NoteEditor = ({ user, data, extractedText, isSpeech }) => {
         }
         quill.updateContents(op);
       });
-
-      // const ops = await handleRetrieveNotes();
-      // quill.setContents(ops);
-      // // doc.submitOp(ops, { source: "api" });
-      // handleRetrieveNotes()
-      
     });
 
     return () => {
-      // connection.close();
+      connection.close();
     };
-  }, [dataNew]);
+  }, [dataNew, noteId]);
 
   const handleSaveNote = () => {
     const editor = editorRef.current;
     if (editor) {
       const content = editor.getContents();
-  
+
       // Prompt the user for the title
       const title = prompt("Enter the title for the note:");
       if (title !== null && title.trim() !== "") {
@@ -176,25 +140,25 @@ const NoteEditor = ({ user, data, extractedText, isSpeech }) => {
       }
     }
   };
-  
+
   useEffect(() => {
     // Insert extracted text into the editor when available
-    if (extractedText && isSpeech &&  editorRef.current) {
+    if (extractedText && isSpeech && editorRef.current) {
       editorRef.current.clipboard.dangerouslyPasteHTML(extractedText);
     }
   }, [extractedText]);
 
   function handleSummary() {
     // Perform the action of summarizing the selected text
-    console.log('Summary option clicked');
-    const msg = new SpeechSynthesisUtterance()
+    console.log("Summary option clicked");
+    const msg = new SpeechSynthesisUtterance();
     msg.text = message;
-    window.speechSynthesis.speak(msg)
+    window.speechSynthesis.speak(msg);
   }
 
   function handleTransformation() {
     // Perform the action of transforming the selected text
-    console.log('Transformation option clicked');
+    console.log("Transformation option clicked");
   }
 
   function handleLogFormattedText() {
@@ -207,37 +171,57 @@ const NoteEditor = ({ user, data, extractedText, isSpeech }) => {
     }
   }
 
-  // const handleRetrieveNotes = () => {
-  //   axios
-  //     .get("http://localhost:4000/api/note/getNote/6605be66bcf4c38a74fc5346")
-  //     .then((response) => {
-  //       const notes = response.data;
-  //       const editor = editorRef.current;
-  //       if (editor) {
-  //         const contentDelta = notes.content;
-  //         editor.setContents(contentDelta.ops);
-  //         return contentDelta.ops;
-  //         // doc.submitOp(contentDelta.ops, { source: "api" });
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error retrieving notes:", error);
-  //     });
-  // };
-
   return (
-    <div style={{ margin: '5%', border: '1px solid', fontFamily: 'Arial, sans-serif' }}>
-    <div id='editor' style={{ marginBottom: '20px', fontSize: '16px', color: '#333' }}></div>
-    {/* Contextual menu */}
-    <div ref={menuRef} style={{ position: 'absolute', display: 'none', border: '2px solid black', padding: '5px', backgroundColor: 'white', boxShadow: '0px 0px 5px rgba(0, 0, 0, 0.2)', borderRadius: '5px' }}>
-      <button style={{ marginRight: '5px', cursor: 'pointer', border: 'none', backgroundColor: 'white',borderRight: '1px', color: 'black', padding: '5px 10px', fontFamily: 'Times New Roman", Times, serif' }} onClick={handleSummary}>Read aloud</button>
-      <button style={{ cursor: 'pointer', border: 'none', backgroundColor: 'white', borderRight: '1px',color: 'black', padding: '5px 10px',fontFamily: 'Times New Roman", Times, serif' }} onClick={handleTransformation}>Summarize text</button>
-      {/* Add more options as needed */}
-    </div>
+    <div style={{ margin: "5%", border: "1px solid", fontFamily: "Arial, sans-serif" }}>
+      <div id="editor" style={{ marginBottom: "20px", fontSize: "16px", color: "#333" }}></div>
+      {/* Contextual menu */}
+      <div
+        ref={menuRef}
+        style={{
+          position: "absolute",
+          display: "none",
+          border: "2px solid black",
+          padding: "5px",
+          backgroundColor: "white",
+          boxShadow: "0px 0px 5px rgba(0, 0, 0, 0.2)",
+          borderRadius: "5px",
+        }}
+      >
+        <button
+          style={{
+            marginRight: "5px",
+            cursor: "pointer",
+            border: "none",
+            backgroundColor: "white",
+            borderRight: "1px",
+            color: "black",
+            padding: "5px 10px",
+            fontFamily: 'Times New Roman", Times, serif',
+          }}
+          onClick={handleSummary}
+        >
+          Read aloud
+        </button>
+        <button
+          style={{
+            cursor: "pointer",
+            border: "none",
+            backgroundColor: "white",
+            borderRight: "1px",
+            color: "black",
+            padding: "5px 10px",
+            fontFamily: 'Times New Roman", Times, serif',
+          }}
+          onClick={handleTransformation}
+        >
+          Summarize text
+        </button>
+        {/* Add more options as needed */}
+      </div>
 
       <button onClick={handleSaveNote}>Save Note</button>
     </div>
   );
-}
+};
 
 export default NoteEditor;

@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
+import styles from "../styles/Notes.module.css";
+import { useAuthContext } from "../hooks/useAuthContext";
 
-const SubNavbar = ({ handleAccess, setExtractedText, setisSpeech }) => {
+
+const SubNavbar = ({ handleAccess, setExtractedText, setisSpeech, toggleDiscuss, openSideNav }) => {
   const [recognition, setRecognition] = useState(null);
   const [isRecognitionOn, setIsRecognitionOn] = useState(false);
 
