@@ -1,7 +1,10 @@
-import { React, useState } from "react";
+// Notes.jsx
+
+import React, { useState } from "react";
 import Sidebar from "../components/Sidebar";
 import SubNavbar from "../components/SubNavbar";
 import NoteEditor from "../components/NoteEditor";
+import Discussion from "../components/Discussion";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useNavigate, useParams } from "react-router-dom";
 import styles from "../styles/Notes.module.css";
@@ -9,16 +12,16 @@ import axios from "axios";
 
 const Notes = () => {
   const { noteId } = useParams();
-
   const { user } = useAuthContext();
-
   const navigate = useNavigate();
 
   const [isSideNavOpen, setIsSideNavOpen] = useState(false);
   const [notesList, setNotesList] = useState([]);
   const [sharedNotesList, setSharedNotesList] = useState([]);
-  const [extractedText, setExtractedText] = useState('');
+  const [extractedText, setExtractedText] = useState("");
   const [isSpeech, setisSpeech] = useState(false);
+  const [isDiscussionOpen, setIsDiscussionOpen] = useState(false);
+  const [mainContainerWidth, setMainContainerWidth] = useState('100%');
 
   const openSideNav = () => {
     fetchNotes();
@@ -32,7 +35,6 @@ const Notes = () => {
   const handleNoteClick = (noteId) => {
     closeSideNav();
     navigate(`/notes/note/${noteId}`);
-    // window.location.href = `/notes/${noteId}`;
   };
 
   const createBlankNote = () => {
@@ -78,15 +80,17 @@ const Notes = () => {
         console.log(response.data);
       })
       .catch((error) => {
-        console.error("Error saving note:", error);
+        console.error("Error Adding Collaborator:", error);
       });
+  };
+
+  const toggleDiscuss = () => {
+    setIsDiscussionOpen(!isDiscussionOpen);
+    // setMainContainerWidth(isDiscussionOpen ? '100%' : '50%');
   };
 
   return (
     <>
-      <div id={styles.lines} onClick={openSideNav}>
-        &#9776;
-      </div>
       <Sidebar
         notes={notesList}
         sharedNotes={sharedNotesList}
@@ -95,8 +99,28 @@ const Notes = () => {
         closeSideNav={closeSideNav}
         isSideNavOpen={isSideNavOpen}
       />
-      <SubNavbar handleAccess={handleAccess} setExtractedText={setExtractedText} setisSpeech={setisSpeech} />
-      <NoteEditor user={user}  extractedText={extractedText} isSpeech={isSpeech} />
+      <SubNavbar
+        handleAccess={handleAccess}
+        setExtractedText={setExtractedText}
+        setisSpeech={setisSpeech}
+        toggleDiscuss={toggleDiscuss}
+        openSideNav={openSideNav} // sideNav in subnavbar
+      />
+      
+      <div className={styles.notesContainer}>
+        <div className={styles.mainContainer} style={{ width: mainContainerWidth }}>
+          <div style={{ width: isDiscussionOpen ? '50%' : '100%', marginLeft: isDiscussionOpen ? '15px' : '0' }}>
+            <NoteEditor
+              user={user}
+              extractedText={extractedText}
+              isSpeech={isSpeech}
+            />
+          </div >
+          {isDiscussionOpen && (
+            <Discussion username={user.username} roomId={noteId} />
+          )}
+        </div>
+      </div>
     </>
   );
 };

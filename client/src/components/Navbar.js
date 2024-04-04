@@ -75,7 +75,7 @@ const Navbar = () => {
           </Link>
         </li>
 
-        {user && (
+        {/* {user && (
           <li className={styles.navLink} ref={dropdownRef}>
             <div className={styles.dropdown}>
               <button className={styles.dropbtn} onClick={toggleDropdown}>
@@ -89,7 +89,7 @@ const Navbar = () => {
               )}
             </div>
           </li>
-        )}
+        )} */}
         {user && (
           <li>
             <button className={styles.logoutButton} onClick={handleLogoutClick}>

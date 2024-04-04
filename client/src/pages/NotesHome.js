@@ -3,7 +3,7 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import styles from "../styles/NotesHome.module.css";
-import mynotes from "../image/mynotes.jpg";
+import notesHome from "../image/notesHome.png";
 
 const NotesHome = () => {
   const { user } = useAuthContext();
@@ -78,12 +78,13 @@ const NotesHome = () => {
                   <i className="fa-solid fa-book"></i>
                   My Notes
                 </h2>
+                {/* <hr></hr> */}
               </div>
               <div className={styles.notesList}>
                 <ul className={styles.notes}>
                   {notesList.map((note) => (
                     <li key={note._id} onClick={() => navigate(`/notes/note/${note._id}`)}>
-                      <i class="fa-solid fa-angles-right"></i> {note.title} notes
+                      <i class="fa-regular fa-note-sticky"></i> {note.title} notes
                     </li>
                   ))}
                 </ul>
@@ -91,19 +92,29 @@ const NotesHome = () => {
             </div>
           </div>
 
+          <div className={styles.imgParaContainer}>
+            <img src={notesHome} alt="not found :)" className={styles.cardImage}></img>
+            <p className={styles.cardPara}>
+              <i class="fa-regular fa-clipboard"></i>
+              lets note down the things to keep track
+            </p>
+          </div>
+
+
           <div className={styles.card}>
             <div className={styles.cardContent}>
               <div className={styles.headLogo}>
                 <h2>
                   <i className="fa-solid fa-layer-group"></i>
-                  Shared with me
+                  Shared Notes
                 </h2>
+                {/* <hr></hr> */}
               </div>
               <div className={styles.notesList}>
                 <ul className={styles.notes}>
                   {sharedNotesList.map((note) => (
                     <li key={note._id} onClick={() => navigate(`/notes/note/${note._id}`)}>
-                      <i class="fa-solid fa-angles-right"></i> {note.title} notes
+                      <i class="fa-regular fa-note-sticky"></i> {note.title} notes
                     </li>
                   ))}
                 </ul>

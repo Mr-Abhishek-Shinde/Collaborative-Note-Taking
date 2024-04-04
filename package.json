@@ -3,6 +3,8 @@
     "@picovoice/leopard-react": "^2.0.2",
     "@picovoice/web-voice-processor": "^4.0.9",
     "react-quill": "^2.0.0",
-    "react-router-dom": "^6.21.3"
+    "react-router-dom": "^6.21.3",
+    "stream-browserify": "^3.0.0",
+    "util": "^0.12.5"
   }
 }
