@@ -1,3 +1,5 @@
+// Notes.jsx
+
 import React, { useState } from "react";
 import Sidebar from "../components/Sidebar";
 import SubNavbar from "../components/SubNavbar";
@@ -89,9 +91,6 @@ const Notes = () => {
 
   return (
     <>
-      <div id={styles.lines} onClick={openSideNav}>
-        &#9776;
-      </div>
       <Sidebar
         notes={notesList}
         sharedNotes={sharedNotesList}
@@ -100,15 +99,17 @@ const Notes = () => {
         closeSideNav={closeSideNav}
         isSideNavOpen={isSideNavOpen}
       />
+      <SubNavbar
+        handleAccess={handleAccess}
+        setExtractedText={setExtractedText}
+        setisSpeech={setisSpeech}
+        toggleDiscuss={toggleDiscuss}
+        openSideNav={openSideNav} // sideNav in subnavbar
+      />
+      
       <div className={styles.notesContainer}>
-        <SubNavbar
-          handleAccess={handleAccess}
-          setExtractedText={setExtractedText}
-          setisSpeech={setisSpeech}
-          toggleDiscuss={toggleDiscuss}
-        />
         <div className={styles.mainContainer} style={{ width: mainContainerWidth }}>
-          <div style={{ width: isDiscussionOpen ? '50%' : '100%' }}>
+          <div style={{ width: isDiscussionOpen ? '50%' : '100%', marginLeft: isDiscussionOpen ? '15px' : '0' }}>
             <NoteEditor
               user={user}
               extractedText={extractedText}

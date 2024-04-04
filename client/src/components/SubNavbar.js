@@ -1,9 +1,17 @@
-import React, { useState } from "react";
-import Swal from "sweetalert2";
-import styles from "../styles/Notes.module.css";
+// SubNavbar.jsx
 
-const SubNavbar = ({ handleAccess, setExtractedText, setisSpeech, toggleDiscuss }) => {
+import React, { useState, useEffect, useRef  } from "react";
+import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
+import styles from "../styles/Notes.module.css";
+import { useAuthContext } from "../hooks/useAuthContext";
+
+
+const SubNavbar = ({ handleAccess, setExtractedText, setisSpeech, toggleDiscuss, openSideNav }) => {
   const [recognition, setRecognition] = useState(null);
+  // const { user } = useAuthContext();
+  // const [isDropdownOpen, setDropdownOpen] = useState(false);
+  // const dropdownRef = useRef(null);
 
   const showAccessForm = async () => {
     const { value: username } = await Swal.fire({
@@ -83,12 +91,51 @@ const SubNavbar = ({ handleAccess, setExtractedText, setisSpeech, toggleDiscuss 
       }
     }
   };
+  // useEffect(() => {
+  //   const handleClickOutside = (event) => {
+  //     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+  //       setDropdownOpen(false);
+  //     }
+  //   };
+
+  //   document.addEventListener("mousedown", handleClickOutside);
+
+  //   return () => {
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   };
+  // }, []);
+  // const toggleDropdown = () => {
+  //   setDropdownOpen(!isDropdownOpen);
+  // };
 
   return (
     <div className={styles.subnavbar}>
-      <button onClick={showAccessForm}>Give Access</button>
-      <button onClick={toggleRecognition}>Speech to text</button>
-      <button onClick={toggleDiscuss}>Discuss</button>
+      <div className={styles.subnavbarLeft}>
+        <div id={styles.lines} onClick={openSideNav}>
+          &#9776;
+        </div>
+      </div>
+      {/* {user && (
+          <li className={styles.navLink} ref={dropdownRef}>
+            <div className={styles.dropdown}>
+              <button className={styles.dropbtn} onClick={toggleDropdown}>
+                <h3 className={styles.plus}>+</h3>
+              </button>
+              {isDropdownOpen && (
+                <div className={styles.dropdowncontent}>
+                  <Link>New note</Link>
+                  <Link>Add Comments</Link>
+                </div>
+              )}
+            </div>
+          </li>
+        )} */}
+      <div className={styles.subnavbarRight}>
+        <button className={styles.subButton} onClick={showAccessForm}>Give Access</button>
+        <button className={styles.subButton} onClick={toggleRecognition}>Speech to text</button>
+        <button className={styles.subButton} onClick={toggleDiscuss}>Discuss</button>
+      </div>
+      
     </div>
   );
 };

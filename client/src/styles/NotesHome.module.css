@@ -1,9 +1,9 @@
 hr {
-    border: none; /* Remove default border */
-    background-color: #b6f3f3c0; /* Change the background color to your desired color */
+    border: none; 
+    background-color: #b6f3f3c0;
     height: 1.9px; 
-    margin: 20px 0; /* Adjust margin as needed */
-  }
+    margin: 20px 0; 
+}
 
 .NotesHome {
     /* background-color: #b6f3f3c0; */
@@ -80,10 +80,10 @@ hr {
 }
 
 .notesList {
-    height: 300px; 
+    height: 40vh; 
     overflow-y: auto; 
     padding-right: 18px;
-    margin-top: 20px;
+    margin-top: 0;
 }
   
 .notes {
@@ -142,7 +142,7 @@ hr {
 
 
 .card {
-    margin-right: 15%;
+    /* margin-right: 15%; */
     margin-left: 0%;
     width: 25%;
     display: flex;
@@ -152,7 +152,7 @@ hr {
     margin-top: 10px;
     /* background-color: #fff; */
     background-color: #b6f3f3c0;
-    border-radius: 10px;
+    /* border-radius: 10px; */
 }
 
 .cardContent {
@@ -161,32 +161,51 @@ hr {
     align-items: center;
     justify-content: center;
     padding: 20px;
- 
+    width: 100%;
 }
 
 .card h2,
 .card i {
-    margin: 0; /* Remove default margin */
+    margin: 0; 
     padding-right: 10px;
 }
 .card h3 {
-    margin: 0; /* Remove default margin */
+    margin: 0; 
 }
 
 
 
 .cardImage {
+    height: 300px;
     width: auto;
-    height: 60%; /* Set image height to 60% of card container's height */
-    max-width: 100%; /* Ensure image does not exceed card container's width */
-    max-height: 100%; /* Ensure image does not exceed card container's height */
-    object-fit: cover; /* Maintain aspect ratio and cover the entire space */
-    border-radius: 4px 4px 0 0; /* Optional: Add rounded corners to the top */
+    max-width: 100%; 
+    max-height: 100%; 
+    object-fit: cover; 
+    border-radius: 4px 4px 0 0; 
 }
 
+.cardPara{
+    text-align: center;
+    font-size: bold;
+}
+
+.cardPara i{
+    padding-right: 10px;
+    
+}
+
+.cardContent hr {
+    border: none;
+    background-color: white;
+    height: 1.9px;
+    margin: 20px 0;
+    width: 100%; 
+}
+
+
 .dropdownContent {
-    max-height: 40vh; /* Set a maximum height for the dropdown content */
-    overflow-y: auto; /* Enable vertical scrolling */
+    max-height: 40vh; 
+    overflow-y: auto; 
 }
 
 .headLogo {
@@ -195,7 +214,7 @@ hr {
 
 .headLogo h2,
 .headLogo i {
-    margin: 0; /* Remove default margin */
+    margin: 0; 
     padding-right: 10px;
 }
 

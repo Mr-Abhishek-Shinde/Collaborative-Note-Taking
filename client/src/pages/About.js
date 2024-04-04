@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styles from '../styles/About.module.css';
 
-import imgAbt from '../image/about_1.jpg';
+// import imgAbt from '../image/about_1.jpg';
 import imgMainAbt from '../image/aboutMain.jpg';
 import imgAbt2 from '../image/about2.png';
 

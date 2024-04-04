@@ -259,27 +259,72 @@
 /* subnavbar Styles: */
 
 .subnavbar {
+  margin-top: 5px;
   display: flex;
-  position: relative;
   align-items: center;
-  justify-content: space-between;
-  padding: 0 30px;
-  flex-direction: row;
+  justify-content: space-between; 
   width: 100%;
   height: 50px;
-  background-color: azure;
+  /* background-color: azure; */
+  background-color: transparent;
   color: var(--text);
   padding: 0px 15px;
-  box-sizing: border-box;
+  
   z-index: 1000;
-  box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.25);
+  
 }
 
-.subnavbar button {
-  margin-left: 10px; /* Add margin between buttons */
+.subnavbarRight{
+  /* display: flex;
+  flex-direction: column; */
+  justify-content: flex-start; 
 }
 
-/* Add margin to the right side of the last button if needed */
-.subnavbar button:last-child {
-  margin-right: 0;
+.subnavbarRight button{
+  margin-left: 10px; 
+
 }
+
+.subnavbarLeft {
+  justify-content: flex-end; 
+}
+.buttonsContainer {
+  margin-left: auto; /* Push buttons to the right */
+}
+
+
+.subButton {
+  background-color: rgb(197, 245, 249);
+  border-radius: 8px;
+  border-style: none;
+  box-sizing: border-box;
+  color: black;
+  cursor: pointer;
+  display: inline-block;
+  font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  height: 34px;
+  line-height: 17px;
+  list-style: none;
+  margin: 0;
+  outline: none;
+  padding: 10px 16px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  transition: color 100ms;
+  vertical-align: baseline;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.subButton:hover,
+.subButton:focus {
+  background-color: rgb(137, 140, 141);
+  transition: transform 0.2s ease, text-shadow 0.3s ease;
+  color: white;
+}
+
+
