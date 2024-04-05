@@ -3,7 +3,7 @@ import socketIOClient from 'socket.io-client';
 import axios from "axios";
 import styles from "../styles/Notes.module.css";
 
-const socket = socketIOClient('http://localhost:5000');
+const socket = socketIOClient('http://192.168.56.1:5000');
 
 const Discussion = ({ username, roomId }) => {
   const [messages, setMessages] = useState([]);
@@ -28,7 +28,7 @@ const Discussion = ({ username, roomId }) => {
 
   const fetchMessages = async () => {
     try {
-      const response = await axios.get(`http://localhost:4000/api/message/getMessages/${roomId}`);
+      const response = await axios.get(`http://192.168.56.1:4000/api/message/getMessages/${roomId}`);
       if (!response.data.success) {
         throw new Error('Failed to fetch messages');
       }
@@ -47,7 +47,7 @@ const Discussion = ({ username, roomId }) => {
 
   const saveMessage = async (message) => {
     try {
-      const response = await axios.post('http://localhost:4000/api/message/saveMessage', message);
+      const response = await axios.post('http://192.168.56.1:4000/api/message/saveMessage', message);
       if (!response.data.success) {
         throw new Error('Failed to save message');
       }

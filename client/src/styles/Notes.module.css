@@ -139,7 +139,7 @@
 .bodyDis {
   flex: 1;
   color: var(--text);
-  background-color: rgba(0, 0, 0, 0.7);
+  /* background-color: rgba(0, 0, 0, 0.7); */
   padding: 20px 15px 0 15px;
   color: white;
   overflow-y: auto; 
@@ -172,7 +172,7 @@
   align-self: flex-end;
   margin-left: 50%;
   margin-bottom: 4px;
-  padding-bottom: 3px;
+  padding-bottom: 4px;
   border-radius: 10px;
   
 }
@@ -184,7 +184,7 @@
   margin-right: 50%;
   border-radius: 10px;
   margin-bottom: 4px;
-  padding-bottom: 2px;
+  padding-bottom: 4px;
 }
 
 .footerDis {

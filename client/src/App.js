@@ -21,10 +21,10 @@ function App() {
 
         <Routes>
           <Route exact path="/" element={<Home />} />
-          <Route exact path="/authentication" element={user ? <Navigate to="/dashboard" />: <Authentication />} />
-          <Route exact path="/notes/" element={user ? <NotesHome /> : <Navigate to="/" />} />
-          <Route exact path="/notes/note/:noteId" element={user ? <Notes /> : <Navigate to="/" />} />
-          <Route exact path="/dashboard" element={user ? <Dashboard /> : <Navigate to="/" />} />
+          <Route exact path="/authentication" element={<Navigate to="/dashboard" />} />
+          <Route exact path="/notes/" element={ <NotesHome /> } />
+          <Route exact path="/notes/note/:noteId" element={ <Notes /> } />
+          <Route exact path="/dashboard" element={ <Navigate to="/" />} />
           <Route exact path="/about" element={<About />}/>
         </Routes>
       </BrowserRouter>

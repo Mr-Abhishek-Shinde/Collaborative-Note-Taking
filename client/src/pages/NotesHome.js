@@ -13,7 +13,7 @@ const NotesHome = () => {
 
   const createBlankNote = () => {
     axios
-      .post("http://localhost:4000/api/note/createNote", {
+      .post("http://192.168.56.1:4000/api/note/createNote", {
         title: "Untitled",
         content: {
           "ops": [
@@ -35,7 +35,7 @@ const NotesHome = () => {
   useEffect(() => {
     const fetchNotes = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/api/note/getAllNotes/" + user.username);
+        const response = await axios.get("http://192.168.56.1:4000/api/note/getAllNotes/" + user.username);
         setNotesList(response.data.notes);
         setSharedNotesList(response.data.sharedNotes);
       } catch (error) {

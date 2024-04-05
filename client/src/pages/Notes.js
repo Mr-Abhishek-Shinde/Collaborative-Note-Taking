@@ -39,7 +39,7 @@ const Notes = () => {
 
   const createBlankNote = () => {
     axios
-      .post("http://localhost:4000/api/note/createNote", {
+      .post("http://192.168.56.1:4000/api/note/createNote", {
         title: "Untitled",
         content: {
           ops: [
@@ -61,7 +61,7 @@ const Notes = () => {
 
   const fetchNotes = async () => {
     axios
-      .get("http://localhost:4000/api/note/getAllNotes/" + user.username)
+      .get("http://192.168.56.1:4000/api/note/getAllNotes/" + user.username)
       .then((response) => {
         setNotesList(response.data.notes);
         setSharedNotesList(response.data.sharedNotes);
@@ -73,7 +73,7 @@ const Notes = () => {
 
   const handleAccess = (username) => {
     axios
-      .post("http://localhost:4000/api/note/addCollaborator/" + noteId, {
+      .post("http://192.168.56.1:4000/api/note/addCollaborator/" + noteId, {
         username: username,
       })
       .then((response) => {

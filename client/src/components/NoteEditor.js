@@ -18,7 +18,7 @@ const NoteEditor = ({ user, data, extractedText, isSpeech }) => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:4000/api/note/getNote/" + noteId)
+      .get("http://192.168.56.1:4000/api/note/getNote/" + noteId)
       .then((response) => {
         const notes = response;
         setDataNew(notes);
@@ -31,7 +31,7 @@ const NoteEditor = ({ user, data, extractedText, isSpeech }) => {
   const editorRef = useRef(null);
 
   useEffect(() => {
-    const socket = new WebSocket(`ws://127.0.0.1:8080/${noteId}`);
+    const socket = new WebSocket(`ws://192.168.56.1:8080/${noteId}`);
     const connection = new Sharedb.Connection(socket);
     const doc = connection.get("documents", noteId);
 
@@ -123,7 +123,7 @@ const NoteEditor = ({ user, data, extractedText, isSpeech }) => {
       if (title !== null && title.trim() !== "") {
         // If the user provides a title, proceed with saving the note
         axios
-          .put("http://localhost:4000/api/note/updateNote/" + noteId, {
+          .put("http://192.168.56.1:4000/api/note/updateNote/" + noteId, {
             title,
             content,
             username: user.username,
