@@ -87,7 +87,8 @@ const { Server } = require('socket.io');
 const server = http.createServer();
 const io = new Server(server, {
   cors: {
-    origin: "http://192.168.56.1:3000",
+    origin: ["http://localhost:3000", "http://192.168.56.1:3000"],
+
     methods: ["GET", "POST"],
   },
 });
@@ -133,6 +134,6 @@ io.on('connection', (socket) => {
 
 // Start the server
 const PORT = process.env.DISCUSS_SOCKET_PORT || 5000;
-server.listen(PORT,"192.168.56.1", () => {
+server.listen(PORT, '192.168.56.1', () => {
   console.log(`Discussion Server running on port ${PORT}`);
 });
