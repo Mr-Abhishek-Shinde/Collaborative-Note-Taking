@@ -71,19 +71,6 @@ const Notes = () => {
       });
   };
 
-  const handleAccess = (username) => {
-    axios
-      .post("http://localhost:4000/api/note/addCollaborator/" + noteId, {
-        username: username,
-      })
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.error("Error Adding Collaborator:", error);
-      });
-  };
-
   const toggleDiscuss = () => {
     setIsDiscussionOpen(!isDiscussionOpen);
     // setMainContainerWidth(isDiscussionOpen ? '100%' : '50%');
@@ -100,11 +87,11 @@ const Notes = () => {
         isSideNavOpen={isSideNavOpen}
       />
       <SubNavbar
-        handleAccess={handleAccess}
         setExtractedText={setExtractedText}
         setisSpeech={setisSpeech}
         toggleDiscuss={toggleDiscuss}
-        openSideNav={openSideNav} // sideNav in subnavbar
+        openSideNav={openSideNav}
+        noteId={noteId}
       />
       
       <div className={styles.notesContainer}>

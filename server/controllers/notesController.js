@@ -164,7 +164,7 @@ const getCollaboratorsByNoteId = async (req, res) => {
       return res.status(404).json({ error: "Note not found or not shared" });
     }
 
-    res.json(sharedNote.sharedWith);
+    res.json({collaborators: sharedNote.sharedWith});
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Server error" });
@@ -183,7 +183,7 @@ const addCollaborator = async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
-    const sharedNote = await SharedNotes.findOneAndUpdate(
+    await SharedNotes.findOneAndUpdate(
       { note: noteId },
       { $addToSet: { sharedWith: user._id } },
       { new: true, upsert: true }
@@ -195,37 +195,44 @@ const addCollaborator = async (req, res) => {
       { new: true, upsert: true }
     );
 
-    res.json(sharedNote);
+    res.json({message: "Collaborated added."});
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Server error" });
   }
 };
 
-// Route to remove a collaborator from a note by email
+// Route to remove a collaborator from a note by username
 const removeCollaborator = async (req, res) => {
   try {
     const { noteId } = req.params;
-    const { email } = req.body;
+    const { username } = req.body;
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ username });
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
 
-    const sharedNote = await SharedNotes.findOneAndUpdate(
+    await SharedNotes.findOneAndUpdate(
       { note: noteId },
       { $pull: { sharedWith: user._id } },
       { new: true }
     );
 
-    res.json(sharedNote);
+    await UserNotes.findOneAndUpdate(
+      { user: user._id },
+      { $pull: { sharedNotes: noteId } },
+      { new: true }
+    );
+
+    res.json({ message: "Collaborator removed" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Server error" });
   }
 };
+
 
 module.exports = {
   createNote,
