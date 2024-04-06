@@ -133,8 +133,9 @@ const SubNavbar = ({ handleAccess, setExtractedText, setisSpeech, toggleDiscuss,
       <div className={styles.subnavbarRight}>
         <button className={styles.subButton} onClick={showAccessForm}>Give Access</button>
         <button className={styles.subButton} onClick={toggleRecognition}>Speech to text</button>
-        <button className={styles.subButton} onClick={toggleDiscuss}>Discuss</button>
+        <button className={`${styles.subButton} ${styles.transit}`} onClick={toggleDiscuss}>Discuss</button>
       </div>
+      
       
     </div>
   );

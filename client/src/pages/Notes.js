@@ -86,7 +86,7 @@ const Notes = () => {
 
   const toggleDiscuss = () => {
     setIsDiscussionOpen(!isDiscussionOpen);
-    // setMainContainerWidth(isDiscussionOpen ? '100%' : '50%');
+    
   };
 
   return (
@@ -109,7 +109,7 @@ const Notes = () => {
       
       <div className={styles.notesContainer}>
         <div className={styles.mainContainer} style={{ width: mainContainerWidth }}>
-          <div style={{ width: isDiscussionOpen ? '50%' : '100%', marginLeft: isDiscussionOpen ? '15px' : '0' }}>
+          <div style={{ width: isDiscussionOpen ? '100%' : '100%', marginRight: isDiscussionOpen ? '360px' : '0' }}>
             <NoteEditor
               user={user}
               extractedText={extractedText}

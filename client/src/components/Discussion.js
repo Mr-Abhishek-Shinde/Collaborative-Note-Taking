@@ -180,9 +180,9 @@ const Discussion = ({ username, roomId }) => {
           <i class="fa-regular fa-comments"></i>
           Discuss
         </h1>
-        <button className={styles.toggleDiscussionButton} onClick={toggleDiscussion}>
+        {/* <button className={styles.toggleDiscussionButton} onClick={toggleDiscussion}>
           <i class="fa-solid fa-expand"></i>
-        </button>
+        </button> */}
       </div>
       <hr></hr>
 

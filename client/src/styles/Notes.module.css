@@ -1,7 +1,7 @@
 /* Sidenavbar styles: */
 
 .sidenav {
-  height: 90vh;
+  height: 92.8vh;
   width: 0;
   position: fixed;
   z-index: 1;
@@ -49,6 +49,18 @@
 
 .sidenav.open {
   width: 225px; 
+  /* border-right: 1px solid var(--primary); */
+  
+}
+
+.sidenav.open::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 1px;
+  background-color: var(--primary); /* Change to your preferred color */
 }
 
 .navLinks {
@@ -123,9 +135,10 @@
   cursor: pointer;
   font-weight: bold;
   padding: 10px 15px;
+  /* margin: 0 10px 0 10px; */
   text-align: center;
   transition: 200ms;
-  width: 100%; /* Adjust width as needed */
+  width: 100%; 
   box-sizing: border-box;
   border: 0;
   font-size: 16px;
@@ -182,15 +195,7 @@
 
 
 
-/* Subnavbar Styles: */
-.subnavbar{
-  width: 100%;
-  height: 40px;
-  /* background-color:aquamarine; */
-  display: flex;
-  align-items: flex-end;
-  flex-direction: center;
-}
+
 
 /* Overall Notes Styels: */
 :root {
@@ -198,7 +203,7 @@
 }
 /* Overall Notes Styles: */
 
-/* In your CSS file (Notes.module.css) */
+
 .notesContainer {
   display: flex;
   align-items: center;
@@ -266,7 +271,9 @@
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  transition: width 0.5s;
+  transition: width 0.5s ease; 
+  
+  z-index: 999; 
 }
 
 .discussionOpen {
@@ -285,6 +292,7 @@
   font-size: 24px;
   color: var(--primary);
   z-index: 999;
+  transition: 2s ease;
 }
 .headerDis {
   
@@ -431,7 +439,7 @@
   
 }
 
-/* subnavbar Styles: */
+/* subnavbar Styles */
 
 .subnavbar {
   margin-top: 5px;
@@ -440,33 +448,19 @@
   justify-content: space-between; 
   width: 100%;
   height: 50px;
-  /* background-color: azure; */
   background-color: transparent;
   color: var(--text);
   padding: 0px 15px;
-  
   z-index: 1000;
-  
 }
 
-.subnavbarRight{
-  /* display: flex;
-  flex-direction: column; */
+.subnavbarRight {
   justify-content: flex-start; 
 }
 
-.subnavbarRight button{
+.subnavbarRight button {
   margin-left: 10px; 
-
 }
-
-.subnavbarLeft {
-  justify-content: flex-end; 
-}
-.buttonsContainer {
-  margin-left: auto; 
-}
-
 
 .subButton {
   background-color: rgb(197, 245, 249);
@@ -488,7 +482,7 @@
   position: relative;
   text-align: center;
   text-decoration: none;
-  transition: color 100ms;
+  transition: width 0.5s ease; 
   vertical-align: baseline;
   user-select: none;
   -webkit-user-select: none;
@@ -501,5 +495,3 @@
   transition: transform 0.2s ease, text-shadow 0.3s ease;
   color: white;
 }
-
-
