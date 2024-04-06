@@ -156,10 +156,11 @@ const SubNavbar = ({ setExtractedText, setisSpeech, toggleDiscuss, toggleHistory
       )}
     
 
-        <button className={styles.subButton} onClick={toggleDiscuss}>Discuss</button>
+        <button className={`${styles.subButton} ${styles.transit}`} onClick={toggleDiscuss}>Discuss</button>
         
         <button className={styles.subButton} onClick={toggleHistory}>Track History</button>
       </div>
+      
     </div>
       {showPopup && (
         <AccessPopup

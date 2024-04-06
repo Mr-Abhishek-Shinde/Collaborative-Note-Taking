@@ -1,20 +1,31 @@
 /* Sidenavbar styles: */
 
 .sidenav {
-  height: 100%;
+  height: 92.8vh;
   width: 0;
   position: fixed;
   z-index: 1;
   top: 0;
   left: 0;
-  background-color: #eeeeee;
+  background-color: white;
   overflow-x: hidden;
   margin-top: 50px;
   transition: 0.5s;
+  /* align-items: center;   
+  justify-content: center;  */
 }
 
+.closebtn {
+  font-size: 2px; 
+  cursor: pointer;
+  position: absolute;
+  top: 10px; 
+  right: 0; 
+}
+
+
 .sidenav a {
-  padding: 8px 8px 8px 32px;
+  /* padding: 8px 8px 8px 32px; */
   text-decoration: none;
   font-size: 20px;
   color: #818181;
@@ -37,27 +48,162 @@
 }
 
 .sidenav.open {
-  width: 250px; /* Set the desired width when open */
+  width: 225px; 
+  /* border-right: 1px solid var(--primary); */
+  
 }
 
-/* Subnavbar Styles: */
-.subnavbar{
-  width: 100%;
-  height: 40px;
-  background-color:aquamarine;
-  display: flex;
-  align-items: flex-end;
-  flex-direction: center;
+.sidenav.open::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 1px;
+  background-color: var(--primary); /* Change to your preferred color */
 }
+
+.navLinks {
+  /* height: 100%; */
+  list-style-type: none;
+  
+}
+
+.navLinks {
+  list-style-type: none;
+  padding: 0; 
+  padding-left: 10px;
+}
+
+
+.dropbutn {
+  
+  background-color: transparent;
+  border: none;
+  border-radius: 10px;
+  align-items: left;
+  text-align: left;
+  margin-right: 10px;
+  
+  padding: 0 !important; 
+  margin: 0 !important; 
+}
+.dropbutn i {
+  color: var(--primary);
+  padding-right: 10px;
+}
+
+.headDrp {
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--text);
+  transition: all 0.4s ease;
+  display: inline-block; 
+}
+
+
+
+.dropContent {
+  padding: 0 2px 8px 10px;
+  align-items: center;
+  /* padding-left: 10px; */
+  justify-content: center;
+}
+
+
+.dropContent i{
+  color: rgba(63, 62, 62, 0.737);
+  font-weight: 100;
+  padding-right: 6px;
+  font-size: 12px;
+}
+
+.dropContent li {
+  padding-bottom: 4px;
+}
+
+/*********/
+
+.newNoteButton {
+  position: absolute;
+  /* bottom: 20px; 
+  left: 50%; ==
+  transform: translateX(-50%);  */
+  background-color: var(--primary);
+  border-radius: 12px;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  padding: 10px 15px;
+  /* margin: 0 10px 0 10px; */
+  text-align: center;
+  transition: 200ms;
+  width: 100%; 
+  box-sizing: border-box;
+  border: 0;
+  font-size: 16px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  margin-top: 20px;
+}
+.newNoteButton:not(:disabled):hover,
+.newNoteButton:not(:disabled):focus {
+  outline: 0;
+  background: var(--primary);
+  color: black;
+  box-shadow: 0 0 0 2px rgba(0,0,0,.2), 0 3px 8px 0 rgba(0,0,0,.15);
+}
+
+.newNoteButton:disabled {
+  filter: saturate(0.2) opacity(0.5);
+  -webkit-filter: saturate(0.2) opacity(0.5);
+  cursor: not-allowed;
+}
+
+
+/*********/
+.sidenav::-webkit-scrollbar {
+  width: 4px;
+  
+}
+
+.sidenav::-webkit-scrollbar-track {
+  background: #bcf7ff8d; 
+  border-radius: 5px;
+}
+
+
+
+.sidenav::-webkit-scrollbar-thumb {
+  background: #56acb2; 
+  border-radius: 5px;
+}
+
+
+.sidenav::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+  
+}
+
+
+
+
+
+
+
+
+
+
+
 
 /* Overall Notes Styels: */
 :root {
   --mainContainer-direction: row; /* Default value */
 }
 /* Overall Notes Styles: */
-/* In your CSS file (Notes.module.css) */
-/* In your CSS file (Notes.module.css) */
-/* In your CSS file (Notes.module.css) */
+
+
 .notesContainer {
   display: flex;
   align-items: center;
@@ -110,36 +256,73 @@
 
 /* Discussion Styles: */
 .disContainer {
+  position: fixed;
+  right: 0;
+  top: 0;
+  bottom: 0;
   background-color: rgba(255, 255, 255, 0.13);
   border-radius: 10px;
   backdrop-filter: blur(10px);
   border: 2px solid rgba(255, 255, 255, 0.1);
   box-shadow: 2px 2px 20px rgba(8, 7, 16, 0.6);
-  margin-top: 50px;
+  width: 360px;
+  height: 84vh;
+  margin-top: 105px;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
-  width: 400px;
-  height: auto;
-  max-height: 70vh;
-  background-color: white; 
+  transition: width 0.5s ease; 
+  
+  z-index: 999; 
 }
 
+.discussionOpen {
+  width: calc(100vw - 225px); 
+}
+
+.toggleDiscussionButton {
+  position: absolute;
+  top: 40px;
+  right: 0;
+  margin-right: 10px;
+  transform: translateY(-50%);
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  color: var(--primary);
+  z-index: 999;
+  transition: 2s ease;
+}
 .headerDis {
   
   padding-inline-start: 15px;
   margin-top: 0px;
   color: var(--primary);
   display: flex;
+  margin-bottom: 0;
+  align-items: center;
 }
 
 .headerDis h1 i{
-  padding-right: 5px;
+  padding-right: 0;
 }
+
+
+
+
+.disContainer hr {
+  margin: 0; 
+  padding: 0;
+  border: none;
+  border-top: 1px solid var(--primary); 
+}
+
 
 .bodyDis {
   flex: 1;
   color: var(--text);
-  background-color: rgba(0, 0, 0, 0.7);
+  /* background-color: rgba(0, 0, 0, 0.7); */
   padding: 20px 15px 0 15px;
   color: white;
   overflow-y: auto; 
@@ -172,19 +355,19 @@
   align-self: flex-end;
   margin-left: 50%;
   margin-bottom: 4px;
-  padding-bottom: 3px;
+  padding-bottom: 4px;
   border-radius: 10px;
   
 }
 
 .otherMessage {
   color: var(--text);
-  background-color: white;
+  background-color: rgb(213, 227, 222);
   align-self: flex-start;
   margin-right: 50%;
   border-radius: 10px;
   margin-bottom: 4px;
-  padding-bottom: 2px;
+  padding-bottom: 4px;
 }
 
 .footerDis {
@@ -256,7 +439,7 @@
   
 }
 
-/* subnavbar Styles: */
+/* subnavbar Styles */
 
 .subnavbar {
   margin-top: 5px;
@@ -265,33 +448,19 @@
   justify-content: space-between; 
   width: 100%;
   height: 50px;
-  /* background-color: azure; */
   background-color: transparent;
   color: var(--text);
   padding: 0px 15px;
-  
   z-index: 1000;
-  
 }
 
-.subnavbarRight{
-  /* display: flex;
-  flex-direction: column; */
+.subnavbarRight {
   justify-content: flex-start; 
 }
 
-.subnavbarRight button{
+.subnavbarRight button {
   margin-left: 10px; 
-
 }
-
-.subnavbarLeft {
-  justify-content: flex-end; 
-}
-.buttonsContainer {
-  margin-left: auto; /* Push buttons to the right */
-}
-
 
 .subButton {
   background-color: rgb(197, 245, 249);
@@ -313,7 +482,7 @@
   position: relative;
   text-align: center;
   text-decoration: none;
-  transition: color 100ms;
+  transition: width 0.5s ease; 
   vertical-align: baseline;
   user-select: none;
   -webkit-user-select: none;
@@ -326,5 +495,3 @@
   transition: transform 0.2s ease, text-shadow 0.3s ease;
   color: white;
 }
-
-

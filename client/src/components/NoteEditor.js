@@ -118,10 +118,11 @@ const NoteEditor = ({ user, extractedText, isSpeech }) => {
       const { value: details } = await Swal.fire({
         title: "Enter the title for the note:",
         html:
-          '<input id="swal-input-title" class="swal2-input" placeholder="Enter title" value="' +
-          noteTitle +
-          '">' +
-          '<input id="swal-input-message" class="swal2-input" placeholder="Enter update message" value="Updated Note">',
+        '<label for="swal-input-title">Title:</label>' +
+        '<input id="swal-input-title" class="swal2-input" placeholder="Enter title" value="' + noteTitle + '">' +
+        '<label for="swal-input-message">Message:</label>' +
+        '<input id="swal-input-message" class="swal2-input" placeholder="Enter update message" value="Updated Note">'
+        ,
         focusConfirm: false,
         preConfirm: () => {
           const titleInput = document.getElementById("swal-input-title").value;
