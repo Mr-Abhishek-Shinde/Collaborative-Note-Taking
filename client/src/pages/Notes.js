@@ -5,6 +5,7 @@ import Sidebar from "../components/Sidebar";
 import SubNavbar from "../components/SubNavbar";
 import NoteEditor from "../components/NoteEditor";
 import Discussion from "../components/Discussion";
+import NoteHistory from "../components/NoteHistory";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useNavigate, useParams } from "react-router-dom";
 import styles from "../styles/Notes.module.css";
@@ -21,7 +22,7 @@ const Notes = () => {
   const [extractedText, setExtractedText] = useState("");
   const [isSpeech, setisSpeech] = useState(false);
   const [isDiscussionOpen, setIsDiscussionOpen] = useState(false);
-  const [mainContainerWidth, setMainContainerWidth] = useState('100%');
+  const [isHistoryOpen, setIsHistoryOpen] = useState(false);
 
   const openSideNav = () => {
     fetchNotes();
@@ -34,12 +35,13 @@ const Notes = () => {
 
   const handleNoteClick = (noteId) => {
     closeSideNav();
-    navigate(`/notes/note/${noteId}`);
+    const newUrl = `/notes/note/${noteId}`;
+    window.location.href = newUrl;
   };
 
   const createBlankNote = () => {
     axios
-      .post("http://192.168.56.1:4000/api/note/createNote", {
+      .post("http://localhost:4000/api/note/createNote", {
         title: "Untitled",
         content: {
           ops: [
@@ -61,7 +63,7 @@ const Notes = () => {
 
   const fetchNotes = async () => {
     axios
-      .get("http://192.168.56.1:4000/api/note/getAllNotes/" + user.username)
+      .get("http://localhost:4000/api/note/getAllNotes/" + user.username)
       .then((response) => {
         setNotesList(response.data.notes);
         setSharedNotesList(response.data.sharedNotes);
@@ -71,22 +73,18 @@ const Notes = () => {
       });
   };
 
-  const handleAccess = (username) => {
-    axios
-      .post("http://192.168.56.1:4000/api/note/addCollaborator/" + noteId, {
-        username: username,
-      })
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.error("Error Adding Collaborator:", error);
-      });
-  };
-
   const toggleDiscuss = () => {
     setIsDiscussionOpen(!isDiscussionOpen);
-    
+    if(isHistoryOpen){
+      setIsHistoryOpen(false);
+    }
+  };
+
+  const toggleHistory = () => {
+    setIsHistoryOpen(!isHistoryOpen);
+    if(isDiscussionOpen){
+      setIsDiscussionOpen(false);
+    }
   };
 
   return (
@@ -100,16 +98,17 @@ const Notes = () => {
         isSideNavOpen={isSideNavOpen}
       />
       <SubNavbar
-        handleAccess={handleAccess}
         setExtractedText={setExtractedText}
         setisSpeech={setisSpeech}
         toggleDiscuss={toggleDiscuss}
-        openSideNav={openSideNav} // sideNav in subnavbar
+        toggleHistory={toggleHistory}
+        openSideNav={openSideNav}
+        noteId={noteId}
       />
       
       <div className={styles.notesContainer}>
-        <div className={styles.mainContainer} style={{ width: mainContainerWidth }}>
-          <div style={{ width: isDiscussionOpen ? '100%' : '100%', marginRight: isDiscussionOpen ? '360px' : '0' }}>
+        <div className={styles.mainContainer} style={{ width: '100%' }}>
+          <div style={{ width: isDiscussionOpen ? '50%' : '100%', marginLeft: isDiscussionOpen ? '15px' : '0' }}>
             <NoteEditor
               user={user}
               extractedText={extractedText}
@@ -118,6 +117,9 @@ const Notes = () => {
           </div >
           {isDiscussionOpen && (
             <Discussion username={user.username} roomId={noteId} />
+          )}
+          {isHistoryOpen && (
+            <NoteHistory noteId={noteId} />
           )}
         </div>
       </div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import styles from "../styles/Notes.module.css";
 
 const Sidebar = ({ notes, sharedNotes, handleNoteClick, handleNewNote, closeSideNav, isSideNavOpen }) => {
@@ -7,19 +7,6 @@ const Sidebar = ({ notes, sharedNotes, handleNoteClick, handleNewNote, closeSide
   const [isSharedDropdownOpen, setSharedDropdownOpen] = useState(false);
   const dropdownMy = useRef(null);
   const dropdownShared = useRef(null);
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownMy.current && !dropdownMy.current.contains(event.target)) {
-        setMyDropdownOpen(false);
-      }
-      if (dropdownShared.current && !dropdownShared.current.contains(event.target)) {
-        setSharedDropdownOpen(false);
-      }
-    };
-    
-    
-  }, []);
 
   const toggleMyDropdown = () => {
     setMyDropdownOpen(prevState => !prevState);

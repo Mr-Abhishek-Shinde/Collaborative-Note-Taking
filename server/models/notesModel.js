@@ -1,22 +1,34 @@
 const mongoose = require("mongoose");
 
-const noteSchema = new mongoose.Schema({
-  createdAt: {
-    type: Date,
-    default: Date.now
-  },
+const versionSchema = new mongoose.Schema({
   content: {
     type: Object,
     required: true
   },
+  updateMessage: {
+    type: String,
+  },
+  modifiedBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
+  modifiedAt: {
+    type: Date,
+    default: Date.now
+  }
+});
+
+const noteSchema = new mongoose.Schema({
   title: {
     type: String,
-    required: true,
+    required: true
   },
+  versions: [versionSchema],
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User', // Reference to the User model
-    required: true,
+    ref: 'User',
+    required: true
   }
 });
 

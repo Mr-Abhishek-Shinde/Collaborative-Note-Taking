@@ -69,7 +69,7 @@ const httpServer = require("http").createServer();
 httpServer.listen(8080);
 
 httpServer.on("upgrade", function upgrade(request, socket, head) {
-  const { pathname } = new URL(request.url, "http://192.168.56.1:8080");
+  const { pathname } = new URL(request.url, "http://localhost:8080");
   const roomId = pathname.slice(1);
 
   const wss = createWebSocketServer(roomId);
@@ -87,7 +87,7 @@ const { Server } = require('socket.io');
 const server = http.createServer();
 const io = new Server(server, {
   cors: {
-    origin: ["http://localhost:3000", "http://192.168.56.1:3000"],
+    origin: ["http://localhost:3000", "http://localhost:3000"],
 
     methods: ["GET", "POST"],
   },
@@ -134,6 +134,6 @@ io.on('connection', (socket) => {
 
 // Start the server
 const PORT = process.env.DISCUSS_SOCKET_PORT || 5000;
-server.listen(PORT, '192.168.56.1', () => {
+server.listen(PORT, 'localhost', () => {
   console.log(`Discussion Server running on port ${PORT}`);
 });
