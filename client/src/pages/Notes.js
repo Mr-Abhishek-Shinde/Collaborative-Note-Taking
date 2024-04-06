@@ -5,6 +5,7 @@ import Sidebar from "../components/Sidebar";
 import SubNavbar from "../components/SubNavbar";
 import NoteEditor from "../components/NoteEditor";
 import Discussion from "../components/Discussion";
+import NoteHistory from "../components/NoteHistory";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useNavigate, useParams } from "react-router-dom";
 import styles from "../styles/Notes.module.css";
@@ -21,6 +22,7 @@ const Notes = () => {
   const [extractedText, setExtractedText] = useState("");
   const [isSpeech, setisSpeech] = useState(false);
   const [isDiscussionOpen, setIsDiscussionOpen] = useState(false);
+  const [isHistoryOpen, setIsHistoryOpen] = useState(false);
 
   const openSideNav = () => {
     fetchNotes();
@@ -73,7 +75,16 @@ const Notes = () => {
 
   const toggleDiscuss = () => {
     setIsDiscussionOpen(!isDiscussionOpen);
-    // setMainContainerWidth(isDiscussionOpen ? '100%' : '50%');
+    if(isHistoryOpen){
+      setIsHistoryOpen(false);
+    }
+  };
+
+  const toggleHistory = () => {
+    setIsHistoryOpen(!isHistoryOpen);
+    if(isDiscussionOpen){
+      setIsDiscussionOpen(false);
+    }
   };
 
   return (
@@ -90,6 +101,7 @@ const Notes = () => {
         setExtractedText={setExtractedText}
         setisSpeech={setisSpeech}
         toggleDiscuss={toggleDiscuss}
+        toggleHistory={toggleHistory}
         openSideNav={openSideNav}
         noteId={noteId}
       />
@@ -105,6 +117,9 @@ const Notes = () => {
           </div >
           {isDiscussionOpen && (
             <Discussion username={user.username} roomId={noteId} />
+          )}
+          {isHistoryOpen && (
+            <NoteHistory noteId={noteId} />
           )}
         </div>
       </div>

@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 import AccessPopup from "./AccessPopup";
 import styles from "../styles/Notes.module.css";
 
-const SubNavbar = ({ setExtractedText, setisSpeech, toggleDiscuss, openSideNav, noteId }) => {
+const SubNavbar = ({ setExtractedText, setisSpeech, toggleDiscuss, toggleHistory, openSideNav, noteId }) => {
   const [recognition, setRecognition] = useState(null);
   const [isRecognitionOn, setIsRecognitionOn] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
@@ -157,6 +157,8 @@ const SubNavbar = ({ setExtractedText, setisSpeech, toggleDiscuss, openSideNav, 
     
 
         <button className={styles.subButton} onClick={toggleDiscuss}>Discuss</button>
+        
+        <button className={styles.subButton} onClick={toggleHistory}>Track History</button>
       </div>
     </div>
       {showPopup && (
