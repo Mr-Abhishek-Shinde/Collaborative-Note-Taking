@@ -11,7 +11,7 @@ import Swal from "sweetalert2";
 // with our quill editor
 Sharedb.types.register(richText.type);
 
-const NoteEditor = ({ user, data, extractedText, isSpeech }) => {
+const NoteEditor = ({ user, extractedText, isSpeech }) => {
   const { noteId } = useParams();
   const [dataNew, setDataNew] = useState();
   const menuRef = useRef(null);
@@ -49,7 +49,9 @@ const NoteEditor = ({ user, data, extractedText, isSpeech }) => {
           ],
         },
       };
-      let quill = new Quill("#editor", options);
+      
+      if(dataNew){
+        let quill = new Quill("#editor", options);
       editorRef.current = quill;
 
       if (dataNew) {
@@ -98,6 +100,7 @@ const NoteEditor = ({ user, data, extractedText, isSpeech }) => {
         }
         quill.updateContents(op);
       });
+      }
     });
 
     return () => {

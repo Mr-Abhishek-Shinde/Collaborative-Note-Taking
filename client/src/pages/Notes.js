@@ -33,7 +33,8 @@ const Notes = () => {
 
   const handleNoteClick = (noteId) => {
     closeSideNav();
-    navigate(`/notes/note/${noteId}`);
+    const newUrl = `/notes/note/${noteId}`;
+    window.location.href = newUrl;
   };
 
   const createBlankNote = () => {
