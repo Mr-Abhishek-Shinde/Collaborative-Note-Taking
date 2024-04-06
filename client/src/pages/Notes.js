@@ -21,7 +21,6 @@ const Notes = () => {
   const [extractedText, setExtractedText] = useState("");
   const [isSpeech, setisSpeech] = useState(false);
   const [isDiscussionOpen, setIsDiscussionOpen] = useState(false);
-  const [mainContainerWidth, setMainContainerWidth] = useState('100%');
 
   const openSideNav = () => {
     fetchNotes();
@@ -34,7 +33,8 @@ const Notes = () => {
 
   const handleNoteClick = (noteId) => {
     closeSideNav();
-    navigate(`/notes/note/${noteId}`);
+    const newUrl = `/notes/note/${noteId}`;
+    window.location.href = newUrl;
   };
 
   const createBlankNote = () => {
@@ -71,19 +71,6 @@ const Notes = () => {
       });
   };
 
-  const handleAccess = (username) => {
-    axios
-      .post("http://localhost:4000/api/note/addCollaborator/" + noteId, {
-        username: username,
-      })
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.error("Error Adding Collaborator:", error);
-      });
-  };
-
   const toggleDiscuss = () => {
     setIsDiscussionOpen(!isDiscussionOpen);
     // setMainContainerWidth(isDiscussionOpen ? '100%' : '50%');
@@ -100,15 +87,15 @@ const Notes = () => {
         isSideNavOpen={isSideNavOpen}
       />
       <SubNavbar
-        handleAccess={handleAccess}
         setExtractedText={setExtractedText}
         setisSpeech={setisSpeech}
         toggleDiscuss={toggleDiscuss}
-        openSideNav={openSideNav} // sideNav in subnavbar
+        openSideNav={openSideNav}
+        noteId={noteId}
       />
       
       <div className={styles.notesContainer}>
-        <div className={styles.mainContainer} style={{ width: mainContainerWidth }}>
+        <div className={styles.mainContainer} style={{ width: '100%' }}>
           <div style={{ width: isDiscussionOpen ? '50%' : '100%', marginLeft: isDiscussionOpen ? '15px' : '0' }}>
             <NoteEditor
               user={user}

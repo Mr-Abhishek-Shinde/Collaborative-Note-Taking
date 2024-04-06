@@ -1,18 +1,14 @@
 // SubNavbar.jsx
 
-import React, { useState, useEffect, useRef  } from "react";
+import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
-import { Link } from "react-router-dom";
+import AccessPopup from "./AccessPopup";
 import styles from "../styles/Notes.module.css";
-import { useAuthContext } from "../hooks/useAuthContext";
 
-
-const SubNavbar = ({ handleAccess, setExtractedText, setisSpeech, toggleDiscuss, openSideNav }) => {
+const SubNavbar = ({ setExtractedText, setisSpeech, toggleDiscuss, openSideNav, noteId }) => {
   const [recognition, setRecognition] = useState(null);
-  // const { user } = useAuthContext();
-  // const [isDropdownOpen, setDropdownOpen] = useState(false);
-  // const dropdownRef = useRef(null);
   const [isRecognitionOn, setIsRecognitionOn] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
     return () => {
@@ -22,17 +18,9 @@ const SubNavbar = ({ handleAccess, setExtractedText, setisSpeech, toggleDiscuss,
     };
   }, [recognition]);
 
-  const showAccessForm = async () => {
-    const { value: username } = await Swal.fire({
-      title: "Add New Collaborator",
-      input: "text",
-      inputLabel: "Username",
-      inputPlaceholder: "Enter the username of collaborator",
-    });
-    if (username) {
-      handleAccess(username);
-    }
-  };
+  const showAccessPopup = () => {
+    setShowPopup(true);
+  }
 
   const toggleRecognition = () => {
     if (!("webkitSpeechRecognition" in window)) {
@@ -131,7 +119,12 @@ const SubNavbar = ({ handleAccess, setExtractedText, setisSpeech, toggleDiscuss,
   //   setDropdownOpen(!isDropdownOpen);
   // };
 
+  const handlePopupClose = () => {
+    setShowPopup(false);
+  }
+
   return (
+    <>
     <div className={styles.subnavbar}>
       <div className={styles.subnavbarLeft}>
         <div id={styles.lines} onClick={openSideNav}>
@@ -154,7 +147,7 @@ const SubNavbar = ({ handleAccess, setExtractedText, setisSpeech, toggleDiscuss,
           </li>
         )} */}
       <div className={styles.subnavbarRight}>
-        <button className={styles.subButton} onClick={showAccessForm}>Give Access</button>
+        <button className={styles.subButton} onClick={showAccessPopup}>Manage Access</button>
         {!isRecognitionOn && (
         <button className={styles.subButton} onClick={toggleRecognition}>Speech to text</button>
       )}
@@ -165,8 +158,14 @@ const SubNavbar = ({ handleAccess, setExtractedText, setisSpeech, toggleDiscuss,
 
         <button className={styles.subButton} onClick={toggleDiscuss}>Discuss</button>
       </div>
-      
     </div>
+      {showPopup && (
+        <AccessPopup
+          onClose={handlePopupClose}
+          noteId={noteId}
+        />
+      )}
+      </>
   );
 };
 

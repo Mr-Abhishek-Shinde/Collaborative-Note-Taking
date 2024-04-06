@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import styles from '../styles/About.module.css';
 
 // import imgAbt from '../image/about_1.jpg';
@@ -33,7 +32,7 @@ const About =() => {
     return (
         <div className={styles.aboutus}>
             <div className={styles.mainImg}>
-                    <img src={imgMainAbt} alt="Main Image" className={styles.fullScreenImg}></img>
+                    <img src={imgMainAbt} alt="main" className={styles.fullScreenImg}></img>
                     <div className={styles.overlayText}>About Us</div>
             </div>
             <div className={styles.aboutus_box}>
@@ -50,7 +49,7 @@ const About =() => {
                             </p>
                         </div>
                         <div className={styles.aboutus_box_hero_right}>
-                            <img src={imgAbt2} alt="About Image" />
+                            <img src={imgAbt2} alt="about" />
                         </div>
                     </div>
 
