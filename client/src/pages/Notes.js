@@ -21,7 +21,6 @@ const Notes = () => {
   const [extractedText, setExtractedText] = useState("");
   const [isSpeech, setisSpeech] = useState(false);
   const [isDiscussionOpen, setIsDiscussionOpen] = useState(false);
-  const [mainContainerWidth, setMainContainerWidth] = useState('100%');
 
   const openSideNav = () => {
     fetchNotes();
@@ -108,7 +107,7 @@ const Notes = () => {
       />
       
       <div className={styles.notesContainer}>
-        <div className={styles.mainContainer} style={{ width: mainContainerWidth }}>
+        <div className={styles.mainContainer} style={{ width: '100%' }}>
           <div style={{ width: isDiscussionOpen ? '50%' : '100%', marginLeft: isDiscussionOpen ? '15px' : '0' }}>
             <NoteEditor
               user={user}

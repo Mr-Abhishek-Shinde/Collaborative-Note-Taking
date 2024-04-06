@@ -5,6 +5,7 @@ import "quill/dist/quill.snow.css";
 import axios from "axios";
 import Sharedb from "sharedb/lib/client";
 import richText from "rich-text";
+import Swal from "sweetalert2";
 
 // Registering the rich text type to make sharedb work
 // with our quill editor
@@ -71,9 +72,11 @@ const NoteEditor = ({ user, data, extractedText, isSpeech }) => {
           if (range.length > 0) {
             // If text is selected, display the menu at the selection position
             const selection = window.getSelection();
-            const selectionRect = selection.getRangeAt(0).getBoundingClientRect();
-            message = quill.getText(range.index, range.length);
-            console.log("User has highlighted", message);
+            const selectionRect = selection
+              .getRangeAt(0)
+              .getBoundingClientRect();
+            // message = quill.getText(range.index, range.length);
+            // console.log("User has highlighted", message);
             menu.style.display = "block";
             menu.style.top = `${selectionRect.bottom}px`;
             menu.style.left = `${selectionRect.left}px`;
@@ -102,14 +105,26 @@ const NoteEditor = ({ user, data, extractedText, isSpeech }) => {
     };
   }, [dataNew, noteId]);
 
-  const handleSaveNote = () => {
+  const handleSaveNote = async () => {
     const editor = editorRef.current;
     if (editor) {
       const content = editor.getContents();
 
-      // Prompt the user for the title
-      const title = prompt("Enter the title for the note:");
-      if (title !== null && title.trim() !== "") {
+      // Using SweetAlert to prompt the user for the title
+      const { value: title } = await Swal.fire({
+        title: "Enter the title for the note:",
+        input: "text",
+        inputPlaceholder: "Enter title",
+        inputValue: "", // Optional: Provide default value
+        showCancelButton: true,
+        inputValidator: (value) => {
+          if (!value.trim()) {
+            return "Title cannot be empty";
+          }
+        },
+      });
+
+      if (title !== undefined) {
         // If the user provides a title, proceed with saving the note
         axios
           .put("http://localhost:4000/api/note/updateNote/" + noteId, {
@@ -118,7 +133,11 @@ const NoteEditor = ({ user, data, extractedText, isSpeech }) => {
             username: user.username,
           })
           .then((response) => {
-            console.log(response.data.message);
+            Swal.fire({
+              title: "Note Saved!",
+              timer: 1000,
+              timerProgressBar: true,
+            })
           })
           .catch((error) => {
             console.error("Error saving note:", error);
@@ -135,7 +154,7 @@ const NoteEditor = ({ user, data, extractedText, isSpeech }) => {
     if (extractedText && isSpeech && editorRef.current) {
       editorRef.current.clipboard.dangerouslyPasteHTML(extractedText);
     }
-  }, [extractedText]);
+  }, [extractedText, isSpeech]);
 
   function handleSummary() {
     // Perform the action of summarizing the selected text
@@ -150,19 +169,26 @@ const NoteEditor = ({ user, data, extractedText, isSpeech }) => {
     console.log("Transformation option clicked");
   }
 
-  function handleLogFormattedText() {
-    // Log the formatted text or perform any other operation
-    const editor = editorRef.current;
-    if (editor) {
-      const formattedText = editor.root.innerHTML;
-      console.log(formattedText);
-      // Here you can store the formatted text in the database or perform any other operation.
-    }
-  }
+  // function handleLogFormattedText() {
+  //   const editor = editorRef.current;
+  //   if (editor) {
+  //     const formattedText = editor.root.innerHTML;
+  //     console.log(formattedText);
+  //   }
+  // }
 
   return (
-    <div style={{ margin: "5%", border: "1px solid", fontFamily: "Arial, sans-serif" }}>
-      <div id="editor" style={{ marginBottom: "20px", fontSize: "16px", color: "#333" }}></div>
+    <div
+      style={{
+        margin: "5%",
+        border: "1px solid",
+        fontFamily: "Arial, sans-serif",
+      }}
+    >
+      <div
+        id="editor"
+        style={{ marginBottom: "20px", fontSize: "16px", color: "#333" }}
+      ></div>
       <div
         ref={menuRef}
         style={{
