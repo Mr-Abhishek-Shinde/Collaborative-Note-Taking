@@ -5,6 +5,8 @@ const {
     deleteNote,
     getAllNotesByUsername,
     getNoteByNoteId,
+    getNoteByVersion,
+    getAllNoteVersions,
     getCollaboratorsByNoteId,
     addCollaborator,
     removeCollaborator,
@@ -18,6 +20,9 @@ router.delete('/deleteNote/:noteId', deleteNote);
 
 router.get('/getAllNotes/:username', getAllNotesByUsername);
 router.get('/getNote/:noteId', getNoteByNoteId);
+
+router.get('/getAllNoteVersions/:noteId', getAllNoteVersions);
+router.get('/getNoteByVersion/:noteId/:versionIndex', getNoteByVersion);
 
 router.post('/addCollaborator/:noteId', addCollaborator);
 router.delete('/removeCollaborator/:noteId', removeCollaborator);

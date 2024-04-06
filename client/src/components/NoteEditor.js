@@ -13,7 +13,8 @@ Sharedb.types.register(richText.type);
 
 const NoteEditor = ({ user, extractedText, isSpeech }) => {
   const { noteId } = useParams();
-  const [dataNew, setDataNew] = useState();
+  const [noteData, setNoteData] = useState();
+  const [noteTitle, setNoteTitle] = useState();
   const menuRef = useRef(null);
   let message = "";
 
@@ -21,8 +22,9 @@ const NoteEditor = ({ user, extractedText, isSpeech }) => {
     axios
       .get("http://localhost:4000/api/note/getNote/" + noteId)
       .then((response) => {
-        const notes = response;
-        setDataNew(notes);
+        const notes = response.data;
+        setNoteData(notes.versions[notes.versions.length - 1]);
+        setNoteTitle(notes.title)
       })
       .catch((error) => {
         console.error("Error retrieving notes:", error);
@@ -50,12 +52,12 @@ const NoteEditor = ({ user, extractedText, isSpeech }) => {
         },
       };
       
-      if(dataNew){
+      if(noteData){
         let quill = new Quill("#editor", options);
       editorRef.current = quill;
 
-      if (dataNew) {
-        quill.setContents(dataNew.data.content);
+      if (noteData) {
+        quill.setContents(noteData.content);
       } else {
         quill.setContents(doc.data);
       }
@@ -106,33 +108,41 @@ const NoteEditor = ({ user, extractedText, isSpeech }) => {
     return () => {
       connection.close();
     };
-  }, [dataNew, noteId]);
+  }, [noteData, noteId]);
 
   const handleSaveNote = async () => {
     const editor = editorRef.current;
     if (editor) {
       const content = editor.getContents();
 
-      // Using SweetAlert to prompt the user for the title
-      const { value: title } = await Swal.fire({
+      const { value: details } = await Swal.fire({
         title: "Enter the title for the note:",
-        input: "text",
-        inputPlaceholder: "Enter title",
-        inputValue: "", // Optional: Provide default value
-        showCancelButton: true,
-        inputValidator: (value) => {
-          if (!value.trim()) {
-            return "Title cannot be empty";
+        html:
+          '<input id="swal-input-title" class="swal2-input" placeholder="Enter title" value="' +
+          noteTitle +
+          '">' +
+          '<input id="swal-input-message" class="swal2-input" placeholder="Enter update message" value="Updated Note">',
+        focusConfirm: false,
+        preConfirm: () => {
+          const titleInput = document.getElementById("swal-input-title").value;
+          const messageInput = document.getElementById("swal-input-message").value;
+          
+          if (!titleInput.trim()) {
+            Swal.showValidationMessage("Title cannot be empty");
+            return false;
           }
+      
+          return { title: titleInput, message: messageInput };
         },
+        showCancelButton: true,
       });
 
-      if (title !== undefined) {
-        // If the user provides a title, proceed with saving the note
+      if (details !== undefined) {
         axios
           .put("http://localhost:4000/api/note/updateNote/" + noteId, {
-            title,
+            title: details.title,
             content,
+            updateMessage: details.message,
             username: user.username,
           })
           .then((response) => {
