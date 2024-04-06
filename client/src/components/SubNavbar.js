@@ -149,11 +149,11 @@ const SubNavbar = ({ setExtractedText, setisSpeech, toggleDiscuss, toggleHistory
       <div className={styles.subnavbarRight}>
         <button className={styles.subButton} onClick={showAccessPopup}>Manage Access</button>
         {!isRecognitionOn && (
-        <button className={styles.subButton} onClick={toggleRecognition}>Speech to text</button>
-      )}
-      {isRecognitionOn && (
-        <button className={styles.subButton} onClick={stopRecognition}>Stop Recognition</button>
-      )}
+          <button className={styles.subButton} onClick={toggleRecognition}>Speech to text</button>
+        )}
+        {isRecognitionOn && (
+          <button className={styles.subButton} onClick={stopRecognition}>Stop Recognition</button>
+        )}
     
 
         <button className={`${styles.subButton} ${styles.transit}`} onClick={toggleDiscuss}>Discuss</button>

@@ -81,19 +81,23 @@ const AccessPopup = ({ onClose, noteId }) => {
       <div className={styles.outerContainer}>
         <div className={styles.popupContainer}>
           <>
-            <button className={styles.closeBtn} onClick={handleClose}>
-              &#10006;
-            </button>
+            
             <div className={styles.popupContent}>
+        
               <div className={styles.title}>
-                <h1>Manage Note Access</h1>
-                <button onClick={() => showCollaboratorModal("add")}>
-                  Add Collaborator
+                <button className={styles.closeBtn} onClick={handleClose}>
+                  &#10006;
                 </button>
-                <button onClick={() => showCollaboratorModal("remove")}>
-                  Remove Collaborator
+                <h1>Manage Note Access</h1>
+                {/* <hr></hr> */}
+                <button className={styles.accessBtn} onClick={() => showCollaboratorModal("add")}>
+                  Add  Collaborator
+                </button>
+                <button className={styles.accessBtn} onClick={() => showCollaboratorModal("remove")}>
+                  Remove  Collaborator
                 </button>
               </div>
+              {/* <hr></hr> */}
               {isLoading ? (
                 <h4>Loading...</h4>
               ) : collaborators ? (
@@ -102,8 +106,9 @@ const AccessPopup = ({ onClose, noteId }) => {
                   <ul>
                     {collaborators.map((collaborator, index) => (
                       <li key={index}>
-                        <p>Email: {collaborator.email}</p>
-                        <p>Username: {collaborator.username}</p>
+                        <p className={styles.collaboratorInfo}><strong>Email:</strong> {collaborator.email}</p>
+                        <p className={styles.collaboratorInfo}><strong>Username:</strong> {collaborator.username}</p>
+                        
                       </li>
                     ))}
                   </ul>
