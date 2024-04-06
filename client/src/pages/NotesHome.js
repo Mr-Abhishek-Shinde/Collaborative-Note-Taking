@@ -62,7 +62,7 @@ const NotesHome = () => {
             <h3>Want to create new note?</h3>
             
             <button onClick={createBlankNote} >
-              <i class="fa-solid fa-plus"></i>Create</button>
+              <i className="fa-solid fa-plus"></i>Create</button>
           </div>
         </div>
 
@@ -84,7 +84,7 @@ const NotesHome = () => {
                 <ul className={styles.notes}>
                   {notesList.map((note) => (
                     <li key={note._id} onClick={() => navigate(`/notes/note/${note._id}`)}>
-                      <i class="fa-regular fa-note-sticky"></i> {note.title} notes
+                      <i className="fa-regular fa-note-sticky"></i> {note.title} notes
                     </li>
                   ))}
                 </ul>
@@ -95,7 +95,7 @@ const NotesHome = () => {
           <div className={styles.imgParaContainer}>
             <img src={notesHome} alt="not found :)" className={styles.cardImage}></img>
             <p className={styles.cardPara}>
-              <i class="fa-regular fa-clipboard"></i>
+              <i className="fa-regular fa-clipboard"></i>
               lets note down the things to keep track
             </p>
           </div>
@@ -114,7 +114,7 @@ const NotesHome = () => {
                 <ul className={styles.notes}>
                   {sharedNotesList.map((note) => (
                     <li key={note._id} onClick={() => navigate(`/notes/note/${note._id}`)}>
-                      <i class="fa-regular fa-note-sticky"></i> {note.title} notes
+                      <i className="fa-regular fa-note-sticky"></i> {note.title} notes
                     </li>
                   ))}
                 </ul>

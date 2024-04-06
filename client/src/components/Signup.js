@@ -32,7 +32,7 @@ const Signup = () => {
             <form >
               <div className={styles.inputBox}>
                 {/* <label htmlFor="name">Name</label> */}
-                <i class="fa-solid fa-file-signature"></i>
+                <i className="fa-solid fa-file-signature"></i>
                 
                 <input
                   placeholder="Enter your Name"
@@ -45,7 +45,7 @@ const Signup = () => {
                 />
               </div>
               <div className={styles.inputBox}>
-                <i class="fa-solid fa-user"></i>
+                <i className="fa-solid fa-user"></i>
                 {/* <label htmlFor="username">Username</label> */}
                 <input
                   placeholder="Enter the Username"
@@ -58,7 +58,7 @@ const Signup = () => {
                 />
               </div>
               <div className={styles.inputBox}>
-                <i class="fa-solid fa-envelope"></i>
+                <i className="fa-solid fa-envelope"></i>
                 {/* <label htmlFor="email">Email</label> */}
                 <input
                   placeholder="Enter your email"
@@ -71,7 +71,7 @@ const Signup = () => {
                 />
               </div>
               <div className={styles.inputBox}>
-                <i class="fa-solid fa-lock"></i>
+                <i className="fa-solid fa-lock"></i>
                 {/* <label htmlFor="password">Password</label> */}
                 <input
                   placeholder="Enter the Password"

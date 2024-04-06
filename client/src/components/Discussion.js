@@ -11,6 +11,18 @@ const Discussion = ({ username, roomId }) => {
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
+    const fetchMessages = async () => {
+      try {
+        const response = await axios.get(`http://localhost:4000/api/message/getMessages/${roomId}`);
+        if (!response.data.success) {
+          throw new Error('Failed to fetch messages');
+        }
+        setMessages(response.data.messages);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    
     socket.emit('join room', roomId);
     fetchMessages();
     socket.on('chat message', (msg) => {
@@ -20,23 +32,13 @@ const Discussion = ({ username, roomId }) => {
     return () => {
       socket.emit('leave room', roomId);
     };
-  }, []);
+  }, [roomId]);
 
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
 
-  const fetchMessages = async () => {
-    try {
-      const response = await axios.get(`http://localhost:4000/api/message/getMessages/${roomId}`);
-      if (!response.data.success) {
-        throw new Error('Failed to fetch messages');
-      }
-      setMessages(response.data.messages);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+
 
   const handleMessageSubmit = async (e) => {
     e.preventDefault();
@@ -65,7 +67,7 @@ const Discussion = ({ username, roomId }) => {
     <div className={styles.disContainer}>
       <div className={styles.headerDis}>
         <h1>
-          <i class="fa-regular fa-comments"></i>
+          <i className="fa-regular fa-comments"></i>
           Discuss
         </h1>
       </div>
@@ -92,7 +94,7 @@ const Discussion = ({ username, roomId }) => {
           />
           <br />
           <button type="submit">
-            <i class="fa-solid fa-paper-plane"></i>
+            <i className="fa-solid fa-paper-plane"></i>
             Send
           </button>
         </form>

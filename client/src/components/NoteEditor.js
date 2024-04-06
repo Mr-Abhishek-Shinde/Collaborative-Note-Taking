@@ -13,7 +13,7 @@ Sharedb.types.register(richText.type);
 const NoteEditor = ({ user, data, extractedText, isSpeech }) => {
   const { noteId } = useParams();
   const [dataNew, setDataNew] = useState();
-  const menuRef = useRef(null); // Reference to the contextual menu
+  const menuRef = useRef(null);
   let message = "";
 
   useEffect(() => {
@@ -51,20 +51,12 @@ const NoteEditor = ({ user, data, extractedText, isSpeech }) => {
       let quill = new Quill("#editor", options);
       editorRef.current = quill;
 
-      /**
-       * On Initialising if data is present in server
-       * Updating its content to editor
-       */
       if (dataNew) {
         quill.setContents(dataNew.data.content);
       } else {
         quill.setContents(doc.data);
       }
 
-      /**
-       * On Text change publishing to our server
-       * so that it can be broadcasted to all other clients
-       */
       quill.on("text-change", function (delta, oldDelta, source) {
         if (source !== "user") return;
         doc.submitOp(delta, { source: quill });
@@ -95,9 +87,6 @@ const NoteEditor = ({ user, data, extractedText, isSpeech }) => {
         }
       });
 
-      /** listening to changes in the document
-       * that is coming from our server
-       */
       doc.on("op", function (op, source) {
         if (source === quill) return;
         if (source === "api") {
@@ -174,7 +163,6 @@ const NoteEditor = ({ user, data, extractedText, isSpeech }) => {
   return (
     <div style={{ margin: "5%", border: "1px solid", fontFamily: "Arial, sans-serif" }}>
       <div id="editor" style={{ marginBottom: "20px", fontSize: "16px", color: "#333" }}></div>
-      {/* Contextual menu */}
       <div
         ref={menuRef}
         style={{
@@ -216,7 +204,6 @@ const NoteEditor = ({ user, data, extractedText, isSpeech }) => {
         >
           Summarize text
         </button>
-        {/* Add more options as needed */}
       </div>
 
       <button onClick={handleSaveNote}>Save Note</button>
