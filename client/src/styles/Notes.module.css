@@ -253,6 +253,32 @@
 
 /* Editor Styles: */
 
+.editorContainer {
+  background-color: white;
+  margin: 2% 5% 5% 5%;
+  
+}
+
+.toolbarContainer {
+  background-color: var(--secondary);
+}
+
+/* Add similar styles for other toolbar buttons as needed */
+
+
+/* .ql-snow .ql-picker.ql-size {
+  color: black; 
+}
+
+.ql-snow .ql-picker.ql-size .ql-picker-label::before {
+  color: black; 
+}
+
+.ql-snow .ql-picker.ql-size .ql-picker-item::before {
+  color: black; 
+} */
+
+
 
 /* Discussion Styles: */
 .disContainer {
@@ -526,7 +552,7 @@
 }
 
 .historyContent {
-  padding: 10px; /* Adjust padding as needed */
+  padding: 10px; 
 }
 
 

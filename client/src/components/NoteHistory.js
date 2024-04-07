@@ -41,7 +41,7 @@ const NoteHistory = ({ noteId }) => {
               <i class="fa-solid fa-caret-right"></i>
               Version {versions.length - index}
             </div>
-            <div className={styles.hisInfo}>Update Message: <span style={{ textDecoration: 'underline', textDecorationSkipInk: 'auto' }}>"{version.updateMessage}"</span></div>
+            <div className={styles.hisInfo}>Update Message: "{version.updateMessage}"</div>
             <div className={styles.hisInfo}>Modified At: {new Date(version.modifiedAt).toLocaleString()}</div>
             <div className={styles.hisInfo}>Modified By: {version.modifiedBy}</div>
             <button className={styles.hisViewButton} onClick={() => handleClick(index)}>View Details</button>
