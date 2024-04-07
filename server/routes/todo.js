@@ -1,6 +1,15 @@
 const express = require('express'); 
-const { getTodo, saveToDo, updateToDo, deleteToDo } = require('../controllers/todoController');
+// const { getTodo, saveToDo, updateToDo, deleteToDo } = require('../controllers/todoController');
 
+
+const { 
+    getTodo,
+    saveToDo,
+    updateToDo,
+    deleteToDo,
+ }  = require('../controllers/todoController');
+
+ 
 const router = express.Router();
 
 // router.get('/',(req, res)=>{
