@@ -25,7 +25,7 @@ const Dashboard = () => {
         </li>
 
         <li className={styles.cards_item}>
-          <Link to="/notes" className={styles.card_link}>
+          <Link to="/todo" className={styles.card_link}>
               <div className={styles.card}>
                 <div className={styles.card_img}>
                   <img src={imgTodo} alt="not found" />

@@ -1,6 +1,5 @@
 import React, { useState, useRef } from "react";
 import styles from "../styles/Notes.module.css";
-import { FaAngleDown, FaAngleUp } from 'react-icons/fa';
 
 const Sidebar = ({ notes, sharedNotes, handleNoteClick, handleNewNote, closeSideNav, isSideNavOpen }) => {
   
@@ -16,7 +15,7 @@ const Sidebar = ({ notes, sharedNotes, handleNoteClick, handleNewNote, closeSide
   const toggleSharedDropdown = () => {
     setSharedDropdownOpen(prevState => !prevState);
   };
-  
+
   return (
     <div className={`${styles.sidenav} ${isSideNavOpen ? styles.open : ''}`}>
       <div className={styles.closebtn} onClick={closeSideNav}>&times;</div>
@@ -26,7 +25,7 @@ const Sidebar = ({ notes, sharedNotes, handleNoteClick, handleNewNote, closeSide
           <h3 className={styles.headDrp}>
             <i className="fa-solid fa-book"></i>
             My Notes
-            {isMyDropdownOpen ? <FaAngleUp className={styles.dropdownIcon} /> : <FaAngleDown className={styles.dropdownIcon} />}
+            <span className={`${styles.dropdownIcon} ${isMyDropdownOpen ? styles.rotate180 : ''}`}>▼</span>
           </h3>
         </button>
         {isMyDropdownOpen && (
@@ -45,7 +44,7 @@ const Sidebar = ({ notes, sharedNotes, handleNoteClick, handleNewNote, closeSide
           <h3 className={styles.headDrp}>
             <i className="fa-solid fa-layer-group"></i>
             Shared Notes
-            {isSharedDropdownOpen ? <FaAngleUp className={styles.dropdownIcon} /> : <FaAngleDown className={styles.dropdownIcon} />}
+            <span className={`${styles.dropdownIcon} ${isSharedDropdownOpen ? styles.rotate180 : ''}`}>▼</span>
           </h3>
         </button>
         {isSharedDropdownOpen && (

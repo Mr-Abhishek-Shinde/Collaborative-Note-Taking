@@ -124,12 +124,15 @@
 }
 
 .dropdownIcon {
-  font-size: 20px;
+  font-size: 12px;
   padding-top: 6px;
   padding-bottom: 0;
   margin-left: 5px; 
 }
 
+.rotate180 {
+  transform: rotate(180deg);
+}
 /*********/
 
 .newNoteButton {
