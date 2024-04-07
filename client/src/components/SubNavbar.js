@@ -174,3 +174,4 @@ const SubNavbar = ({ setExtractedText, setisSpeech, toggleDiscuss, toggleHistory
 };
 
 export default SubNavbar;
+

@@ -85,12 +85,12 @@
   text-align: left;
   margin-right: 10px;
   
-  padding: 0 !important; 
+  padding: 0 10px;
   margin: 0 !important; 
 }
 .dropbutn i {
   color: var(--primary);
-  padding-right: 10px;
+  margin-right: 10px; /* Add margin to separate the icon from the text */
 }
 
 .headDrp {
@@ -99,6 +99,7 @@
   color: var(--text);
   transition: all 0.4s ease;
   display: inline-block; 
+  
 }
 
 
@@ -111,7 +112,7 @@
 }
 
 
-.dropContent i{
+.dropContent i {
   color: rgba(63, 62, 62, 0.737);
   font-weight: 100;
   padding-right: 6px;
@@ -120,6 +121,13 @@
 
 .dropContent li {
   padding-bottom: 4px;
+}
+
+.dropdownIcon {
+  font-size: 20px;
+  padding-top: 6px;
+  padding-bottom: 0;
+  margin-left: 5px; 
 }
 
 /*********/
