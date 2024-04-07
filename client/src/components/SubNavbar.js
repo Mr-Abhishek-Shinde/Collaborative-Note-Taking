@@ -159,6 +159,7 @@ const SubNavbar = ({ setExtractedText, setisSpeech, toggleDiscuss, toggleHistory
         <button className={`${styles.subButton} ${styles.transit}`} onClick={toggleDiscuss}>Discuss</button>
         
         <button className={styles.subButton} onClick={toggleHistory}>Track History</button>
+        <button className={`${styles.subButton} ${styles.deleteButton}`}>Delete Note</button>
       </div>
       
     </div>

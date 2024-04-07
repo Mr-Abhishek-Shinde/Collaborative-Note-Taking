@@ -108,7 +108,10 @@ const Notes = () => {
       
       <div className={styles.notesContainer}>
         <div className={styles.mainContainer} style={{ width: '100%' }}>
-          <div style={{ width: isDiscussionOpen ? '50%' : '100%', marginLeft: isDiscussionOpen ? '15px' : '0' }}>
+          <div style={{
+            width: (isDiscussionOpen || isHistoryOpen) ? '100%' : '100%',
+            marginRight: (isDiscussionOpen || isHistoryOpen) ? '340px' : '0'
+          }}>
             <NoteEditor
               user={user}
               extractedText={extractedText}
