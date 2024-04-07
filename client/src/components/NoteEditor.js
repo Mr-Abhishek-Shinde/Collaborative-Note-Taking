@@ -48,12 +48,14 @@ const NoteEditor = ({ user, extractedText, isSpeech }) => {
         modules: {
           toolbar: [
             [{ header: [1, 2, false] }],
-            ["bold", "italic", "underline", "strike", { script: "sub" }, { script: "super" }, "link"],
-            ["image", "code-block"],
-            [{ 'align': [] }],
-            // [{ 'align': ['center'] }],
-            // [{ 'align': ['right'] }]
+            ["bold", "italic", "underline", { 'color': [] }, { 'background': [] },"strike", { script: "sub" }, { script: "super" }, "link",[{ 'blockquote': 'blockquote' }]],
             
+            
+            [{ list: 'ordered' }, { list: 'bullet' },{ 'align': [] }, "code-block", { 'indent': '-1' }, { 'indent': '+1' },{ 'direction': 'rtl' }],
+
+            ["image"],
+            
+
           ],
         },
       };
@@ -254,8 +256,9 @@ const NoteEditor = ({ user, extractedText, isSpeech }) => {
           Summarize text
         </button>
       </div>
-
-      <button onClick={handleSaveNote}>Save Note</button>
+      <div className={styles.saveNote}>
+        <button className={styles.saveNoteButton} onClick={handleSaveNote}>Save Note</button>
+      </div>
     </div>
   );
 };
