@@ -56,11 +56,27 @@ const updateTodo = async (req, res) => {
     }
 }
 
+// const updateTodoStatus = async (req, res) => {
+//     try {
+//         const { todoId } = req.params;
+//         const { completed } = req.body;
+        
+//         const updatedTodo = await Todo.findByIdAndUpdate(todoId, { completed }, { new: true });
+
+//         if (!updatedTodo) {
+//             return res.status(404).json({ message: "Todo not found" });
+//         }
+
+//         res.json(updatedTodo);
+//     } catch (error) {
+//         res.status(400).json({ message: error.message });
+//     }
+// }
 const updateTodoStatus = async (req, res) => {
     try {
         const { todoId } = req.params;
-        const { status } = req.body;
-        
+        const { status } = req.body; // Assuming you're passing the new status as "status" in the request body
+
         const updatedTodo = await Todo.findByIdAndUpdate(todoId, { status }, { new: true });
 
         if (!updatedTodo) {
@@ -72,6 +88,10 @@ const updateTodoStatus = async (req, res) => {
         res.status(400).json({ message: error.message });
     }
 }
+
+
+
+
 
 const deleteTodo = async (req, res) => {
     try {

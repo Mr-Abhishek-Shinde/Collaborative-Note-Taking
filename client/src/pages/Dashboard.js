@@ -1,7 +1,9 @@
 import React from "react";
 import styles from "../styles/Dashboard.module.css";
 import { Link } from 'react-router-dom';
-import imgTodo from '../image/todolist.jpg';
+import imgTodos from '../image/todolist.jpg';
+import imgNotes from '../image/notes.png';
+
 const Dashboard = () => {
   return (
     <div className={styles.dashBoardBg}>
@@ -10,7 +12,7 @@ const Dashboard = () => {
           <Link to="/notes" className={styles.card_link}>
             <div className={styles.card}>
               <div className={styles.card_img}>
-                <img src={imgTodo} alt="not found" />
+                <img src={imgNotes} alt="not found" />
               </div>
               <div className={styles.card_content}>
                 <h2 className={styles.card_title}>Notes</h2>
@@ -28,7 +30,7 @@ const Dashboard = () => {
           <Link to="/todo" className={styles.card_link}>
               <div className={styles.card}>
                 <div className={styles.card_img}>
-                  <img src={imgTodo} alt="not found" />
+                  <img src={imgTodos} alt="not found" />
                 </div>
                 <div className={styles.card_content}>
                   <h2 className={styles.card_title}>To-do List</h2>
@@ -47,7 +49,7 @@ const Dashboard = () => {
           <Link to="/notes" className={styles.card_link}>
             <div className={styles.card}>
               <div className={styles.card_img}>
-                <img src={imgTodo} alt="not found" />
+                <img src={imgTodos} alt="not found" />
               </div>
               <div className={styles.card_content}>
                 <h2 className={styles.card_title}>Mind-Map</h2>

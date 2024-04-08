@@ -18,6 +18,7 @@
     align-items: center; 
     justify-content: center;
     border: none;
+    font-size: larger;
 }
 
 .todoContainer h1 {
@@ -84,7 +85,14 @@
     cursor: pointer;
     font-size: 20px;
     padding-bottom: 10px;
+    margin-right: 5px; 
 }
+
+
+.completed .todoIcons {
+    margin-right: 25px; 
+}
+
 
 .mainToContainer {
     margin-bottom: 20px;
@@ -92,7 +100,7 @@
 
 .todoListContainer {
     margin-top: 10px;
-    height: 65vh; /* Set fixed height */
+    height: 63vh; /* Set fixed height */
     overflow-y: auto; /* Enable vertical scrolling */
 }
 
@@ -126,6 +134,17 @@
     width: 100%; 
     height: auto;
 }
+
+
+.completed {
+    text-decoration: line-through; /* Add a line-through style for completed tasks */
+    color: #888; /* Optionally, you can change the color of completed tasks */
+}
+  
+.completedIcon {
+    color: green;
+}
+  
 
 .todoListContainer::-webkit-scrollbar {
   width: 4px;
