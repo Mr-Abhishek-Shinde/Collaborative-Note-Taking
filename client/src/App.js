@@ -9,6 +9,7 @@ import Dashboard from "./pages/Dashboard";
 import Notes from "./pages/Notes";
 import About from "./pages/About"
 import NotesHome from "./pages/NotesHome";
+import Todo from "./pages/Todobase";
 
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
           <Route exact path="/notes/note/:noteId" element={user ? <Notes /> : <Home />} />
           <Route exact path="/dashboard" element={user ? <Dashboard /> : <Home />} />
           <Route exact path="/about" element={<About />}/>
+          <Route exact path="/todo" element={<Todo/>}/>
         </Routes>
       </BrowserRouter>
     </div>

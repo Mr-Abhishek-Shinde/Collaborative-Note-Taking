@@ -49,9 +49,10 @@ const Navbar = () => {
           </Link>
         </li>
         <li className={styles.navLink}>
-          <Link to="/">
-            <i className="fa-solid fa-address-book"></i>
-            Contacts
+          <Link to="/dashboard">
+            {/* <i className="fa-solid fa-address-book"></i> */}
+            <i class="fa-solid fa-table-columns"></i>
+            Dashboard
           </Link>
         </li>
 

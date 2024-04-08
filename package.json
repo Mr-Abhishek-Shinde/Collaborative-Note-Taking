@@ -2,6 +2,7 @@
   "dependencies": {
     "@picovoice/leopard-react": "^2.0.2",
     "@picovoice/web-voice-processor": "^4.0.9",
+    "react-icons": "^5.0.1",
     "react-quill": "^2.0.0",
     "react-router-dom": "^6.21.3",
     "stream-browserify": "^3.0.0",

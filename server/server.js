@@ -6,6 +6,7 @@ const cors = require("cors");
 const userRoutes = require("./routes/user");
 const notesRoutes = require("./routes/note");
 const messageRoutes = require("./routes/message");
+const todoRoutes = require("./routes/todo");
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use(cors());
 app.use("/api/user", userRoutes);
 app.use("/api/note", notesRoutes);
 app.use("/api/message", messageRoutes);
+app.use("/api/todo", todoRoutes);
 
 // Connect to MongoDB
 mongoose

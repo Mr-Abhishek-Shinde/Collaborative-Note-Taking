@@ -6,6 +6,7 @@ import axios from "axios";
 import Sharedb from "sharedb/lib/client";
 import richText from "rich-text";
 import Swal from "sweetalert2";
+import styles from "../styles/Notes.module.css";
 
 // Registering the rich text type to make sharedb work
 // with our quill editor
@@ -39,18 +40,28 @@ const NoteEditor = ({ user, extractedText, isSpeech }) => {
     const doc = connection.get("documents", noteId);
 
     doc.subscribe(async function (err) {
-      if (err) throw err;
+      // if (err) throw err;
+      
 
       const options = {
         theme: "snow",
         modules: {
           toolbar: [
             [{ header: [1, 2, false] }],
-            ["bold", "italic", "underline"],
-            ["image", "code-block"],
+            ["bold", "italic", "underline", { 'color': [] }, { 'background': [] },"strike", { script: "sub" }, { script: "super" }, "link",[{ 'blockquote': 'blockquote' }]],
+            
+            
+            [{ list: 'ordered' }, { list: 'bullet' },{ 'align': [] }, "code-block", { 'indent': '-1' }, { 'indent': '+1' },{ 'direction': 'rtl' }],
+
+            ["image"],
+            
+
           ],
         },
       };
+      
+      
+      
       
       if(noteData){
         let quill = new Quill("#editor", options);
@@ -192,18 +203,18 @@ const NoteEditor = ({ user, extractedText, isSpeech }) => {
   // }
 
   return (
-    <div
+    <div className={styles.editorContainer} //full
       style={{
-        margin: "5%",
         border: "1px solid",
         fontFamily: "Arial, sans-serif",
+        
       }}
     >
-      <div
+      <div className={styles.editNotesContainer}
         id="editor"
         style={{ marginBottom: "20px", fontSize: "16px", color: "#333" }}
       ></div>
-      <div
+      <div 
         ref={menuRef}
         style={{
           position: "absolute",
@@ -245,8 +256,9 @@ const NoteEditor = ({ user, extractedText, isSpeech }) => {
           Summarize text
         </button>
       </div>
-
-      <button onClick={handleSaveNote}>Save Note</button>
+      <div className={styles.saveNote}>
+        <button className={styles.saveNoteButton} onClick={handleSaveNote}>Save Note</button>
+      </div>
     </div>
   );
 };

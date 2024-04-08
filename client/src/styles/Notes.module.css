@@ -85,12 +85,12 @@
   text-align: left;
   margin-right: 10px;
   
-  padding: 0 !important; 
+  padding: 0 10px;
   margin: 0 !important; 
 }
 .dropbutn i {
   color: var(--primary);
-  padding-right: 10px;
+  margin-right: 10px; /* Add margin to separate the icon from the text */
 }
 
 .headDrp {
@@ -99,6 +99,7 @@
   color: var(--text);
   transition: all 0.4s ease;
   display: inline-block; 
+  
 }
 
 
@@ -111,7 +112,7 @@
 }
 
 
-.dropContent i{
+.dropContent i {
   color: rgba(63, 62, 62, 0.737);
   font-weight: 100;
   padding-right: 6px;
@@ -122,6 +123,16 @@
   padding-bottom: 4px;
 }
 
+.dropdownIcon {
+  font-size: 12px;
+  padding-top: 6px;
+  padding-bottom: 0;
+  margin-left: 5px; 
+}
+
+.rotate180 {
+  transform: rotate(180deg);
+}
 /*********/
 
 .newNoteButton {
@@ -252,6 +263,67 @@
 
 
 /* Editor Styles: */
+
+.editorContainer {
+  background-color: white;
+  margin: 2% 5% 5% 5%;
+  
+}
+
+.toolbarContainer {
+  background-color: var(--secondary);
+}
+
+.saveNote{
+  padding: 0 15px 15px 15px;
+  margin-top: 0;
+}
+.saveNoteButton {
+  background-color: var(--primary);
+  /* background-image: linear-gradient(#37ADB2, #329CA0); */
+  border: 1px solid #2A8387;
+  border-radius: 4px;
+  box-shadow: rgba(0, 0, 0, 0.12) 0 1px 1px;
+  color: #FFFFFF;
+  cursor: pointer;
+  display: block;
+  font-family: -apple-system,".SFNSDisplay-Regular","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 17px;
+  line-height: 100%;
+  margin: 0;
+  outline: 0;
+  padding: 11px 15px 12px;
+  text-align: center;
+  transition: box-shadow .05s ease-in-out,opacity .05s ease-in-out;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  width: 10%;
+}
+
+.saveNoteButton:hover {
+  box-shadow: rgba(255, 255, 255, 0.3) 0 0 2px inset, rgba(0, 0, 0, 0.4) 0 1px 2px;
+  text-decoration: none;
+  transition-duration: .15s, .15s;
+}
+
+
+
+/* Add similar styles for other toolbar buttons as needed */
+
+
+/* .ql-snow .ql-picker.ql-size {
+  color: black; 
+}
+
+.ql-snow .ql-picker.ql-size .ql-picker-label::before {
+  color: black; 
+}
+
+.ql-snow .ql-picker.ql-size .ql-picker-item::before {
+  color: black; 
+} */
+
 
 
 /* Discussion Styles: */
@@ -489,9 +561,160 @@
   touch-action: manipulation;
 }
 
+
 .subButton:hover,
 .subButton:focus {
   background-color: rgb(137, 140, 141);
   transition: transform 0.2s ease, text-shadow 0.3s ease;
   color: white;
+}
+
+.deleteButton:hover,
+.deleteButton:focus{
+  background-color: rgb(255, 25, 25);
+  transition: transform 0.2s ease, text-shadow 0.3s ease;
+  color: white;
+}
+
+
+
+/******notes history styles*******/
+
+.historyContainer {
+  position: fixed;
+  top: 105px;
+  right: 0;
+  height: 85vh; 
+  overflow-y: auto; 
+  display: block;
+  transition: 0.3s;
+  z-index: 1000;
+  background-color: rgb(220, 252, 255);
+  border: 1px solid var(--primary);
+  margin-right: 3px; 
+  width: 360px; 
+  border-radius: 10px;
+  box-shadow: 2px 2px 20px rgba(8, 7, 16, 0.6);
+}
+
+.historyContent {
+  padding: 10px; 
+}
+
+
+.historyContainer li{
+  text-align: left;
+  
+  /* height: 100%; */
+  line-height: 20px;
+  margin: 15px 0;
+  transition: all 0.25s;
+}
+
+.historyContainer .historyHeading {
+  font-size: 30px;
+  margin-left: 15px;
+  margin-right: 15px;
+  color: var(--primary);
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+  background-color: white;
+  /* width: 70%; */
+  text-align: center;
+  padding: 3px;
+  border-radius: 10px;
+  border: 1px solid var(--primary);
+  
+}
+.historyContainer .historyHeading i{
+  /* transform: scaleX(-1); */
+  padding-right: 10px;
+  font-size: x-large;
+  font-weight: 600;
+  
+}
+
+.historyContainer .hisLinks{
+  list-style-type: none;
+  padding-left: 0;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.historyContainer .hisVersion {
+  font-size: large;
+  font-weight: 600;
+  padding-left: 10px;
+  color: var(--primary);
+  padding-bottom: 6px;
+}
+
+.historyContainer .hisVersion i{
+  padding-right: 10px;
+}
+
+.hisInfo {
+  padding-left: 30px;
+  padding-bottom: 4px;
+}
+
+/**********/
+.hisViewButton {
+  /* margin-left: 70%;  */ /*to align left*/
+  margin-left: 30px;
+  background-color: #f4f3f3;
+  border: 1px solid #d5d9d9;
+  border-radius: 8px;
+  box-shadow: rgba(213, 217, 217, .5) 0 2px 5px 0;
+  box-sizing: border-box;
+  color: #0f1111;
+  cursor: pointer;
+  display: inline-block;
+  font-family: "Amazon Ember",sans-serif;
+  font-size: 13px;
+  line-height: 25px;
+  padding: 0 10px 0 11px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+  width: 100px;
+}
+
+.hisViewButton:hover {
+  background-color: #f7fafa;
+}
+
+.hisViewButton:focus {
+  border-color: var(--primary);
+  box-shadow: rgba(213, 217, 217, .5) 0 2px 5px 0;
+  outline: 0;
+}
+/**********/
+
+
+.historyContainer::-webkit-scrollbar {
+  width: 6px;
+  
+}
+
+.historyContainer::-webkit-scrollbar-track {
+  background: rgb(220, 252, 255); 
+  border-radius: 10px;
+}
+
+
+
+.historyContainer::-webkit-scrollbar-thumb {
+  background: var(--primary); 
+  border-radius: 10px;
+}
+
+
+.historyContainer::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+  
 }

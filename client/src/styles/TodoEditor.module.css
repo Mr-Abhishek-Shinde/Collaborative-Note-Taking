@@ -1,0 +1,172 @@
+
+.mainTodoContainer {
+    width: 650px;
+    margin: auto;
+    margin-top: 20px;
+    border: 2px solid var(--accent);
+    border-radius: 10px;
+    /* overflow: hidden;  */
+    background-color: white;
+}
+
+.todoContainer {
+    max-width: 600px;
+    margin: auto;   
+    margin-top: 5%;
+    padding: 0 1rem;
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    border: none;
+    font-size: larger;
+}
+
+.todoContainer h1 {
+    margin-top: 1rem;
+    text-align: center;
+    margin-left: 0.5rem; /* Add margin to create space between icon and text */
+}
+
+.todoContainer i {
+    font-size: 24px;
+    padding-right: 5px;
+}
+
+.todoTop {
+    /* background-color: black; */
+    margin-top: 1rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    border: none;
+}
+
+.todoTop input {
+    border: none;
+    outline: none;
+    width: 400px;
+    padding: 0.5rem;
+    
+    border-bottom: 1px solid black;
+}
+
+
+.todoAdd {
+    background-color: var(--primary);
+    color: #fff;
+    padding: 0.5rem 1.5rem;
+    cursor: pointer;
+}
+
+.todo {
+    position: relative;
+    background-color: var(--primary);
+    color: #fff;
+    padding: 1.5rem;
+    border-radius: 5px;
+    width: 600px;
+    max-width: 600px;
+    margin: auto;
+    margin-top: 2rem;
+    border: none;
+}
+
+.todoIcons {
+    position: absolute;
+    top: 35%;
+    transform: translate(-50%);
+    right: 20px;
+    display: flex;
+    gap: 0.5rem;
+    font-size: 20px;
+}
+
+.todoIcon {
+    cursor: pointer;
+    font-size: 20px;
+    padding-bottom: 10px;
+    margin-right: 5px; 
+}
+
+
+.completed .todoIcons {
+    margin-right: 25px; 
+}
+
+
+.mainToContainer {
+    margin-bottom: 20px;
+}
+
+.todoListContainer {
+    margin-top: 10px;
+    height: 63vh; /* Set fixed height */
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+
+/* .todoList {
+    padding-right: 15px; 
+} */
+
+.todoOveralllConatainer {
+    display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  width: 100%;
+  box-sizing: border-box;
+  height: 100vh;
+  color: var(--text);
+  background-color: #b6f3f3c0;
+}
+
+.imageContainer{
+    width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  overflow: hidden; 
+}
+
+.imageContainer img {
+    width: 100%; 
+    height: auto;
+}
+
+
+.completed {
+    text-decoration: line-through; /* Add a line-through style for completed tasks */
+    color: #888; /* Optionally, you can change the color of completed tasks */
+}
+  
+.completedIcon {
+    color: green;
+}
+  
+
+.todoListContainer::-webkit-scrollbar {
+  width: 4px;
+  
+}
+
+.todoListContainer::-webkit-scrollbar-track {
+  background: #bcf7ff8d; 
+  border-radius: 5px;
+}
+
+
+
+.todoListContainer::-webkit-scrollbar-thumb {
+  background: #56acb2; 
+  border-radius: 5px;
+}
+
+
+.todoListContainer::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+  
+}
+  
+

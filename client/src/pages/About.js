@@ -75,7 +75,7 @@ const About =() => {
 
                     <div className={styles.aboutus_box_titles}>
                         <h2>
-                            Founder
+                            Feature
                         </h2>
                         <p>
                         Welcome to CollabNote – your all-in-one hub for seamless collaborative note-taking! Our platform revolutionizes the way teams and individuals collaborate on ideas, projects, and tasks. With CollabNote, effortlessly create, edit, and organize notes in real-time, ensuring everyone stays on the same page. Say goodbye to juggling multiple documents – CollabNote keeps everything centralized and accessible, fostering greater productivity. Join our community today and unlock the full potential of collaborative note-taking. Welcome to CollabNote – where ideas converge, creativity flourishes, and teamwork thrives!

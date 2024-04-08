@@ -4,11 +4,13 @@ import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import AccessPopup from "./AccessPopup";
 import styles from "../styles/Notes.module.css";
+import { Link } from "react-router-dom";
 
 const SubNavbar = ({ setExtractedText, setisSpeech, toggleDiscuss, toggleHistory, openSideNav, noteId }) => {
   const [recognition, setRecognition] = useState(null);
   const [isRecognitionOn, setIsRecognitionOn] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
+  
 
   useEffect(() => {
     return () => {
@@ -123,6 +125,10 @@ const SubNavbar = ({ setExtractedText, setisSpeech, toggleDiscuss, toggleHistory
     setShowPopup(false);
   }
 
+  const goToDashboard = () => {
+    window.location.href = "/notes/";
+  }
+
   return (
     <>
     <div className={styles.subnavbar}>
@@ -131,34 +137,18 @@ const SubNavbar = ({ setExtractedText, setisSpeech, toggleDiscuss, toggleHistory
           &#9776;
         </div>
       </div>
-      {/* {user && (
-          <li className={styles.navLink} ref={dropdownRef}>
-            <div className={styles.dropdown}>
-              <button className={styles.dropbtn} onClick={toggleDropdown}>
-                <h3 className={styles.plus}>+</h3>
-              </button>
-              {isDropdownOpen && (
-                <div className={styles.dropdowncontent}>
-                  <Link>New note</Link>
-                  <Link>Add Comments</Link>
-                </div>
-              )}
-            </div>
-          </li>
-        )} */}
       <div className={styles.subnavbarRight}>
         <button className={styles.subButton} onClick={showAccessPopup}>Manage Access</button>
         {!isRecognitionOn && (
-        <button className={styles.subButton} onClick={toggleRecognition}>Speech to text</button>
-      )}
-      {isRecognitionOn && (
-        <button className={styles.subButton} onClick={stopRecognition}>Stop Recognition</button>
-      )}
-    
-
+          <button className={styles.subButton} onClick={toggleRecognition}>Speech to text</button>
+        )}
+        {isRecognitionOn && (
+          <button className={styles.subButton} onClick={stopRecognition}>Stop Recognition</button>
+        )}
         <button className={`${styles.subButton} ${styles.transit}`} onClick={toggleDiscuss}>Discuss</button>
-        
         <button className={styles.subButton} onClick={toggleHistory}>Track History</button>
+        <button className={`${styles.subButton} ${styles.backButton}`} onClick={goToDashboard}>Go Back</button>
+        <button className={`${styles.subButton} ${styles.deleteButton}`}>Delete Note</button>
       </div>
       
     </div>
