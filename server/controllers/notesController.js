@@ -193,13 +193,24 @@ const getAllNoteVersions = async (req, res) => {
   try {
     const { noteId } = req.params;
 
-    const note = await Note.findById(noteId);
+    const note = await Note.findById(noteId).populate({
+      path: 'versions.modifiedBy',
+      select: 'username'
+    });
 
     if (!note) {
       return res.status(404).json({ error: "Note not found" });
     }
 
-    res.json(note.versions);
+    // Map through versions to replace modifiedBy with username
+    const versionsWithUsername = note.versions.map(version => ({
+      content: version.content,
+      updateMessage: version.updateMessage,
+      modifiedBy: version.modifiedBy.username,
+      modifiedAt: version.modifiedAt
+    }));
+
+    res.json(versionsWithUsername);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Server error" });
