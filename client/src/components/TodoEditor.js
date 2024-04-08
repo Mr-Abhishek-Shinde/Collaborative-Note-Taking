@@ -3,7 +3,7 @@ import styles from "../styles/TodoEditor.module.css";
 
 const TodoEditor = ({ text, updateMode, deleteToDo }) => {
   return (
-    <div className={styles.mainTodoContainer}>
+    <div className={styles.mainToContainer}>
       <div className={styles.todo}>
         <div className={styles.todoText}>{text}</div>
         <div className={styles.todoIcons}>
