@@ -7,7 +7,7 @@ const userRoutes = require("./routes/user");
 const notesRoutes = require("./routes/note");
 const messageRoutes = require("./routes/message");
 const todoRoutes = require("./routes/todo");
-
+const summarizeTextRoutes = require("./routes/summarize");
 const app = express();
 
 app.use(express.json());
@@ -18,6 +18,8 @@ app.use("/api/user", userRoutes);
 app.use("/api/note", notesRoutes);
 app.use("/api/message", messageRoutes);
 app.use("/api/todo", todoRoutes);
+app.use("/api/summarize", summarizeTextRoutes);
+
 
 // Connect to MongoDB
 mongoose
