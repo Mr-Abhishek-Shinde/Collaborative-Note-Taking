@@ -1,18 +1,16 @@
 // SubNavbar.jsx
 
-import React, { useState, useEffect, useRef  } from "react";
+import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
-import { Link } from "react-router-dom";
+import AccessPopup from "./AccessPopup";
 import styles from "../styles/Notes.module.css";
-import { useAuthContext } from "../hooks/useAuthContext";
+import { Link } from "react-router-dom";
 
-
-const SubNavbar = ({ handleAccess, setExtractedText, setisSpeech, toggleDiscuss, openSideNav }) => {
+const SubNavbar = ({ setExtractedText, setisSpeech, toggleDiscuss, toggleHistory, openSideNav, noteId }) => {
   const [recognition, setRecognition] = useState(null);
-  // const { user } = useAuthContext();
-  // const [isDropdownOpen, setDropdownOpen] = useState(false);
-  // const dropdownRef = useRef(null);
   const [isRecognitionOn, setIsRecognitionOn] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+  
 
   useEffect(() => {
     return () => {
@@ -22,17 +20,9 @@ const SubNavbar = ({ handleAccess, setExtractedText, setisSpeech, toggleDiscuss,
     };
   }, [recognition]);
 
-  const showAccessForm = async () => {
-    const { value: username } = await Swal.fire({
-      title: "Add New Collaborator",
-      input: "text",
-      inputLabel: "Username",
-      inputPlaceholder: "Enter the username of collaborator",
-    });
-    if (username) {
-      handleAccess(username);
-    }
-  };
+  const showAccessPopup = () => {
+    setShowPopup(true);
+  }
 
   const toggleRecognition = () => {
     if (!("webkitSpeechRecognition" in window)) {
@@ -131,42 +121,44 @@ const SubNavbar = ({ handleAccess, setExtractedText, setisSpeech, toggleDiscuss,
   //   setDropdownOpen(!isDropdownOpen);
   // };
 
+  const handlePopupClose = () => {
+    setShowPopup(false);
+  }
+
+  const goToDashboard = () => {
+    window.location.href = "/notes/";
+  }
+
   return (
+    <>
     <div className={styles.subnavbar}>
       <div className={styles.subnavbarLeft}>
         <div id={styles.lines} onClick={openSideNav}>
           &#9776;
         </div>
       </div>
-      {/* {user && (
-          <li className={styles.navLink} ref={dropdownRef}>
-            <div className={styles.dropdown}>
-              <button className={styles.dropbtn} onClick={toggleDropdown}>
-                <h3 className={styles.plus}>+</h3>
-              </button>
-              {isDropdownOpen && (
-                <div className={styles.dropdowncontent}>
-                  <Link>New note</Link>
-                  <Link>Add Comments</Link>
-                </div>
-              )}
-            </div>
-          </li>
-        )} */}
       <div className={styles.subnavbarRight}>
-        <button className={styles.subButton} onClick={showAccessForm}>Give Access</button>
+        <button className={styles.subButton} onClick={showAccessPopup}>Manage Access</button>
         {!isRecognitionOn && (
-        <button className={styles.subButton} onClick={toggleRecognition}>Speech to text</button>
-      )}
-      {isRecognitionOn && (
-        <button className={styles.subButton} onClick={stopRecognition}>Stop Recognition</button>
-      )}
-    
-
-        <button className={styles.subButton} onClick={toggleDiscuss}>Discuss</button>
+          <button className={styles.subButton} onClick={toggleRecognition}>Speech to text</button>
+        )}
+        {isRecognitionOn && (
+          <button className={styles.subButton} onClick={stopRecognition}>Stop Recognition</button>
+        )}
+        <button className={`${styles.subButton} ${styles.transit}`} onClick={toggleDiscuss}>Discuss</button>
+        <button className={styles.subButton} onClick={toggleHistory}>Track History</button>
+        <button className={`${styles.subButton} ${styles.backButton}`} onClick={goToDashboard}>Go Back</button>
+        <button className={`${styles.subButton} ${styles.deleteButton}`}>Delete Note</button>
       </div>
       
     </div>
+      {showPopup && (
+        <AccessPopup
+          onClose={handlePopupClose}
+          noteId={noteId}
+        />
+      )}
+      </>
   );
 };
 

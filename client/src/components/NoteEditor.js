@@ -5,6 +5,8 @@ import "quill/dist/quill.snow.css";
 import axios from "axios";
 import Sharedb from "sharedb/lib/client";
 import richText from "rich-text";
+import Swal from "sweetalert2";
+import styles from "../styles/Notes.module.css";
 import { pipeline,AutoTokenizer } from '@xenova/transformers';
 import { useSummarizeText } from '../hooks/useSummarizeText';
 
@@ -13,10 +15,11 @@ import { useSummarizeText } from '../hooks/useSummarizeText';
 // with our quill editor
 Sharedb.types.register(richText.type);
 
-const NoteEditor = ({ user, data, extractedText, isSpeech }) => {
+const NoteEditor = ({ user, extractedText, isSpeech }) => {
   const { noteId } = useParams();
-  const [dataNew, setDataNew] = useState();
-  const menuRef = useRef(null); // Reference to the contextual menu
+  const [noteData, setNoteData] = useState();
+  const [noteTitle, setNoteTitle] = useState();
+  const menuRef = useRef(null);
   const [summary, setSummary] = useState("");
   const { summarizeText, isLoading } = useSummarizeText();
   let message = "";
@@ -26,8 +29,9 @@ const NoteEditor = ({ user, data, extractedText, isSpeech }) => {
     axios
       .get("http://localhost:4000/api/note/getNote/" + noteId)
       .then((response) => {
-        const notes = response;
-        setDataNew(notes);
+        const notes = response.data;
+        setNoteData(notes.versions[notes.versions.length - 1]);
+        setNoteTitle(notes.title)
       })
       .catch((error) => {
         console.error("Error retrieving notes:", error);
@@ -44,35 +48,39 @@ const NoteEditor = ({ user, data, extractedText, isSpeech }) => {
 
 
     doc.subscribe(async function (err) {
-      if (err) throw err;
+      // if (err) throw err;
+      
 
       const options = {
         theme: "snow",
         modules: {
           toolbar: [
             [{ header: [1, 2, false] }],
-            ["bold", "italic", "underline"],
-            ["image", "code-block"],
+            ["bold", "italic", "underline", { 'color': [] }, { 'background': [] },"strike", { script: "sub" }, { script: "super" }, "link",[{ 'blockquote': 'blockquote' }]],
+            
+            
+            [{ list: 'ordered' }, { list: 'bullet' },{ 'align': [] }, "code-block", { 'indent': '-1' }, { 'indent': '+1' },{ 'direction': 'rtl' }],
+
+            ["image"],
+            
+
           ],
         },
       };
-      let quill = new Quill("#editor", options);
+      
+      
+      
+      
+      if(noteData){
+        let quill = new Quill("#editor", options);
       editorRef.current = quill;
 
-      /**
-       * On Initialising if data is present in server
-       * Updating its content to editor
-       */
-      if (dataNew) {
-        quill.setContents(dataNew.data.content);
+      if (noteData) {
+        quill.setContents(noteData.content);
       } else {
         quill.setContents(doc.data);
       }
 
-      /**
-       * On Text change publishing to our server
-       * so that it can be broadcasted to all other clients
-       */
       quill.on("text-change", function (delta, oldDelta, source) {
         if (source !== "user") return;
         doc.submitOp(delta, { source: quill });
@@ -87,9 +95,11 @@ const NoteEditor = ({ user, data, extractedText, isSpeech }) => {
           if (range.length > 0) {
             // If text is selected, display the menu at the selection position
             const selection = window.getSelection();
-            const selectionRect = selection.getRangeAt(0).getBoundingClientRect();
-            message = quill.getText(range.index, range.length);
-            console.log("User has highlighted", message);
+            const selectionRect = selection
+              .getRangeAt(0)
+              .getBoundingClientRect();
+            // message = quill.getText(range.index, range.length);
+            // console.log("User has highlighted", message);
             menu.style.display = "block";
             menu.style.top = `${selectionRect.bottom}px`;
             menu.style.left = `${selectionRect.left}px`;
@@ -103,9 +113,6 @@ const NoteEditor = ({ user, data, extractedText, isSpeech }) => {
         }
       });
 
-      /** listening to changes in the document
-       * that is coming from our server
-       */
       doc.on("op", function (op, source) {
         if (source === quill) return;
         if (source === "api") {
@@ -114,30 +121,56 @@ const NoteEditor = ({ user, data, extractedText, isSpeech }) => {
         }
         quill.updateContents(op);
       });
+      }
     });
 
     return () => {
       connection.close();
     };
-  }, [dataNew, noteId]);
+  }, [noteData, noteId]);
 
-  const handleSaveNote = () => {
+  const handleSaveNote = async () => {
     const editor = editorRef.current;
     if (editor) {
       const content = editor.getContents();
 
-      // Prompt the user for the title
-      const title = prompt("Enter the title for the note:");
-      if (title !== null && title.trim() !== "") {
-        // If the user provides a title, proceed with saving the note
+      const { value: details } = await Swal.fire({
+        title: "Enter the title for the note:",
+        html:
+        '<label for="swal-input-title">Title:</label>' +
+        '<input id="swal-input-title" class="swal2-input" placeholder="Enter title" value="' + noteTitle + '">' +
+        '<label for="swal-input-message">Message:</label>' +
+        '<input id="swal-input-message" class="swal2-input" placeholder="Enter update message" value="Updated Note">'
+        ,
+        focusConfirm: false,
+        preConfirm: () => {
+          const titleInput = document.getElementById("swal-input-title").value;
+          const messageInput = document.getElementById("swal-input-message").value;
+          
+          if (!titleInput.trim()) {
+            Swal.showValidationMessage("Title cannot be empty");
+            return false;
+          }
+      
+          return { title: titleInput, message: messageInput };
+        },
+        showCancelButton: true,
+      });
+
+      if (details !== undefined) {
         axios
           .put("http://localhost:4000/api/note/updateNote/" + noteId, {
-            title,
+            title: details.title,
             content,
+            updateMessage: details.message,
             username: user.username,
           })
           .then((response) => {
-            console.log(response.data.message);
+            Swal.fire({
+              title: "Note Saved!",
+              timer: 1000,
+              timerProgressBar: true,
+            })
           })
           .catch((error) => {
             console.error("Error saving note:", error);
@@ -154,7 +187,7 @@ const NoteEditor = ({ user, data, extractedText, isSpeech }) => {
     if (extractedText && isSpeech && editorRef.current) {
       editorRef.current.clipboard.dangerouslyPasteHTML(extractedText);
     }
-  }, [extractedText]);
+  }, [extractedText, isSpeech]);
 
   function handleSummary() {
     const editor = editorRef.current;
@@ -194,21 +227,27 @@ const NoteEditor = ({ user, data, extractedText, isSpeech }) => {
   
 
 
-  function handleLogFormattedText() {
-    // Log the formatted text or perform any other operation
-    const editor = editorRef.current;
-    if (editor) {
-      const formattedText = editor.root.innerHTML;
-      console.log(formattedText);
-      // Here you can store the formatted text in the database or perform any other operation.
-    }
-  }
+  // function handleLogFormattedText() {
+  //   const editor = editorRef.current;
+  //   if (editor) {
+  //     const formattedText = editor.root.innerHTML;
+  //     console.log(formattedText);
+  //   }
+  // }
 
   return (
-    <div style={{ margin: "5%", border: "1px solid", fontFamily: "Arial, sans-serif" }}>
-      <div id="editor" style={{ marginBottom: "20px", fontSize: "16px", color: "#333" }}></div>
-      {/* Contextual menu */}
-      <div
+    <div className={styles.editorContainer} //full
+      style={{
+        border: "1px solid",
+        fontFamily: "Arial, sans-serif",
+        
+      }}
+    >
+      <div className={styles.editNotesContainer}
+        id="editor"
+        style={{ marginBottom: "20px", fontSize: "16px", color: "#333" }}
+      ></div>
+      <div 
         ref={menuRef}
         style={{
           position: "absolute",
@@ -261,8 +300,6 @@ const NoteEditor = ({ user, data, extractedText, isSpeech }) => {
 
 
       </div>
-
-      <button onClick={handleSaveNote}>Save Note</button>
     </div>
   );
 };

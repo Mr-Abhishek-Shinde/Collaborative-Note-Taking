@@ -6,6 +6,7 @@ const cors = require("cors");
 const userRoutes = require("./routes/user");
 const notesRoutes = require("./routes/note");
 const messageRoutes = require("./routes/message");
+const todoRoutes = require("./routes/todo");
 const summarizeTextRoutes = require("./routes/summarize");
 const app = express();
 
@@ -16,6 +17,7 @@ app.use(cors());
 app.use("/api/user", userRoutes);
 app.use("/api/note", notesRoutes);
 app.use("/api/message", messageRoutes);
+app.use("/api/todo", todoRoutes);
 app.use("/api/summarize", summarizeTextRoutes);
 
 
@@ -89,7 +91,8 @@ const { Server } = require('socket.io');
 const server = http.createServer();
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: ["http://localhost:3000", "http://localhost:3000"],
+
     methods: ["GET", "POST"],
   },
 });
@@ -135,6 +138,6 @@ io.on('connection', (socket) => {
 
 // Start the server
 const PORT = process.env.DISCUSS_SOCKET_PORT || 5000;
-server.listen(PORT, () => {
+server.listen(PORT, 'localhost', () => {
   console.log(`Discussion Server running on port ${PORT}`);
 });

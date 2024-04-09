@@ -15,13 +15,13 @@ const createNote = async (req, res) => {
     }
 
     const note = new Note({
-      content,
       title,
+      versions: [{ content, updateMessage: "Created blank note", modifiedBy: user._id }], // Initial version
       createdBy: user._id,
     });
     await note.save();
 
-    const userNote = await UserNotes.findOneAndUpdate(
+    await UserNotes.findOneAndUpdate(
       { user: user._id },
       { $push: { notes: note._id } },
       { new: true, upsert: true }
@@ -38,15 +38,28 @@ const createNote = async (req, res) => {
 const updateNote = async (req, res) => {
   try {
     const { noteId } = req.params;
-    const { title, content } = req.body;
+    const { title, content, updateMessage, username } = req.body;
 
-    const updatedNote = await Note.findByIdAndUpdate(
-      noteId,
-      { title, content },
-      { new: true }
-    );
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
 
-    res.json(updatedNote);
+    const note = await Note.findById(noteId);
+    if (!note) {
+      return res.status(404).json({ error: "Note not found" });
+    }
+
+    note.title = title;
+    note.versions.push({ content, updateMessage, modifiedBy: user._id });
+
+    if (note.versions.length > 10) {
+      note.versions.shift(); // Remove the oldest entry
+    }
+
+    await note.save();
+
+    res.json({ message: "Successfully updated the note!" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Server error" });
@@ -151,6 +164,59 @@ const getNoteByNoteId = async (req, res) => {
   }
 };
 
+// Route to get a specific version of a note by note ID and version index
+const getNoteByVersion = async (req, res) => {
+  try {
+    const { noteId, versionIndex } = req.params;
+
+    const note = await Note.findById(noteId);
+
+    if (!note) {
+      return res.status(404).json({ error: "Note not found" });
+    }
+
+    const version = note.versions[versionIndex];
+
+    if (!version) {
+      return res.status(404).json({ error: "Version not found" });
+    }
+
+    res.json(version);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
+// Route to get all versions of a note by note ID
+const getAllNoteVersions = async (req, res) => {
+  try {
+    const { noteId } = req.params;
+
+    const note = await Note.findById(noteId).populate({
+      path: 'versions.modifiedBy',
+      select: 'username'
+    });
+
+    if (!note) {
+      return res.status(404).json({ error: "Note not found" });
+    }
+
+    // Map through versions to replace modifiedBy with username
+    const versionsWithUsername = note.versions.map(version => ({
+      content: version.content,
+      updateMessage: version.updateMessage,
+      modifiedBy: version.modifiedBy.username,
+      modifiedAt: version.modifiedAt
+    }));
+
+    res.json(versionsWithUsername);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
 // Route to get collaborators by note ID
 const getCollaboratorsByNoteId = async (req, res) => {
   try {
@@ -164,7 +230,7 @@ const getCollaboratorsByNoteId = async (req, res) => {
       return res.status(404).json({ error: "Note not found or not shared" });
     }
 
-    res.json(sharedNote.sharedWith);
+    res.json({collaborators: sharedNote.sharedWith});
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Server error" });
@@ -183,7 +249,7 @@ const addCollaborator = async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
-    const sharedNote = await SharedNotes.findOneAndUpdate(
+    await SharedNotes.findOneAndUpdate(
       { note: noteId },
       { $addToSet: { sharedWith: user._id } },
       { new: true, upsert: true }
@@ -195,37 +261,44 @@ const addCollaborator = async (req, res) => {
       { new: true, upsert: true }
     );
 
-    res.json(sharedNote);
+    res.json({message: "Collaborated added."});
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Server error" });
   }
 };
 
-// Route to remove a collaborator from a note by email
+// Route to remove a collaborator from a note by username
 const removeCollaborator = async (req, res) => {
   try {
     const { noteId } = req.params;
-    const { email } = req.body;
+    const { username } = req.body;
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ username });
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
 
-    const sharedNote = await SharedNotes.findOneAndUpdate(
+    await SharedNotes.findOneAndUpdate(
       { note: noteId },
       { $pull: { sharedWith: user._id } },
       { new: true }
     );
 
-    res.json(sharedNote);
+    await UserNotes.findOneAndUpdate(
+      { user: user._id },
+      { $pull: { sharedNotes: noteId } },
+      { new: true }
+    );
+
+    res.json({ message: "Collaborator removed" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Server error" });
   }
 };
+
 
 module.exports = {
   createNote,
@@ -233,6 +306,8 @@ module.exports = {
   deleteNote,
   getAllNotesByUsername,
   getNoteByNoteId,
+  getNoteByVersion,
+  getAllNoteVersions,
   getCollaboratorsByNoteId,
   addCollaborator,
   removeCollaborator,
