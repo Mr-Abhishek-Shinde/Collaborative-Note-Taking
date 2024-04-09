@@ -21,7 +21,9 @@ const NoteEditor = ({ user, extractedText, isSpeech }) => {
   const [noteTitle, setNoteTitle] = useState();
   const menuRef = useRef(null);
   const [summary, setSummary] = useState("");
+  const [selectedtext, setSelectedtext] = useState("");
   const { summarizeText, isLoading } = useSummarizeText();
+
   let message = "";
   const [displaySummary, setDisplaySummary] = useState(false);
 
@@ -102,7 +104,8 @@ const NoteEditor = ({ user, extractedText, isSpeech }) => {
             // console.log("User has highlighted", message);
             menu.style.display = "block";
             menu.style.top = `${selectionRect.bottom}px`;
-            menu.style.left = `${selectionRect.left}px`;
+            menu.style.left = `${selectionRect.left}px`;            
+            updateSelectedText();
           } else {
             // If no text is selected, hide the menu
             menu.style.display = "none";
@@ -128,6 +131,20 @@ const NoteEditor = ({ user, extractedText, isSpeech }) => {
       connection.close();
     };
   }, [noteData, noteId]);
+
+  const updateSelectedText = () => {
+    const editor = editorRef.current;
+    if (editor) {
+      const selection = editor.getSelection();
+      if (selection && selection.length > 0) {
+        // If text is selected, update the selectedText state
+        let text = "";
+        text = editor.getText(selection.index, selection.length);
+        setSelectedtext(text);
+        console.log("Selected text:", text);
+      }
+    }
+  };
 
   const handleSaveNote = async () => {
     const editor = editorRef.current;
@@ -192,24 +209,26 @@ const NoteEditor = ({ user, extractedText, isSpeech }) => {
   function handleSummary() {
     const editor = editorRef.current;
     if (editor) {
-      const selection = editor.getSelection();
-      if (selection && selection.length > 0) {
-        // If text is selected, update the message variable
-        message = editor.getText(selection.index, selection.length);
-        console.log("User has highlighted", message);
-      }
+      // const selection = editor.getSelection();
+      // if (selection && selection.length > 0) {
+      //   // If text is selected, update the message variable
+      //   let text="";
+      //   text = editor.getText(selection.index, selection.length);
+      //   setSelectedtext(text);
+      //   console.log("User has highlighted", text);
+      //   console.log("User has highlighted", selectedtext);
+      // }
       const msg = new SpeechSynthesisUtterance();
-      msg.text = message;
+      msg.text = selectedtext;
       window.speechSynthesis.speak(msg);
     }
   }
-  
 
   
   async function handleSummarization() {
     try {
-      
-      await summarizeText(message);
+      console.log("selected text",selectedtext);
+      await summarizeText(selectedtext);
       const summarizedArticleJson = localStorage.getItem('summarizedArticle');
       const summarizedArticle = JSON.parse(summarizedArticleJson);
   
@@ -297,9 +316,11 @@ const NoteEditor = ({ user, extractedText, isSpeech }) => {
     <button onClick={() => setDisplaySummary(false)} style={{ cursor: "pointer", float: "right" }}>Close</button>
   </div>
 )}
-
-
       </div>
+      <div className={styles.saveNote}>
+        <button className={styles.saveNoteButton} onClick={handleSaveNote}>Save Note</button>
+      </div>
+
     </div>
   );
 };
