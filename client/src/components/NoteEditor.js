@@ -5,6 +5,9 @@ import "quill/dist/quill.snow.css";
 import axios from "axios";
 import Sharedb from "sharedb/lib/client";
 import richText from "rich-text";
+import { pipeline,AutoTokenizer } from '@xenova/transformers';
+import { useSummarizeText } from '../hooks/useSummarizeText';
+
 
 // Registering the rich text type to make sharedb work
 // with our quill editor
@@ -14,7 +17,10 @@ const NoteEditor = ({ user, data, extractedText, isSpeech }) => {
   const { noteId } = useParams();
   const [dataNew, setDataNew] = useState();
   const menuRef = useRef(null); // Reference to the contextual menu
+  const [summary, setSummary] = useState("");
+  const { summarizeText, isLoading } = useSummarizeText();
   let message = "";
+  const [displaySummary, setDisplaySummary] = useState(false);
 
   useEffect(() => {
     axios
@@ -34,6 +40,8 @@ const NoteEditor = ({ user, data, extractedText, isSpeech }) => {
     const socket = new WebSocket(`ws://localhost:8080/${noteId}`);
     const connection = new Sharedb.Connection(socket);
     const doc = connection.get("documents", noteId);
+    
+
 
     doc.subscribe(async function (err) {
       if (err) throw err;
@@ -149,17 +157,42 @@ const NoteEditor = ({ user, data, extractedText, isSpeech }) => {
   }, [extractedText]);
 
   function handleSummary() {
-    // Perform the action of summarizing the selected text
-    console.log("Summary option clicked");
-    const msg = new SpeechSynthesisUtterance();
-    msg.text = message;
-    window.speechSynthesis.speak(msg);
+    const editor = editorRef.current;
+    if (editor) {
+      const selection = editor.getSelection();
+      if (selection && selection.length > 0) {
+        // If text is selected, update the message variable
+        message = editor.getText(selection.index, selection.length);
+        console.log("User has highlighted", message);
+      }
+      const msg = new SpeechSynthesisUtterance();
+      msg.text = message;
+      window.speechSynthesis.speak(msg);
+    }
   }
+  
 
-  function handleTransformation() {
-    // Perform the action of transforming the selected text
-    console.log("Transformation option clicked");
+  
+  async function handleSummarization() {
+    try {
+      
+      await summarizeText(message);
+      const summarizedArticleJson = localStorage.getItem('summarizedArticle');
+      const summarizedArticle = JSON.parse(summarizedArticleJson);
+  
+      const summaryText = summarizedArticle[0]?.summary_text;
+  
+      
+      console.log("Extracted Summary Text:", summaryText);
+      setSummary(summaryText); // Store the summary text in the state variable
+      setDisplaySummary(true);
+    } catch (error) {
+      console.error("Error occurred during summarization:", error);
+    }
   }
+  
+  
+
 
   function handleLogFormattedText() {
     // Log the formatted text or perform any other operation
@@ -212,11 +245,21 @@ const NoteEditor = ({ user, data, extractedText, isSpeech }) => {
             padding: "5px 10px",
             fontFamily: 'Times New Roman", Times, serif',
           }}
-          onClick={handleTransformation}
+          onClick={handleSummarization}
         >
           Summarize text
         </button>
-        {/* Add more options as needed */}
+       {/* Add more options as needed */}
+      {/* Add more options as needed */}
+{displaySummary && summary && (
+  <div style={{ marginTop: "20px", border: "1px solid #ccc", padding: "10px" }}>
+    <h3>Summary</h3>
+    <p>{summary}</p>
+    <button onClick={() => setDisplaySummary(false)} style={{ cursor: "pointer", float: "right" }}>Close</button>
+  </div>
+)}
+
+
       </div>
 
       <button onClick={handleSaveNote}>Save Note</button>
