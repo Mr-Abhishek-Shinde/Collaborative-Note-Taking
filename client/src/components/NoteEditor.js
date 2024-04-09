@@ -8,7 +8,6 @@ import richText from "rich-text";
 import Swal from "sweetalert2";
 import styles from "../styles/Notes.module.css";
 import { pipeline,AutoTokenizer } from '@xenova/transformers';
-import { useSummarizeText } from '../hooks/useSummarizeText';
 
 
 // Registering the rich text type to make sharedb work
@@ -21,8 +20,9 @@ const NoteEditor = ({ user, extractedText, isSpeech }) => {
   const [noteTitle, setNoteTitle] = useState();
   const menuRef = useRef(null);
   const [summary, setSummary] = useState("");
-  const [selectedtext, setSelectedtext] = useState("");
-  const { summarizeText, isLoading } = useSummarizeText();
+  const [article, setarticle] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
 
   let message = "";
   const [displaySummary, setDisplaySummary] = useState(false);
@@ -105,7 +105,7 @@ const NoteEditor = ({ user, extractedText, isSpeech }) => {
             menu.style.display = "block";
             menu.style.top = `${selectionRect.bottom}px`;
             menu.style.left = `${selectionRect.left}px`;            
-            updateSelectedText();
+            updatearticle();
           } else {
             // If no text is selected, hide the menu
             menu.style.display = "none";
@@ -132,15 +132,15 @@ const NoteEditor = ({ user, extractedText, isSpeech }) => {
     };
   }, [noteData, noteId]);
 
-  const updateSelectedText = () => {
+  const updatearticle = () => {
     const editor = editorRef.current;
     if (editor) {
       const selection = editor.getSelection();
       if (selection && selection.length > 0) {
-        // If text is selected, update the selectedText state
+        // If text is selected, update the article state
         let text = "";
         text = editor.getText(selection.index, selection.length);
-        setSelectedtext(text);
+        setarticle(text);
         console.log("Selected text:", text);
       }
     }
@@ -214,34 +214,56 @@ const NoteEditor = ({ user, extractedText, isSpeech }) => {
       //   // If text is selected, update the message variable
       //   let text="";
       //   text = editor.getText(selection.index, selection.length);
-      //   setSelectedtext(text);
+      //   setarticle(text);
       //   console.log("User has highlighted", text);
-      //   console.log("User has highlighted", selectedtext);
+      //   console.log("User has highlighted", article);
       // }
       const msg = new SpeechSynthesisUtterance();
-      msg.text = selectedtext;
+      msg.text = article;
       window.speechSynthesis.speak(msg);
     }
   }
 
   
-  async function handleSummarization() {
+  const handleSummarization = async () => {
+    console.log(article)
     try {
-      console.log("selected text",selectedtext);
-      await summarizeText(selectedtext);
-      const summarizedArticleJson = localStorage.getItem('summarizedArticle');
-      const summarizedArticle = JSON.parse(summarizedArticleJson);
+       setIsLoading(true); // Assuming you have setIsLoading from useState()
   
-      const summaryText = summarizedArticle[0]?.summary_text;
+      const response = await fetch('http://127.0.0.1:4000/api/summarize/summary', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ article }), // Accessing article directly
+      });
   
-      
-      console.log("Extracted Summary Text:", summaryText);
-      setSummary(summaryText); // Store the summary text in the state variable
-      setDisplaySummary(true);
+      if (response.ok) {
+        const result = await response.json();
+        console.log("Server Result:", result);
+        localStorage.setItem('summarizedArticle', JSON.stringify(result.summarizedArticle));
+        setSummary(result.summarizedArticle[0]?.summary_text);
+        setDisplaySummary(true);
+        Swal.fire({
+          text: "Article Summarized Successfully!",
+          icon: "success",
+        });
+      } else {
+        const json = await response.json();
+        console.error("Server Error:", json);
+        throw new Error(json.error);
+      }
     } catch (error) {
-      console.error("Error occurred during summarization:", error);
+      console.error("An error occurred during summarization:", error);
+      Swal.fire({
+        title: "Error!",
+        text: error.message,
+        icon: "error",
+      });
+    } finally {
+       setIsLoading(false);
     }
-  }
+  };
   
   
 
@@ -309,13 +331,19 @@ const NoteEditor = ({ user, extractedText, isSpeech }) => {
         </button>
        {/* Add more options as needed */}
       {/* Add more options as needed */}
-{displaySummary && summary && (
-  <div style={{ marginTop: "20px", border: "1px solid #ccc", padding: "10px" }}>
-    <h3>Summary</h3>
-    <p>{summary}</p>
-    <button onClick={() => setDisplaySummary(false)} style={{ cursor: "pointer", float: "right" }}>Close</button>
+      {isLoading && (
+  <div style={{ textAlign: 'center', marginTop: '10px', color: '#666', fontStyle: 'italic' }}>
+    Please wait...
   </div>
 )}
+
+      {displaySummary && summary && (
+        <div style={{ marginTop: "20px", border: "1px solid #ccc", padding: "10px" }}>
+          <h3>Summary</h3>
+          <p>{summary}</p>
+          <button onClick={() => setDisplaySummary(false)} style={{ cursor: "pointer", float: "right" }}>Close</button>
+        </div>
+      )}
       </div>
       <div className={styles.saveNote}>
         <button className={styles.saveNoteButton} onClick={handleSaveNote}>Save Note</button>
