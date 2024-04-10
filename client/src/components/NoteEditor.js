@@ -305,8 +305,9 @@ const NoteEditor = ({ user, extractedText, isSpeech }) => {
             marginRight: "5px",
             cursor: "pointer",
             border: "none",
-            backgroundColor: "white",
+            backgroundColor: "#c9eaf8",
             borderRight: "1px",
+            borderRadius: "5px",
             color: "black",
             padding: "5px 10px",
             fontFamily: 'Times New Roman", Times, serif',
@@ -319,8 +320,9 @@ const NoteEditor = ({ user, extractedText, isSpeech }) => {
           style={{
             cursor: "pointer",
             border: "none",
-            backgroundColor: "white",
+            backgroundColor: "#c9eaf8",
             borderRight: "1px",
+            borderRadius: "5px",
             color: "black",
             padding: "5px 10px",
             fontFamily: 'Times New Roman", Times, serif',
@@ -341,7 +343,20 @@ const NoteEditor = ({ user, extractedText, isSpeech }) => {
         <div style={{ marginTop: "20px", border: "1px solid #ccc", padding: "10px" }}>
           <h3>Summary</h3>
           <p>{summary}</p>
-          <button onClick={() => setDisplaySummary(false)} style={{ cursor: "pointer", float: "right" }}>Close</button>
+          <button onClick={() => 
+            setDisplaySummary(false)} 
+            style=
+            {{  cursor: "pointer", 
+                float: "right" ,
+                position: "absolute",
+                display: "none",
+                border: "2px solid black",
+                padding: "5px",
+                backgroundColor: "white",
+                boxShadow: "0px 0px 5px rgba(0, 0, 0, 0.2)",
+                borderRadius: "5px",
+            }}>
+            Close</button>
         </div>
       )}
       </div>
