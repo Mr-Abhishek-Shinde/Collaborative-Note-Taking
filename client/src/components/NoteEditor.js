@@ -7,7 +7,6 @@ import Sharedb from "sharedb/lib/client";
 import richText from "rich-text";
 import Swal from "sweetalert2";
 import styles from "../styles/Notes.module.css";
-import { pipeline,AutoTokenizer } from '@xenova/transformers';
 
 
 // Registering the rich text type to make sharedb work
@@ -24,7 +23,6 @@ const NoteEditor = ({ user, extractedText, isSpeech }) => {
   const [isLoading, setIsLoading] = useState(false);
 
 
-  let message = "";
   const [displaySummary, setDisplaySummary] = useState(false);
 
   useEffect(() => {

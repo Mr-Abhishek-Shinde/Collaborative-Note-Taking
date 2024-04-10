@@ -2,6 +2,7 @@ const User = require("../models/userModel");
 const Note = require("../models/notesModel");
 const SharedNotes = require("../models/sharedNotesModel");
 const UserNotes = require("../models/userNotesModel");
+const Message = require('../models/messageModel');
 
 // Route to create a new note
 const createNote = async (req, res) => {
@@ -75,21 +76,24 @@ const deleteNote = async (req, res) => {
     // Find the user using the provided username
     const user = await User.findOne({ username });
     if (!user) {
-      return res.status(404).json({ error: "User not found" });
+      return res.status(404).json({ error: "User not found!" });
     }
 
     // Check if the note exists
     const note = await Note.findById(noteId);
     if (!note) {
-      return res.status(404).json({ error: "Note not found" });
+      return res.status(404).json({ error: "Note not found!" });
     }
 
     // Check if the authenticated user is the owner of the note
     if (note.createdBy.toString() !== user._id.toString()) {
       return res
         .status(403)
-        .json({ error: "You are not authorized to delete this note" });
+        .json({ error: "You are not authorized to delete this note!" });
     }
+
+    // Delete the messages associated with the note
+    await Message.deleteMany({ noteId });
 
     // Delete the note
     await Note.findByIdAndDelete(noteId);
@@ -109,12 +113,13 @@ const deleteNote = async (req, res) => {
       { $pull: { sharedNotes: noteId } }
     );
 
-    res.json({ message: "Note deleted successfully" });
+    res.json({ message: "Note deleted successfully!" });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Server error" });
+    res.status(500).json({ error: "Server error!" });
   }
 };
+
 
 // Route to get all notes and shared notes by user ID using username
 const getAllNotesByUsername = async (req, res) => {
