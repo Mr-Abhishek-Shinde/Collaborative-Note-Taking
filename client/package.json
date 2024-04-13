@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@react-pdf/renderer": "^3.4.2",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -13,12 +14,12 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.21.3",
+    "react-to-pdf": "^1.0.1",
     "rich-text": "^4.1.0",
     "sharedb": "^4.1.3",
     "socket.io-client": "^4.7.4",
     "sweetalert2": "^11.6.13",
     "web-vitals": "^2.1.4"
-    
   },
   "scripts": {
     "start": "react-scripts start",
@@ -47,5 +48,4 @@
   "devDependencies": {
     "react-scripts": "^5.0.1"
   }
-  
 }

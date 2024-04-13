@@ -5,6 +5,7 @@ import styles from "../styles/Notes.module.css";
 import { useAuthContext } from "../hooks/useAuthContext";
 import axios from "axios";
 
+
 const SubNavbar = ({
   setExtractedText,
   setisSpeech,
@@ -154,6 +155,10 @@ const SubNavbar = ({
       }
     }
   };
+
+  const handleDownloadNote = async (noteId) => {
+
+  }
   
 
   return (
@@ -198,6 +203,12 @@ const SubNavbar = ({
             onClick={() => handleDeleteNote(noteId)}
           >
             Delete Note
+          </button>
+          <button
+            className={`${styles.subButton} ${styles.deleteButton}`}
+            onClick={() => handleDownloadNote(noteId)}
+          >
+            Download Note
           </button>
         </div>
       </div>

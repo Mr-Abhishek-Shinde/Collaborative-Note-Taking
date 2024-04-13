@@ -8,6 +8,8 @@ import richText from "rich-text";
 import Swal from "sweetalert2";
 import styles from "../styles/Notes.module.css";
 
+import generatePDF from 'react-to-pdf';
+
 
 // Registering the rich text type to make sharedb work
 // with our quill editor
@@ -21,8 +23,7 @@ const NoteEditor = ({ user, extractedText, isSpeech }) => {
   const [summary, setSummary] = useState("");
   const [article, setarticle] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
-
+  const targetRef = useRef();
   const [displaySummary, setDisplaySummary] = useState(false);
 
   useEffect(() => {
@@ -263,8 +264,10 @@ const NoteEditor = ({ user, extractedText, isSpeech }) => {
     }
   };
   
-  
-
+  const handleDownloadNote = () => {
+    
+        generatePDF(targetRef, {filename: 'page.pdf'})}
+    
 
   // function handleLogFormattedText() {
   //   const editor = editorRef.current;
@@ -275,14 +278,14 @@ const NoteEditor = ({ user, extractedText, isSpeech }) => {
   // }
 
   return (
-    <div className={styles.editorContainer} //full
+    <div  className={styles.editorContainer} //full
       style={{
         border: "1px solid",
         fontFamily: "Arial, sans-serif",
         
       }}
     >
-      <div className={styles.editNotesContainer}
+      <div ref={targetRef} className={styles.editNotesContainer}
         id="editor"
         style={{ marginBottom: "20px", fontSize: "16px", color: "#333" }}
       ></div>
@@ -360,6 +363,9 @@ const NoteEditor = ({ user, extractedText, isSpeech }) => {
       </div>
       <div className={styles.saveNote}>
         <button className={styles.saveNoteButton} onClick={handleSaveNote}>Save Note</button>
+      </div>
+      <div className={styles.saveNote}>
+      <button className={styles.saveNoteButton} onClick={handleDownloadNote}>Download Note</button>
       </div>
 
     </div>
