@@ -22,7 +22,6 @@ const SubNavbar = ({
   const [recognition, setRecognition] = useState(null);
   const [isRecognitionOn, setIsRecognitionOn] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
-  
 
   useEffect(() => {
     return () => {
@@ -32,10 +31,7 @@ const SubNavbar = ({
     };
   }, [recognition]);
 
-  useEffect(() => {
-    console.log("isSharedNote:", isSharedNote);
-  }, [isSharedNote]); // Log whenever isSharedNote changes
-
+  
 
   const showAccessPopup = () => {
     setShowPopup(true);
@@ -172,59 +168,54 @@ const SubNavbar = ({
   return (
     <>
       <div className={styles.subnavbar}>
-        <div className={styles.subnavbarLeft}>
-          <div id={styles.lines} onClick={openSideNav}>
-            &#9776;
-          </div>
-        </div>
-        <div className={styles.subnavbarRight}>
+  <div className={styles.subnavbarLeft}>
+    <div id={styles.lines} onClick={openSideNav}>
+      &#9776;
+    </div>
+  </div>
+  <div className={styles.subnavbarRight}>
 
-          <button className={styles.subButton} onClick={showAccessPopup}>
-            Manage Access
-          </button>
+    <button className={styles.subButton} onClick={showAccessPopup}>
+      Manage Access
+    </button>
 
-          {!isRecognitionOn && (
-            <button className={styles.subButton} onClick={toggleRecognition}>
-              Speech to text
-            </button>
-          )}
+    {!isRecognitionOn && (
+      <button className={styles.subButton} onClick={toggleRecognition}>
+        Speech to text
+      </button>
+    )}
 
-          {isRecognitionOn && (
-            <button className={styles.subButton} onClick={stopRecognition}>
-              Stop Recognition
-            </button>
-          )}
+    {isRecognitionOn && (
+      <button className={styles.subButton} onClick={stopRecognition}>
+        Stop Recognition
+      </button>
+    )}
 
-          {/* Add null check before accessing isSharedNote */}
-          {isSharedNote && (
-            <li>
-              <button onClick={toggleDiscuss}>
-                <i className="fa-solid fa-comment"></i>
-                Discuss
-              </button>
-            </li>
-          )}
+    <button className={styles.subButton} onClick={toggleDiscuss}>
+      
+      Discuss
+    </button>
 
-          <button className={styles.subButton} onClick={toggleHistory}>
-            Track History
-          </button>
+    <button className={styles.subButton} onClick={toggleHistory}>
+      Track History
+    </button>
 
-          <button
-            className={`${styles.subButton} ${styles.backButton}`}
-            onClick={goToDashboard}
-          >
-            Go Back
-          </button>
+    <button
+      className={`${styles.subButton} ${styles.backButton}`}
+      onClick={goToDashboard}
+    >
+      Go Back
+    </button>
 
-          <button
-            className={`${styles.subButton} ${styles.deleteButton}`}
-            onClick={() => handleDeleteNote(noteId)}
-          >
-            Delete Note
-          </button>
-          
-        </div>
-      </div>
+    <button
+      className={`${styles.subButton} ${styles.deleteButton}`}
+      onClick={() => handleDeleteNote(noteId)}
+    >
+      Delete Note
+    </button>
+  </div>
+</div>
+
       {showPopup && <AccessPopup onClose={handlePopupClose} noteId={noteId} />}
     </>
   );
