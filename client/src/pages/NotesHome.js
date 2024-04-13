@@ -263,7 +263,7 @@ const NotesHome = () => {
         {/* Pass isSharedNote to SubNavbar component */}
       
       </div>
-      <SubNavbar isSharedNote={isSharedNote} />
+      {/* <SubNavbar isSharedNote={isSharedNote} /> */}
 
     </div>
   );

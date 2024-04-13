@@ -66,12 +66,7 @@ hr {
   color: #fff;
 }
 
-@media (min-width: 768px) {
-  .button-81 {
-    font-size: 1.125rem;
-    padding: 1rem 2rem;
-  }
-}
+
 
 
 .createBtn h3{
@@ -222,6 +217,18 @@ hr {
     margin-bottom: 20px;
 }
 
+@media (max-width: 65em) {
+    .cardContainer {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .card {
+        width: 80%;
+    }
+    
+    
+}
 
 
   

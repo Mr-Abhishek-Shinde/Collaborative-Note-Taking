@@ -22,6 +22,7 @@ const SubNavbar = ({
   const [recognition, setRecognition] = useState(null);
   const [isRecognitionOn, setIsRecognitionOn] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
+  
 
   useEffect(() => {
     return () => {

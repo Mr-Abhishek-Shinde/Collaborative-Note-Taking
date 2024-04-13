@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../styles/Navbar.module.css";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -8,6 +8,20 @@ import { useAuthContext } from "../hooks/useAuthContext";
 const Navbar = () => {
   const { logout } = useLogout();
   const { user } = useAuthContext();
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 960);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth < 960);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const handleLogoutClick = () => {
     Swal.fire({
@@ -35,50 +49,59 @@ const Navbar = () => {
         CollabNote
       </Link>
 
-      <ul className={styles.linkref}>
-        <li className={styles.navLink}>
-          <Link to="/">
-            <i className="fa-sharp fa-solid fa-house-user"></i>
-            Home
-          </Link>
-        </li>
-        <li className={styles.navLink}>
-          <Link to="/about">
-            <i className="fa-solid fa-circle-info"></i>
-            AboutUs
-          </Link>
-        </li>
-        <li className={styles.navLink}>
-          <Link to="/dashboard">
-            {/* <i className="fa-solid fa-address-book"></i> */}
-            <i class="fa-solid fa-table-columns"></i>
-            Dashboard
-          </Link>
-        </li>
+      {!isSmallScreen && (
+        <ul className={styles.linkref}>
+          <li className={styles.navLink}>
+            <Link to="/">
+              <i className="fa-sharp fa-solid fa-house-user"></i>
+              Home
+            </Link>
+          </li>
+          <li className={styles.navLink}>
+            <Link to="/about">
+              <i className="fa-solid fa-circle-info"></i>
+              AboutUs
+            </Link>
+          </li>
+          <li className={styles.navLink}>
+            <Link to="/dashboard">
+              {/* <i className="fa-solid fa-address-book"></i> */}
+              <i class="fa-solid fa-table-columns"></i>
+              Dashboard
+            </Link>
+          </li>
 
-        {/* {user && (
-          <li className={styles.navLink} ref={dropdownRef}>
-            <div className={styles.dropdown}>
-              <button className={styles.dropbtn} onClick={toggleDropdown}>
-                <h3 className={styles.plus}>+</h3>
+          {user && (
+            <li>
+              <button className={styles.logoutButton} onClick={handleLogoutClick}>
+                Log Out
               </button>
-              {isDropdownOpen && (
-                <div className={styles.dropdowncontent}>
-                  <Link>New note</Link>
-                  <Link>Add Comments</Link>
-                </div>
+            </li>
+          )}
+        </ul>
+      )}
+
+      {/* Dropdown Menu */}
+      {isSmallScreen && (
+        <div className={styles.dropdown}>
+          
+          <button className={styles.dropbtn} onClick={() => setDropdownOpen(!dropdownOpen)}>
+            <i className="fa-solid fa-plus"></i>
+          </button>
+          {dropdownOpen && (
+            <div className={styles.dropdowncontent}>
+              <Link to="/">Home</Link>
+              <Link to="/about">About Us</Link>
+              <Link to="/dashboard">Dashboard</Link>
+              {user && (
+                <button className={styles.logoutButton} onClick={handleLogoutClick}>
+                  Log Out
+                </button>
               )}
             </div>
-          </li>
-        )} */}
-        {user && (
-          <li>
-            <button className={styles.logoutButton} onClick={handleLogoutClick}>
-              Log Out
-            </button>
-          </li>
-        )}
-      </ul>
+          )}
+        </div>
+      )}
     </div>
   );
 };
