@@ -361,11 +361,13 @@ const NoteEditor = ({ user, extractedText, isSpeech }) => {
         </div>
       )}
       </div>
-      <div className={styles.saveNote}>
-        <button className={styles.saveNoteButton} onClick={handleSaveNote}>Save Note</button>
-      </div>
-      <div className={styles.saveNote}>
-      <button className={styles.saveNoteButton} onClick={handleDownloadNote}>Download Note</button>
+      <div className={styles.editorButtons}>
+        <div className={styles.saveNote}>
+          <button className={styles.saveNoteButton} onClick={handleSaveNote}>Save Note</button>
+        </div>
+        <div className={styles.saveNote}>
+        <button className={styles.saveNoteButton} onClick={handleDownloadNote}>Download Note</button>
+        </div>
       </div>
 
     </div>

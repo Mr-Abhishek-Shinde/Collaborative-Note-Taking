@@ -13,8 +13,11 @@ const SubNavbar = ({
   toggleHistory,
   openSideNav,
   noteId,
+  isSharedNote
 }) => {
   const { user } = useAuthContext();
+  //console.log("isSharedNote:", isSharedNote);
+  
 
   const [recognition, setRecognition] = useState(null);
   const [isRecognitionOn, setIsRecognitionOn] = useState(false);
@@ -28,10 +31,16 @@ const SubNavbar = ({
     };
   }, [recognition]);
 
+  useEffect(() => {
+    console.log("isSharedNote:", isSharedNote);
+  }, [isSharedNote]); // Log whenever isSharedNote changes
+
+
   const showAccessPopup = () => {
     setShowPopup(true);
   };
 
+  
   const toggleRecognition = () => {
     if (!("webkitSpeechRecognition" in window)) {
       Swal.fire({
@@ -156,9 +165,7 @@ const SubNavbar = ({
     }
   };
 
-  const handleDownloadNote = async (noteId) => {
-
-  }
+  
   
 
   return (
@@ -170,46 +177,51 @@ const SubNavbar = ({
           </div>
         </div>
         <div className={styles.subnavbarRight}>
+
           <button className={styles.subButton} onClick={showAccessPopup}>
             Manage Access
           </button>
+
           {!isRecognitionOn && (
             <button className={styles.subButton} onClick={toggleRecognition}>
               Speech to text
             </button>
           )}
+
           {isRecognitionOn && (
             <button className={styles.subButton} onClick={stopRecognition}>
               Stop Recognition
             </button>
           )}
-          <button
-            className={`${styles.subButton} ${styles.transit}`}
-            onClick={toggleDiscuss}
-          >
-            Discuss
-          </button>
+
+          {/* Add null check before accessing isSharedNote */}
+          {isSharedNote && (
+            <li>
+              <button onClick={toggleDiscuss}>
+                <i className="fa-solid fa-comment"></i>
+                Discuss
+              </button>
+            </li>
+          )}
+
           <button className={styles.subButton} onClick={toggleHistory}>
             Track History
           </button>
+
           <button
             className={`${styles.subButton} ${styles.backButton}`}
             onClick={goToDashboard}
           >
             Go Back
           </button>
+
           <button
             className={`${styles.subButton} ${styles.deleteButton}`}
             onClick={() => handleDeleteNote(noteId)}
           >
             Delete Note
           </button>
-          <button
-            className={`${styles.subButton} ${styles.deleteButton}`}
-            onClick={() => handleDownloadNote(noteId)}
-          >
-            Download Note
-          </button>
+          
         </div>
       </div>
       {showPopup && <AccessPopup onClose={handlePopupClose} noteId={noteId} />}
