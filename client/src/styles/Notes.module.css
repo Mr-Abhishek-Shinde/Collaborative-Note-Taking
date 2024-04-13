@@ -248,6 +248,13 @@
   width: 20vw; 
 }
 
+@media (max-width: 60em) {
+  .notesContainer {
+    margin-top: 60px;
+  }
+  
+}
+
 /* Other styles for discussion and editor components... */
 
 
@@ -273,7 +280,11 @@
 .toolbarContainer {
   background-color: var(--secondary);
 }
-
+.editorButtons {
+  /* background-color: black; */
+  display: flex;
+  
+}
 .saveNote{
   padding: 0 15px 15px 15px;
   margin-top: 0;
@@ -298,7 +309,7 @@
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
-  width: 10%;
+  width: auto;
 }
 
 .saveNoteButton:hover {
@@ -306,6 +317,7 @@
   text-decoration: none;
   transition-duration: .15s, .15s;
 }
+
 
 
 
@@ -576,7 +588,20 @@
   color: white;
 }
 
+@media (max-width: 60em) {
+  
+  .subnavbarRight {
+    justify-content: flex-start; 
+    
+    padding-top: 20px;
+  }
 
+  .subnavbarRight button {
+    margin-left: 10px;
+    margin-top: 7px; 
+  }
+
+}
 
 /******notes history styles*******/
 

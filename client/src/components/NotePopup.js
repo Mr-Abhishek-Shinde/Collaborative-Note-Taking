@@ -5,6 +5,7 @@ import styles from "../styles/Popup.module.css";
 
 const NotePopup = ({ onClose, noteData, noteVersion }) => {
   const [isVisible, setIsVisible] = useState(true);
+  // eslint-disable-next-line
   const [editor, setEditor] = useState(null);
 
   useEffect(() => {

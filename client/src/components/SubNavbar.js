@@ -1,16 +1,27 @@
-// SubNavbar.jsx
-
 import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import AccessPopup from "./AccessPopup";
 import styles from "../styles/Notes.module.css";
-import { Link } from "react-router-dom";
+import { useAuthContext } from "../hooks/useAuthContext";
+import axios from "axios";
 
-const SubNavbar = ({ setExtractedText, setisSpeech, toggleDiscuss, toggleHistory, openSideNav, noteId }) => {
+
+const SubNavbar = ({
+  setExtractedText,
+  setisSpeech,
+  toggleDiscuss,
+  toggleHistory,
+  openSideNav,
+  noteId,
+  isSharedNote
+}) => {
+  const { user } = useAuthContext();
+  //console.log("isSharedNote:", isSharedNote);
+  
+
   const [recognition, setRecognition] = useState(null);
   const [isRecognitionOn, setIsRecognitionOn] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
-  
 
   useEffect(() => {
     return () => {
@@ -20,10 +31,13 @@ const SubNavbar = ({ setExtractedText, setisSpeech, toggleDiscuss, toggleHistory
     };
   }, [recognition]);
 
+  
+
   const showAccessPopup = () => {
     setShowPopup(true);
-  }
+  };
 
+  
   const toggleRecognition = () => {
     if (!("webkitSpeechRecognition" in window)) {
       Swal.fire({
@@ -103,62 +117,107 @@ const SubNavbar = ({ setExtractedText, setisSpeech, toggleDiscuss, toggleHistory
     }
   };
 
-
-  // useEffect(() => {
-  //   const handleClickOutside = (event) => {
-  //     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-  //       setDropdownOpen(false);
-  //     }
-  //   };
-
-  //   document.addEventListener("mousedown", handleClickOutside);
-
-  //   return () => {
-  //     document.removeEventListener("mousedown", handleClickOutside);
-  //   };
-  // }, []);
-  // const toggleDropdown = () => {
-  //   setDropdownOpen(!isDropdownOpen);
-  // };
-
   const handlePopupClose = () => {
     setShowPopup(false);
-  }
+  };
 
   const goToDashboard = () => {
     window.location.href = "/notes/";
-  }
+  };
+
+  const handleDeleteNote = async (noteId) => {
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, delete it!",
+      confirmButtonColor: "#28a745",
+      cancelButtonText: "No, cancel!",
+      cancelButtonColor: "#dc3545",
+      reverseButtons: true,
+    });
+  
+    if (result.isConfirmed) {
+      try {
+        await axios.delete(`http://localhost:4000/api/note/deleteNote/${noteId}`, {
+          data: {
+            username: user.username,
+          },
+        });
+        
+        Swal.fire({
+          icon: "success",
+          title: "Note Deleted Successfully!",
+        });
+        window.location.href = "/notes/";
+      } catch (error) {
+        console.error(error);
+        Swal.fire({
+          title: "Oops!",
+          text: error.response.data.error,
+          icon: "error",
+        });
+      }
+    }
+  };
+
+  
+  
 
   return (
     <>
-    <div className={styles.subnavbar}>
-      <div className={styles.subnavbarLeft}>
-        <div id={styles.lines} onClick={openSideNav}>
-          &#9776;
-        </div>
-      </div>
-      <div className={styles.subnavbarRight}>
-        <button className={styles.subButton} onClick={showAccessPopup}>Manage Access</button>
-        {!isRecognitionOn && (
-          <button className={styles.subButton} onClick={toggleRecognition}>Speech to text</button>
-        )}
-        {isRecognitionOn && (
-          <button className={styles.subButton} onClick={stopRecognition}>Stop Recognition</button>
-        )}
-        <button className={`${styles.subButton} ${styles.transit}`} onClick={toggleDiscuss}>Discuss</button>
-        <button className={styles.subButton} onClick={toggleHistory}>Track History</button>
-        <button className={`${styles.subButton} ${styles.backButton}`} onClick={goToDashboard}>Go Back</button>
-        <button className={`${styles.subButton} ${styles.deleteButton}`}>Delete Note</button>
-      </div>
-      
+      <div className={styles.subnavbar}>
+  <div className={styles.subnavbarLeft}>
+    <div id={styles.lines} onClick={openSideNav}>
+      &#9776;
     </div>
-      {showPopup && (
-        <AccessPopup
-          onClose={handlePopupClose}
-          noteId={noteId}
-        />
-      )}
-      </>
+  </div>
+  <div className={styles.subnavbarRight}>
+
+    <button className={styles.subButton} onClick={showAccessPopup}>
+      Manage Access
+    </button>
+
+    {!isRecognitionOn && (
+      <button className={styles.subButton} onClick={toggleRecognition}>
+        Speech to text
+      </button>
+    )}
+
+    {isRecognitionOn && (
+      <button className={styles.subButton} onClick={stopRecognition}>
+        Stop Recognition
+      </button>
+    )}
+
+    <button className={styles.subButton} onClick={toggleDiscuss}>
+      
+      Discuss
+    </button>
+
+    <button className={styles.subButton} onClick={toggleHistory}>
+      Track History
+    </button>
+
+    <button
+      className={`${styles.subButton} ${styles.backButton}`}
+      onClick={goToDashboard}
+    >
+      Go Back
+    </button>
+
+    <button
+      className={`${styles.subButton} ${styles.deleteButton}`}
+      onClick={() => handleDeleteNote(noteId)}
+    >
+      Delete Note
+    </button>
+  </div>
+</div>
+
+      {showPopup && <AccessPopup onClose={handlePopupClose} noteId={noteId} />}
+    </>
   );
 };
 

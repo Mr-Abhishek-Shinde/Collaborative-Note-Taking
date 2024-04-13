@@ -40,7 +40,11 @@ const AccessPopup = ({ onClose, noteId }) => {
         fetchCollaborators();
       })
       .catch((error) => {
-        console.error("Error Adding Collaborator:", error);
+        Swal.fire({
+          title: "Oops!",
+          text: error.response.data.error,
+          icon: "error",
+        });
       });
   };
 
@@ -54,7 +58,11 @@ const AccessPopup = ({ onClose, noteId }) => {
         fetchCollaborators();
       })
       .catch((error) => {
-        console.error("Error Removing Collaborator:", error);
+        Swal.fire({
+          title: "Oops!",
+          text: error.response.data.error,
+          icon: "error",
+        });
       });
   };
 

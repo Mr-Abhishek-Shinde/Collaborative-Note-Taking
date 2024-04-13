@@ -130,26 +130,6 @@
 .cards_item:hover{
   transform: scale(1.05); 
 }
-@media (min-width: 40rem) {
-  .cards_item {
-    width: 50%;
-  }
-  
-}
-
-@media (min-width: 66rem) {
-  .cards_item {
-    width: 33.3333%;
-  } 
-}
-
-@media (max-width: 66rem){
-  .dashBoardBg {
-    width: auto;
-    height: auto;
-  }
-}
-
 
 .card {
   background-color: white;
@@ -196,3 +176,18 @@
   max-width: 90%; /* Ensure the image doesn't overflow its container */
   max-height: 90%; /* Ensure the image doesn't overflow its container */
 }
+@media (min-width: 40rem) {
+  .cards_item {
+    width: 50%;
+  }
+  
+}
+
+@media (min-width: 66rem) {
+  .cards_item {
+    width: 33.3333%;
+  } 
+}
+
+
+

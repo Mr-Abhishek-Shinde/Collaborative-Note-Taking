@@ -2,6 +2,7 @@ const User = require("../models/userModel");
 const Note = require("../models/notesModel");
 const SharedNotes = require("../models/sharedNotesModel");
 const UserNotes = require("../models/userNotesModel");
+const Message = require('../models/messageModel');
 
 // Route to create a new note
 const createNote = async (req, res) => {
@@ -75,21 +76,24 @@ const deleteNote = async (req, res) => {
     // Find the user using the provided username
     const user = await User.findOne({ username });
     if (!user) {
-      return res.status(404).json({ error: "User not found" });
+      return res.status(404).json({ error: "User not found!" });
     }
 
     // Check if the note exists
     const note = await Note.findById(noteId);
     if (!note) {
-      return res.status(404).json({ error: "Note not found" });
+      return res.status(404).json({ error: "Note not found!" });
     }
 
     // Check if the authenticated user is the owner of the note
     if (note.createdBy.toString() !== user._id.toString()) {
       return res
         .status(403)
-        .json({ error: "You are not authorized to delete this note" });
+        .json({ error: "You are not authorized to delete this note!" });
     }
+
+    // Delete the messages associated with the note
+    await Message.deleteMany({ noteId });
 
     // Delete the note
     await Note.findByIdAndDelete(noteId);
@@ -109,12 +113,13 @@ const deleteNote = async (req, res) => {
       { $pull: { sharedNotes: noteId } }
     );
 
-    res.json({ message: "Note deleted successfully" });
+    res.json({ message: "Note deleted successfully!" });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Server error" });
+    res.status(500).json({ error: "Server error!" });
   }
 };
+
 
 // Route to get all notes and shared notes by user ID using username
 const getAllNotesByUsername = async (req, res) => {
@@ -237,36 +242,55 @@ const getCollaboratorsByNoteId = async (req, res) => {
   }
 };
 
-// Route to add a collaborator to a note by email
+// Route to add a collaborator to a note by username
 const addCollaborator = async (req, res) => {
   try {
     const { noteId } = req.params;
     const { username } = req.body;
 
+    // Check if the user exists
     const user = await User.findOne({ username });
-
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
 
+    // Check if the collaborator is already added
+    const existingCollaborator = await SharedNotes.findOne({ note: noteId, sharedWith: user._id });
+    if (existingCollaborator) {
+      return res.status(400).json({ error: "Collaborator already added" });
+    }
+
+    // Check if the collaborator is the owner of the note
+    const note = await Note.findById(noteId);
+    if (!note) {
+      return res.status(404).json({ error: "Note not found" });
+    }
+
+    if (note.createdBy.toString() === user._id.toString()) {
+      return res.status(400).json({ error: "User is the owner of the note" });
+    }
+
+    // Add collaborator to SharedNotes
     await SharedNotes.findOneAndUpdate(
       { note: noteId },
       { $addToSet: { sharedWith: user._id } },
       { new: true, upsert: true }
     );
 
+    // Add note to collaborator's sharedNotes
     await UserNotes.findOneAndUpdate(
       { user: user._id },
       { $addToSet: { sharedNotes: noteId } },
       { new: true, upsert: true }
     );
 
-    res.json({message: "Collaborated added."});
+    res.json({ message: "Collaborator added successfully." });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Server error" });
   }
 };
+
 
 // Route to remove a collaborator from a note by username
 const removeCollaborator = async (req, res) => {
@@ -278,6 +302,12 @@ const removeCollaborator = async (req, res) => {
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
+    }
+
+    // Check if the collaborator is present in the list of sharedWith
+    const sharedNote = await SharedNotes.findOne({ note: noteId });
+    if (!sharedNote || !sharedNote.sharedWith.includes(user._id)) {
+      return res.status(404).json({ error: "Collaborator not found!" });
     }
 
     await SharedNotes.findOneAndUpdate(
@@ -298,6 +328,7 @@ const removeCollaborator = async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 };
+
 
 
 module.exports = {
