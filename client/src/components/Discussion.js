@@ -3,7 +3,7 @@ import socketIOClient from 'socket.io-client';
 import axios from "axios";
 import styles from "../styles/Notes.module.css";
 
-const socket = socketIOClient('http://localhost:5000');
+const socket = socketIOClient('http://localhost:4000');
 
 const Discussion = ({ username, roomId }) => {
   const [messages, setMessages] = useState([]);

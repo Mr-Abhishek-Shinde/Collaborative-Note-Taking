@@ -2,39 +2,80 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const http = require('http');
+const { Server } = require('socket.io');
 
 const userRoutes = require("./routes/user");
 const notesRoutes = require("./routes/note");
 const messageRoutes = require("./routes/message");
 const todoRoutes = require("./routes/todo");
 const summarizeTextRoutes = require("./routes/summarize");
-const app = express();
 
+const app = express();
 app.use(express.json());
 app.use(cors());
-
-// routes
-app.use("/api/user", userRoutes);
-app.use("/api/note", notesRoutes);
-app.use("/api/message", messageRoutes);
-app.use("/api/todo", todoRoutes);
-app.use("/api/summarize", summarizeTextRoutes);
-
 
 // Connect to MongoDB
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
     console.log("Connected to MongoDB");
-    // Start the server
-    const PORT = process.env.PORT || 4000;
-    app.listen(PORT, () => {
-      console.log(`Server listening on port ${PORT}`);
-    });
   })
   .catch((err) => {
     console.error("Error connecting to MongoDB:", err);
   });
+
+// Create HTTP server
+const server = http.createServer(app);
+
+// Initialize Socket.IO
+const io = new Server(server, {
+  cors: {
+    origin: ["http://127.0.0.1:3000", "http://localhost:3000"],
+    methods: ["GET", "POST"],
+  },
+});
+
+// Discussion (Chat) Websocket Connection
+const roomSockets = new Map();
+
+io.on('connection', (socket) => {
+    socket.on('join room', (roomId) => {
+      socket.join(roomId);
+      if (!roomSockets.has(roomId)) {
+        roomSockets.set(roomId, new Set());
+      }
+      roomSockets.get(roomId).add(socket);
+      console.log(`User joined room ${roomId}`);
+    });
+    
+    socket.on('disconnect', () => {
+      roomSockets.forEach((sockets, roomId) => {
+        if (sockets.has(socket)) {
+          sockets.delete(socket);
+          console.log(`User disconnected from room ${roomId}`);
+        }
+      });
+    });
+  
+    socket.on('chat message', (data) => {
+      const { roomId, user, text } = data;
+      io.to(roomId).emit('chat message', {user: user, text: text});
+    });
+});
+
+// Define API routes
+app.use("/api/user", userRoutes);
+app.use("/api/note", notesRoutes);
+app.use("/api/message", messageRoutes);
+app.use("/api/todo", todoRoutes);
+app.use("/api/summarize", summarizeTextRoutes);
+
+// Start the combined server
+const PORT = process.env.PORT || 4000;
+server.listen(PORT, () => {
+  console.log(`Server and WebSocket running on port ${PORT}`);
+});
 
 
 // WEBSOCKET CONNECTION:
@@ -80,62 +121,4 @@ httpServer.on("upgrade", function upgrade(request, socket, head) {
   wss.handleUpgrade(request, socket, head, function done(ws) {
     wss.emit("connection", ws, request);
   });
-});
-
-
-// Discussion (Chat) Websocket Connection:
-const http = require('http');
-const { Server } = require('socket.io');
-
-const server = http.createServer();
-const io = new Server(server, {
-  cors: {
-    origin: ["http://localhost:3000", "http://localhost:3000"],
-    methods: ["GET", "POST"],
-  },
-});
-
-// Define a map to store socket connections by room
-const roomSockets = new Map();
-
-io.on('connection', (socket) => {
-    // console.log('User connected');
-  
-    socket.on('join room', (roomId) => {
-      // Join the provided room
-      socket.join(roomId);
-      
-      // Store the socket connection in the roomSockets map
-      if (!roomSockets.has(roomId)) {
-        roomSockets.set(roomId, new Set());
-      }
-      roomSockets.get(roomId).add(socket);
-      
-      console.log(`User joined room ${roomId}`);
-    });
-    
-    socket.on('disconnect', () => {
-      // console.log('User disconnected');
-      // Remove socket from all rooms it joined
-      roomSockets.forEach((sockets, roomId) => {
-        if (sockets.has(socket)) {
-          sockets.delete(socket);
-          console.log(`User disconnected from room ${roomId}`);
-        }
-      });
-    });
-  
-    socket.on('chat message', (data) => {
-      // console.log('message: ' + JSON.stringify(data));
-      const { roomId, user, text } = data;
-      
-      // Emit the message to all sockets in the room
-      io.to(roomId).emit('chat message', {user: user, text: text});
-    });
-});
-
-// Start the server
-const PORT = process.env.DISCUSS_SOCKET_PORT || 5000;
-server.listen(PORT, 'localhost', () => {
-  console.log(`Discussion Server running on port ${PORT}`);
 });
