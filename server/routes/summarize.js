@@ -15,13 +15,10 @@ router.post('/summary', async (req, res) => {
         // Generate the summarization result
         const result = await pipe(article);
 
-        // Log the summarization result
         console.log("Summarization result:", result);
 
-        // Send the result back to the client
         res.status(200).json({ summarizedArticle: result });
     } catch (error) {
-        // Handle errors
         console.error("An error occurred during summarization:", error);
         res.status(500).json({ error: "Internal Server Error" });
     }

@@ -1,5 +1,3 @@
-/* Sidenavbar styles: */
-
 .sidenav {
   height: 92.8vh;
   width: 0;
@@ -9,23 +7,33 @@
   left: 0;
   background-color: white;
   overflow-x: hidden;
-  margin-top: 50px;
+  margin-top: 65px;
   transition: 0.5s;
-  /* align-items: center;   
-  justify-content: center;  */
+}
+
+.sidenavBtn{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 25px;
+}
+
+.subnavbarLeft{
+  cursor: pointer;
+  font-size: 22px;
+  font-weight: 700;
 }
 
 .closebtn {
-  font-size: 2px; 
+  font-size: 2px;
   cursor: pointer;
   position: absolute;
-  top: 10px; 
-  right: 0; 
+  top: 10px;
+  right: 0;
 }
 
-
 .sidenav a {
-  /* padding: 8px 8px 8px 32px; */
   text-decoration: none;
   font-size: 20px;
   color: #818181;
@@ -48,9 +56,7 @@
 }
 
 .sidenav.open {
-  width: 225px; 
-  /* border-right: 1px solid var(--primary); */
-  
+  width: 225px;
 }
 
 .sidenav.open::after {
@@ -60,37 +66,33 @@
   bottom: 0;
   right: 0;
   width: 1px;
-  background-color: var(--primary); /* Change to your preferred color */
-}
-
-.navLinks {
-  /* height: 100%; */
-  list-style-type: none;
-  
+  background-color: var(--primary);
 }
 
 .navLinks {
   list-style-type: none;
-  padding: 0; 
+  margin-top: 30px;
+}
+
+.navLinks {
+  list-style-type: none;
+  padding: 0;
   padding-left: 10px;
 }
 
-
 .dropbutn {
-  
   background-color: transparent;
   border: none;
   border-radius: 10px;
   align-items: left;
   text-align: left;
   margin-right: 10px;
-  
   padding: 0 10px;
-  margin: 0 !important; 
+  margin: 0 !important;
 }
 .dropbutn i {
   color: var(--primary);
-  margin-right: 10px; /* Add margin to separate the icon from the text */
+  margin-right: 10px; 
 }
 
 .headDrp {
@@ -98,19 +100,14 @@
   font-weight: 400;
   color: var(--text);
   transition: all 0.4s ease;
-  display: inline-block; 
-  
+  display: inline-block;
 }
-
-
 
 .dropContent {
   padding: 0 2px 8px 10px;
   align-items: center;
-  /* padding-left: 10px; */
   justify-content: center;
 }
-
 
 .dropContent i {
   color: rgba(63, 62, 62, 0.737);
@@ -127,29 +124,24 @@
   font-size: 12px;
   padding-top: 6px;
   padding-bottom: 0;
-  margin-left: 5px; 
+  margin-left: 5px;
 }
 
 .rotate180 {
   transform: rotate(180deg);
 }
-/*********/
 
 .newNoteButton {
   position: absolute;
-  /* bottom: 20px; 
-  left: 50%; ==
-  transform: translateX(-50%);  */
   background-color: var(--primary);
   border-radius: 12px;
   color: white;
   cursor: pointer;
   font-weight: bold;
   padding: 10px 15px;
-  /* margin: 0 10px 0 10px; */
   text-align: center;
   transition: 200ms;
-  width: 100%; 
+  width: 100%;
   box-sizing: border-box;
   border: 0;
   font-size: 16px;
@@ -157,13 +149,15 @@
   -webkit-user-select: none;
   touch-action: manipulation;
   margin-top: 20px;
+  align-self: center;
+  width: 80%;
 }
 .newNoteButton:not(:disabled):hover,
 .newNoteButton:not(:disabled):focus {
   outline: 0;
   background: var(--primary);
   color: black;
-  box-shadow: 0 0 0 2px rgba(0,0,0,.2), 0 3px 8px 0 rgba(0,0,0,.15);
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2), 0 3px 8px 0 rgba(0, 0, 0, 0.15);
 }
 
 .newNoteButton:disabled {
@@ -172,48 +166,27 @@
   cursor: not-allowed;
 }
 
-
-/*********/
 .sidenav::-webkit-scrollbar {
   width: 4px;
-  
 }
 
 .sidenav::-webkit-scrollbar-track {
-  background: #bcf7ff8d; 
+  background: #bcf7ff8d;
   border-radius: 5px;
 }
-
-
 
 .sidenav::-webkit-scrollbar-thumb {
-  background: #56acb2; 
+  background: #56acb2;
   border-radius: 5px;
 }
 
-
 .sidenav::-webkit-scrollbar-thumb:hover {
-  background: #555; 
-  
+  background: #555;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-/* Overall Notes Styels: */
 :root {
-  --mainContainer-direction: row; /* Default value */
+  --mainContainer-direction: row;
 }
-/* Overall Notes Styles: */
-
 
 .notesContainer {
   display: flex;
@@ -225,8 +198,6 @@
   width: 100%;
   transition: width 0.5s;
 }
-
-
 
 .mainContainer {
   display: flex;
@@ -243,69 +214,50 @@
   order: 1;
 }
 
-
 .mainContainer.discussion-open {
-  width: 20vw; 
+  width: 20vw;
 }
 
 @media (max-width: 60em) {
   .notesContainer {
     margin-top: 60px;
   }
-  
 }
-
-/* Other styles for discussion and editor components... */
-
-
-
-/* @media (min-width: 768px) {
-  .mainContainer {
-    
-    flex-direction: var(--mainContainer-direction);
-  }
-} */
-  
-
-
 
 /* Editor Styles: */
 
 .editorContainer {
   background-color: white;
   margin: 2% 5% 5% 5%;
-  
 }
 
 .toolbarContainer {
   background-color: var(--secondary);
 }
 .editorButtons {
-  /* background-color: black; */
   display: flex;
-  
 }
-.saveNote{
+.saveNote {
   padding: 0 15px 15px 15px;
   margin-top: 0;
 }
 .saveNoteButton {
   background-color: var(--primary);
-  /* background-image: linear-gradient(#37ADB2, #329CA0); */
-  border: 1px solid #2A8387;
+  border: 1px solid #2a8387;
   border-radius: 4px;
   box-shadow: rgba(0, 0, 0, 0.12) 0 1px 1px;
-  color: #FFFFFF;
+  color: #ffffff;
   cursor: pointer;
   display: block;
-  font-family: -apple-system,".SFNSDisplay-Regular","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-family: -apple-system, ".SFNSDisplay-Regular", "Helvetica Neue",
+    Helvetica, Arial, sans-serif;
   font-size: 17px;
   line-height: 100%;
   margin: 0;
   outline: 0;
   padding: 11px 15px 12px;
   text-align: center;
-  transition: box-shadow .05s ease-in-out,opacity .05s ease-in-out;
+  transition: box-shadow 0.05s ease-in-out, opacity 0.05s ease-in-out;
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
@@ -313,30 +265,11 @@
 }
 
 .saveNoteButton:hover {
-  box-shadow: rgba(255, 255, 255, 0.3) 0 0 2px inset, rgba(0, 0, 0, 0.4) 0 1px 2px;
+  box-shadow: rgba(255, 255, 255, 0.3) 0 0 2px inset,
+    rgba(0, 0, 0, 0.4) 0 1px 2px;
   text-decoration: none;
-  transition-duration: .15s, .15s;
+  transition-duration: 0.15s, 0.15s;
 }
-
-
-
-
-/* Add similar styles for other toolbar buttons as needed */
-
-
-/* .ql-snow .ql-picker.ql-size {
-  color: black; 
-}
-
-.ql-snow .ql-picker.ql-size .ql-picker-label::before {
-  color: black; 
-}
-
-.ql-snow .ql-picker.ql-size .ql-picker-item::before {
-  color: black; 
-} */
-
-
 
 /* Discussion Styles: */
 .disContainer {
@@ -351,17 +284,16 @@
   box-shadow: 2px 2px 20px rgba(8, 7, 16, 0.6);
   width: 360px;
   height: 84vh;
-  margin-top: 105px;
+  margin-top: 115px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  transition: width 0.5s ease; 
-  
-  z-index: 999; 
+  transition: width 0.5s ease;
+  z-index: 999;
 }
 
 .discussionOpen {
-  width: calc(100vw - 225px); 
+  width: calc(100vw - 225px);
 }
 
 .toggleDiscussionButton {
@@ -379,7 +311,6 @@
   transition: 2s ease;
 }
 .headerDis {
-  
   padding-inline-start: 15px;
   margin-top: 0px;
   color: var(--primary);
@@ -388,29 +319,24 @@
   align-items: center;
 }
 
-.headerDis h1 i{
+.headerDis h1 i {
   padding-right: 0;
 }
 
-
-
-
 .disContainer hr {
-  margin: 0; 
+  margin: 0;
   padding: 0;
   border: none;
-  border-top: 1px solid var(--primary); 
+  border-top: 1px solid var(--primary);
 }
-
 
 .bodyDis {
   flex: 1;
   color: var(--text);
-  /* background-color: rgba(0, 0, 0, 0.7); */
   padding: 20px 15px 0 15px;
   color: white;
-  overflow-y: auto; 
-  height: calc(100% - 40px); 
+  overflow-y: auto;
+  height: calc(100% - 40px);
 }
 
 .message {
@@ -421,16 +347,13 @@
 }
 
 .username {
-  
   font-weight: 500;
-  margin-bottom: 0; 
+  margin-bottom: 0;
 }
 
 .messageContent {
-  /* padding: 10px; */
   border-radius: 10px;
-  /* background-color: #333; */
-  color: var(--text)
+  color: var(--text);
 }
 
 .myMessage {
@@ -441,7 +364,6 @@
   margin-bottom: 4px;
   padding-bottom: 4px;
   border-radius: 10px;
-  
 }
 
 .otherMessage {
@@ -455,24 +377,18 @@
 }
 
 .footerDis {
-  
   display: flex;
   flex-direction: row;
-  align-items: center; 
+  align-items: center;
   margin: 0px 0 0 0;
-  padding: 10px 20px; 
-  /* border-radius: 20px 20px 0 0;  */
-  /* border-top: 2px solid rgba(0, 0, 0, 0.13); 
-  border-left: 2px solid rgba(0, 0, 0, 0.13); 
-  border-right: 2px solid rgba(0, 0, 0, 0.13);  */
+  padding: 10px 20px;
 }
 
 .footerDis form {
   display: flex;
   flex-direction: row;
-  align-items: center; 
+  align-items: center;
   flex: 1;
-  /* justify-content: center;  */
 }
 
 .footerDis input {
@@ -481,11 +397,11 @@
   height: 30px;
   border: 1px solid #0f0f0f;
   border-radius: 5px;
-  margin-right: 10px; 
+  margin-right: 10px;
 }
 
 .footerDis button {
-  margin-left: auto; 
+  margin-left: auto;
   margin-bottom: 3px;
   background-color: #3a3939b6;
   border: 0.5px solid;
@@ -493,34 +409,28 @@
   padding: 5px;
   color: white;
 }
-.footerDis button i{
+.footerDis button i {
   padding-right: 5px;
 }
-
 
 /**scroll up side bar**/
 
 .bodyDis::-webkit-scrollbar {
   width: 8px;
-  
 }
 
 .bodyDis::-webkit-scrollbar-track {
-  background: #bcf7ff8d; 
+  background: #bcf7ff8d;
   border-radius: 5px;
 }
-
-
 
 .bodyDis::-webkit-scrollbar-thumb {
-  background: #56dee7; 
+  background: #56dee7;
   border-radius: 5px;
 }
 
-
 .bodyDis::-webkit-scrollbar-thumb:hover {
-  background: #555; 
-  
+  background: #555;
 }
 
 /* subnavbar Styles */
@@ -529,7 +439,7 @@
   margin-top: 5px;
   display: flex;
   align-items: center;
-  justify-content: space-between; 
+  justify-content: space-between;
   width: 100%;
   height: 50px;
   background-color: transparent;
@@ -539,11 +449,11 @@
 }
 
 .subnavbarRight {
-  justify-content: flex-start; 
+  justify-content: flex-start;
 }
 
 .subnavbarRight button {
-  margin-left: 10px; 
+  margin-left: 10px;
 }
 
 .subButton {
@@ -554,7 +464,8 @@
   color: black;
   cursor: pointer;
   display: inline-block;
-  font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial,
+    sans-serif;
   font-size: 14px;
   font-weight: 500;
   height: 34px;
@@ -566,13 +477,12 @@
   position: relative;
   text-align: center;
   text-decoration: none;
-  transition: width 0.5s ease; 
+  transition: width 0.5s ease;
   vertical-align: baseline;
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
 }
-
 
 .subButton:hover,
 .subButton:focus {
@@ -582,55 +492,51 @@
 }
 
 .deleteButton:hover,
-.deleteButton:focus{
+.deleteButton:focus {
   background-color: rgb(255, 25, 25);
   transition: transform 0.2s ease, text-shadow 0.3s ease;
   color: white;
 }
 
 @media (max-width: 60em) {
-  
   .subnavbarRight {
-    justify-content: flex-start; 
-    
+    justify-content: flex-start;
+
     padding-top: 20px;
   }
 
   .subnavbarRight button {
     margin-left: 10px;
-    margin-top: 7px; 
+    margin-top: 7px;
   }
-
 }
 
 /******notes history styles*******/
 
 .historyContainer {
   position: fixed;
-  top: 105px;
+  top: 115px;
   right: 0;
-  height: 85vh; 
-  overflow-y: auto; 
+  height: 85vh;
+  overflow-y: auto;
   display: block;
   transition: 0.3s;
   z-index: 1000;
   background-color: rgb(220, 252, 255);
   border: 1px solid var(--primary);
-  margin-right: 3px; 
-  width: 360px; 
+  margin-right: 3px;
+  width: 360px;
   border-radius: 10px;
   box-shadow: 2px 2px 20px rgba(8, 7, 16, 0.6);
+  padding-top: 5px;
 }
 
 .historyContent {
-  padding: 10px; 
+  padding: 10px;
 }
 
-
-.historyContainer li{
+.historyContainer li {
   text-align: left;
-  
-  /* height: 100%; */
   line-height: 20px;
   margin: 15px 0;
   transition: all 0.25s;
@@ -643,22 +549,18 @@
   color: var(--primary);
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
   background-color: white;
-  /* width: 70%; */
   text-align: center;
   padding: 3px;
   border-radius: 10px;
   border: 1px solid var(--primary);
-  
 }
-.historyContainer .historyHeading i{
-  /* transform: scaleX(-1); */
+.historyContainer .historyHeading i {
   padding-right: 10px;
   font-size: x-large;
   font-weight: 600;
-  
 }
 
-.historyContainer .hisLinks{
+.historyContainer .hisLinks {
   list-style-type: none;
   padding-left: 0;
   display: flex;
@@ -674,7 +576,7 @@
   padding-bottom: 6px;
 }
 
-.historyContainer .hisVersion i{
+.historyContainer .hisVersion i {
   padding-right: 10px;
 }
 
@@ -683,19 +585,17 @@
   padding-bottom: 4px;
 }
 
-/**********/
 .hisViewButton {
-  /* margin-left: 70%;  */ /*to align left*/
   margin-left: 30px;
   background-color: #f4f3f3;
   border: 1px solid #d5d9d9;
   border-radius: 8px;
-  box-shadow: rgba(213, 217, 217, .5) 0 2px 5px 0;
+  box-shadow: rgba(213, 217, 217, 0.5) 0 2px 5px 0;
   box-sizing: border-box;
   color: #0f1111;
   cursor: pointer;
   display: inline-block;
-  font-family: "Amazon Ember",sans-serif;
+  font-family: "Amazon Ember", sans-serif;
   font-size: 13px;
   line-height: 25px;
   padding: 0 10px 0 11px;
@@ -715,31 +615,24 @@
 
 .hisViewButton:focus {
   border-color: var(--primary);
-  box-shadow: rgba(213, 217, 217, .5) 0 2px 5px 0;
+  box-shadow: rgba(213, 217, 217, 0.5) 0 2px 5px 0;
   outline: 0;
 }
-/**********/
-
 
 .historyContainer::-webkit-scrollbar {
   width: 6px;
-  
 }
 
 .historyContainer::-webkit-scrollbar-track {
-  background: rgb(220, 252, 255); 
+  background: rgb(220, 252, 255);
   border-radius: 10px;
 }
-
-
 
 .historyContainer::-webkit-scrollbar-thumb {
-  background: var(--primary); 
+  background: var(--primary);
   border-radius: 10px;
 }
 
-
 .historyContainer::-webkit-scrollbar-thumb:hover {
-  background: #555; 
-  
+  background: #555;
 }

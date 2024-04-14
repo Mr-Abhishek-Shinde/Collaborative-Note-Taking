@@ -70,8 +70,6 @@ const NoteEditor = ({ user, extractedText, isSpeech }) => {
       };
       
       
-      
-      
       if(noteData){
         let quill = new Quill("#editor", options);
       editorRef.current = quill;
@@ -99,8 +97,8 @@ const NoteEditor = ({ user, extractedText, isSpeech }) => {
             const selectionRect = selection
               .getRangeAt(0)
               .getBoundingClientRect();
-            // message = quill.getText(range.index, range.length);
-            // console.log("User has highlighted", message);
+
+              
             menu.style.display = "block";
             menu.style.top = `${selectionRect.bottom}px`;
             menu.style.left = `${selectionRect.left}px`;            
@@ -208,15 +206,6 @@ const NoteEditor = ({ user, extractedText, isSpeech }) => {
   function handleSummary() {
     const editor = editorRef.current;
     if (editor) {
-      // const selection = editor.getSelection();
-      // if (selection && selection.length > 0) {
-      //   // If text is selected, update the message variable
-      //   let text="";
-      //   text = editor.getText(selection.index, selection.length);
-      //   setarticle(text);
-      //   console.log("User has highlighted", text);
-      //   console.log("User has highlighted", article);
-      // }
       const msg = new SpeechSynthesisUtterance();
       msg.text = article;
       window.speechSynthesis.speak(msg);
@@ -225,21 +214,19 @@ const NoteEditor = ({ user, extractedText, isSpeech }) => {
 
   
   const handleSummarization = async () => {
-    console.log(article)
     try {
-       setIsLoading(true); // Assuming you have setIsLoading from useState()
+       setIsLoading(true);
   
       const response = await fetch('http://127.0.0.1:4000/api/summarize/summary', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ article }), // Accessing article directly
+        body: JSON.stringify({ article }),
       });
   
       if (response.ok) {
         const result = await response.json();
-        console.log("Server Result:", result);
         localStorage.setItem('summarizedArticle', JSON.stringify(result.summarizedArticle));
         setSummary(result.summarizedArticle[0]?.summary_text);
         setDisplaySummary(true);
@@ -278,7 +265,7 @@ const NoteEditor = ({ user, extractedText, isSpeech }) => {
   // }
 
   return (
-    <div  className={styles.editorContainer} //full
+    <div  className={styles.editorContainer}
       style={{
         border: "1px solid",
         fontFamily: "Arial, sans-serif",
@@ -332,8 +319,6 @@ const NoteEditor = ({ user, extractedText, isSpeech }) => {
         >
           Summarize text
         </button>
-       {/* Add more options as needed */}
-      {/* Add more options as needed */}
       {isLoading && (
   <div style={{ textAlign: 'center', marginTop: '10px', color: '#666', fontStyle: 'italic' }}>
     Please wait...

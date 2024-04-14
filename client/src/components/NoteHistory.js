@@ -26,7 +26,6 @@ const NoteHistory = ({ noteId }) => {
     try {
       const originalIndex = versions.length - 1 - versionIndex;
       const response = await axios.get("http://localhost:4000/api/note/getNoteByVersion/" + noteId + "/" + originalIndex);
-      console.log('Clicked version:', response.data.content);
       setShowNotePopup(true);
       setNoteData(response.data.content)
       setNoteVersion(version)
@@ -38,14 +37,14 @@ const NoteHistory = ({ noteId }) => {
   return (
     <div className={styles.historyContainer}>
       <h2 className={styles.historyHeading}>
-        <i class="fa-solid fa-clock-rotate-left"></i>
+        <i className="fa-solid fa-clock-rotate-left"></i>
         Note History
       </h2>
       <ul className={styles.hisLinks}>
         {versions.map((version, index) => (
           <li key={index}>
             <div className={styles.hisVersion}>
-              <i class="fa-solid fa-caret-right"></i>
+              <i className="fa-solid fa-caret-right"></i>
               Version {versions.length - index}
             </div>
             <div className={styles.hisInfo}>Update Message: "{version.updateMessage}"</div>

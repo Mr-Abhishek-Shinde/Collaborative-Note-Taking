@@ -13,7 +13,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// Define routes
+// routes
 app.use("/api/user", userRoutes);
 app.use("/api/note", notesRoutes);
 app.use("/api/message", messageRoutes);
@@ -87,12 +87,10 @@ httpServer.on("upgrade", function upgrade(request, socket, head) {
 const http = require('http');
 const { Server } = require('socket.io');
 
-// Express app setup
 const server = http.createServer();
 const io = new Server(server, {
   cors: {
     origin: ["http://localhost:3000", "http://localhost:3000"],
-
     methods: ["GET", "POST"],
   },
 });
@@ -101,7 +99,7 @@ const io = new Server(server, {
 const roomSockets = new Map();
 
 io.on('connection', (socket) => {
-    console.log('User connected');
+    // console.log('User connected');
   
     socket.on('join room', (roomId) => {
       // Join the provided room
@@ -117,7 +115,7 @@ io.on('connection', (socket) => {
     });
     
     socket.on('disconnect', () => {
-      console.log('User disconnected');
+      // console.log('User disconnected');
       // Remove socket from all rooms it joined
       roomSockets.forEach((sockets, roomId) => {
         if (sockets.has(socket)) {
@@ -128,7 +126,7 @@ io.on('connection', (socket) => {
     });
   
     socket.on('chat message', (data) => {
-      console.log('message: ' + JSON.stringify(data));
+      // console.log('message: ' + JSON.stringify(data));
       const { roomId, user, text } = data;
       
       // Emit the message to all sockets in the room

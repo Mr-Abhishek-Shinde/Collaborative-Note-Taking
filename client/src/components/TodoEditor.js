@@ -1,4 +1,3 @@
-// TodoEditor.js
 import React from "react";
 import styles from "../styles/TodoEditor.module.css";
 
@@ -18,22 +17,19 @@ const TodoEditor = ({ text, completed, updateMode, deleteToDo, updateTodoStatus,
           {/* if note is completed remove updating feature */}
           {!completed && (
             <i
-              className={styles.todoIcon}
-              class="fa-regular fa-pen-to-square"
+            className={`${styles.todoIcon} fa-regular fa-pen-to-square`}
               onClick={updateMode}
             ></i>
           )}
           {/* if note is completed remove updatestatus feature */}
           {!completed && (
             <i
-              className={`${styles.todoIcon}`}
-              class="fa-regular fa-check-circle"
+              className={`${styles.todoIcon} fa-regular fa-check-circle`}
               onClick={handleUpdateStatus}
             ></i>
           )}
           <i
-            className={styles.todoIcon}
-            class="fa-regular fa-trash-can"
+            className={`${styles.todoIcon} fa-regular fa-trash-can`}
             onClick={deleteToDo}
           ></i>
           

@@ -66,7 +66,7 @@ const Navbar = () => {
           <li className={styles.navLink}>
             <Link to="/dashboard">
               {/* <i className="fa-solid fa-address-book"></i> */}
-              <i class="fa-solid fa-table-columns"></i>
+              <i className="fa-solid fa-table-columns"></i>
               Dashboard
             </Link>
           </li>
@@ -81,12 +81,11 @@ const Navbar = () => {
         </ul>
       )}
 
-      {/* Dropdown Menu */}
       {isSmallScreen && (
         <div className={styles.dropdown}>
           
           <button className={styles.dropbtn} onClick={() => setDropdownOpen(!dropdownOpen)}>
-            <i className="fa-solid fa-plus"></i>
+            <i className="fa-solid fa-grip-lines"></i>
           </button>
           {dropdownOpen && (
             <div className={styles.dropdowncontent}>

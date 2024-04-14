@@ -5,7 +5,6 @@ const getTodoByUser = async (req, res) => {
     try {
         const { username } = req.params;
 
-        console.log(username)
         const user = await User.findOne({ username });
         if (!user) {
             return res.status(404).json({ message: "User not found" });
@@ -56,26 +55,10 @@ const updateTodo = async (req, res) => {
     }
 }
 
-// const updateTodoStatus = async (req, res) => {
-//     try {
-//         const { todoId } = req.params;
-//         const { completed } = req.body;
-        
-//         const updatedTodo = await Todo.findByIdAndUpdate(todoId, { completed }, { new: true });
-
-//         if (!updatedTodo) {
-//             return res.status(404).json({ message: "Todo not found" });
-//         }
-
-//         res.json(updatedTodo);
-//     } catch (error) {
-//         res.status(400).json({ message: error.message });
-//     }
-// }
 const updateTodoStatus = async (req, res) => {
     try {
         const { todoId } = req.params;
-        const { status } = req.body; // Assuming you're passing the new status as "status" in the request body
+        const { status } = req.body;
 
         const updatedTodo = await Todo.findByIdAndUpdate(todoId, { status }, { new: true });
 
