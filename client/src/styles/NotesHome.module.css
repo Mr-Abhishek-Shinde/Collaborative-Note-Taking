@@ -7,8 +7,8 @@ hr {
 
 .NotesHome {
   background-color: white;
-  width: 100vw;
-  min-height: 100vh;
+  width: 100%;
+  min-height: calc(100vh - 60px);
   overflow-x: hidden;
 }
 
@@ -82,6 +82,7 @@ hr {
 
 .notes li {
   margin-bottom: 10px;
+  cursor: pointer;
   /* padding-right: 0px; */
 }
 

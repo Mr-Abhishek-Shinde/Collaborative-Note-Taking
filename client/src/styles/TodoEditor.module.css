@@ -151,3 +151,15 @@
 .todoListContainer::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+
+.todoInfo p{
+  margin: 25px 10px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.todoInfo{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

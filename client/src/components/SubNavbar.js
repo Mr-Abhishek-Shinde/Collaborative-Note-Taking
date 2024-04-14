@@ -5,7 +5,6 @@ import styles from "../styles/Notes.module.css";
 import { useAuthContext } from "../hooks/useAuthContext";
 import axios from "axios";
 
-
 const SubNavbar = ({
   setExtractedText,
   setisSpeech,
@@ -13,7 +12,7 @@ const SubNavbar = ({
   toggleHistory,
   openSideNav,
   noteId,
-  isSharedNote
+  isSharedNote,
 }) => {
   const { user } = useAuthContext();
 
@@ -29,13 +28,10 @@ const SubNavbar = ({
     };
   }, [recognition]);
 
-  
-
   const showAccessPopup = () => {
     setShowPopup(true);
   };
 
-  
   const toggleRecognition = () => {
     if (!("webkitSpeechRecognition" in window)) {
       Swal.fire({
@@ -135,15 +131,18 @@ const SubNavbar = ({
       cancelButtonColor: "#dc3545",
       reverseButtons: true,
     });
-  
+
     if (result.isConfirmed) {
       try {
-        await axios.delete(`http://localhost:4000/api/note/deleteNote/${noteId}`, {
-          data: {
-            username: user.username,
-          },
-        });
-        
+        await axios.delete(
+          `http://localhost:4000/api/note/deleteNote/${noteId}`,
+          {
+            data: {
+              username: user.username,
+            },
+          }
+        );
+
         Swal.fire({
           icon: "success",
           title: "Note Deleted Successfully!",
@@ -160,59 +159,54 @@ const SubNavbar = ({
     }
   };
 
-  
-  
-
   return (
     <>
       <div className={styles.subnavbar}>
-  <div className={styles.subnavbarLeft}>
-    <div id={styles.lines} onClick={openSideNav}>
-      &#9776;
-    </div>
-  </div>
-  <div className={styles.subnavbarRight}>
+        <div className={styles.subnavbarLeft}>
+          <div id={styles.lines} onClick={openSideNav}>
+            &#9776;
+          </div>
+        </div>
+        <div className={styles.subnavbarRight}>
+          <button className={styles.subButton} onClick={showAccessPopup}>
+            Manage Access
+          </button>
 
-    <button className={styles.subButton} onClick={showAccessPopup}>
-      Manage Access
-    </button>
+          {!isRecognitionOn && (
+            <button className={styles.subButton} onClick={toggleRecognition}>
+              Speech to text
+            </button>
+          )}
 
-    {!isRecognitionOn && (
-      <button className={styles.subButton} onClick={toggleRecognition}>
-        Speech to text
-      </button>
-    )}
+          {isRecognitionOn && (
+            <button className={styles.subButton} onClick={stopRecognition}>
+              Stop Recognition
+            </button>
+          )}
 
-    {isRecognitionOn && (
-      <button className={styles.subButton} onClick={stopRecognition}>
-        Stop Recognition
-      </button>
-    )}
+          <button className={styles.subButton} onClick={toggleDiscuss}>
+            Discuss
+          </button>
 
-    <button className={styles.subButton} onClick={toggleDiscuss}>
-      
-      Discuss
-    </button>
+          <button className={styles.subButton} onClick={toggleHistory}>
+            Track History
+          </button>
 
-    <button className={styles.subButton} onClick={toggleHistory}>
-      Track History
-    </button>
+          <button
+            className={`${styles.subButton} ${styles.backButton}`}
+            onClick={goToDashboard}
+          >
+            Go Back
+          </button>
 
-    <button
-      className={`${styles.subButton} ${styles.backButton}`}
-      onClick={goToDashboard}
-    >
-      Go Back
-    </button>
-
-    <button
-      className={`${styles.subButton} ${styles.deleteButton}`}
-      onClick={() => handleDeleteNote(noteId)}
-    >
-      Delete Note
-    </button>
-  </div>
-</div>
+          <button
+            className={`${styles.subButton} ${styles.deleteButton}`}
+            onClick={() => handleDeleteNote(noteId)}
+          >
+            Delete Note
+          </button>
+        </div>
+      </div>
 
       {showPopup && <AccessPopup onClose={handlePopupClose} noteId={noteId} />}
     </>

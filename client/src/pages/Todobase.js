@@ -11,8 +11,10 @@ const TodoBase = () => {
   const [text, setText] = useState("");
   const [isUpdating, setIsUpdating] = useState(false);
   const [toDoId, setToDoId] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const fetchTodos = async () => {
+    setIsLoading(true);
     try {
       const response = await axios.get(
         `http://localhost:4000/api/todo/getTodos/${user.username}`
@@ -28,10 +30,13 @@ const TodoBase = () => {
   const sortTodos = (todosToSort) => {
     return [...todosToSort].sort((a, b) => {
       if (a.status === "Completed" && b.status !== "Completed") {
+        setIsLoading(false);
         return 1; // Move completed todos to the end
       } else if (a.status !== "Completed" && b.status === "Completed") {
+        setIsLoading(false);
         return -1; // Move pending todos to the beginning
       } else {
+        setIsLoading(false);
         return 0;
       }
     });
@@ -55,10 +60,10 @@ const TodoBase = () => {
 
   const createTodo = async (text) => {
     try {
-      await axios.post(
-        `http://localhost:4000/api/todo/createTodo`,
-        { text, username: user.username }
-      );
+      await axios.post(`http://localhost:4000/api/todo/createTodo`, {
+        text,
+        username: user.username,
+      });
       fetchTodos().then((fetchedTodos) => {
         const sortedTodos = sortTodos(fetchedTodos);
         setTodos(sortedTodos);
@@ -73,10 +78,9 @@ const TodoBase = () => {
 
   const updateTodo = async (todoId, text) => {
     try {
-      await axios.put(
-        `http://localhost:4000/api/todo/updateTodo/${todoId}`,
-        { text }
-      );
+      await axios.put(`http://localhost:4000/api/todo/updateTodo/${todoId}`, {
+        text,
+      });
       fetchTodos().then((fetchedTodos) => {
         const sortedTodos = sortTodos(fetchedTodos);
         setTodos(sortedTodos);
@@ -108,9 +112,7 @@ const TodoBase = () => {
   const deleteTodo = async (todoId) => {
     try {
       setTodos((prevTodos) => prevTodos.filter((todo) => todo._id !== todoId));
-      await axios.delete(
-        `http://localhost:4000/api/todo/deleteTodo/${todoId}`
-      );
+      await axios.delete(`http://localhost:4000/api/todo/deleteTodo/${todoId}`);
     } catch (error) {
       console.error("Error deleting todo:", error);
       throw error;
@@ -146,19 +148,33 @@ const TodoBase = () => {
           </div>
         </div>
         <div className={styles.todoListContainer}>
-          <div className={styles.todoList}>
-            {todos.map((item) => (
-              <TodoEditor
-                key={item._id}
-                text={item.text}
-                completed={item.status === "Completed"}
-                updateMode={() => updateMode(item._id, item.text)}
-                deleteToDo={() => deleteTodo(item._id)}
-                updateTodoStatus={() => updateTodoStatus(item._id, "Completed")}
-                todoId={item._id}
-              />
-            ))}
-          </div>
+          {!isLoading && todos.length !== 0 && (
+            <div className={styles.todoList}>
+              {todos.map((item) => (
+                <TodoEditor
+                  key={item._id}
+                  text={item.text}
+                  completed={item.status === "Completed"}
+                  updateMode={() => updateMode(item._id, item.text)}
+                  deleteToDo={() => deleteTodo(item._id)}
+                  updateTodoStatus={() =>
+                    updateTodoStatus(item._id, "Completed")
+                  }
+                  todoId={item._id}
+                />
+              ))}
+            </div>
+          )}
+          {!isLoading && todos.length === 0 && (
+            <div className={styles.todoInfo}>
+              <p>No todos added yet!</p>
+            </div>
+          )}
+          {isLoading && (
+            <div className={styles.todoInfo}>
+              <p>Loading...</p>
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import styles from "../styles/NotesHome.module.css";
 import notesHome from "../image/notesHome.png";
@@ -10,17 +10,18 @@ const NotesHome = () => {
   const navigate = useNavigate();
   const [notesList, setNotesList] = useState([]);
   const [sharedNotesList, setSharedNotesList] = useState([]);
-  
+  const [isLoading, setIsLoading] = useState(false);
+
   const createBlankNote = () => {
     axios
       .post("http://localhost:4000/api/note/createNote", {
         title: "Untitled",
         content: {
-          "ops": [
+          ops: [
             {
-              "insert": "Start Typing...\n"
-            }
-          ]
+              insert: "Start Typing...\n",
+            },
+          ],
         },
         username: user.username,
       })
@@ -35,17 +36,20 @@ const NotesHome = () => {
   const saveClickedSharedNote = (noteId) => {
     navigate(`/notes/note/${noteId}`);
   };
-  
 
   useEffect(() => {
     const fetchNotes = async () => {
+      setIsLoading(true);
       try {
-        const response = await axios.get("http://localhost:4000/api/note/getAllNotes/" + user.username);
+        const response = await axios.get(
+          "http://localhost:4000/api/note/getAllNotes/" + user.username
+        );
         setNotesList(response.data.notes);
         setSharedNotesList(response.data.sharedNotes);
       } catch (error) {
         console.error("Error Fetching Notes:", error);
       }
+      setIsLoading(false);
     };
 
     if (user) {
@@ -56,7 +60,6 @@ const NotesHome = () => {
   return (
     <div className={styles.NotesHome}>
       <div className={styles.mainNoteHome}>
-
         <div className={styles.headingNote}>
           <h1 className={styles.headingNoteH1}>NoteBook Options</h1>
         </div>
@@ -65,16 +68,16 @@ const NotesHome = () => {
         <div className={styles.createNewNote}>
           <div className={styles.createBtn}>
             <h3>Want to create new note?</h3>
-            
+
             <button onClick={createBlankNote}>
-              <i className="fa-solid fa-plus"></i>Create</button>
+              <i className="fa-solid fa-plus"></i>Create
+            </button>
           </div>
         </div>
 
         <hr />
-        
+
         <div className={styles.cardContainer}>
-          
           <div className={styles.card}>
             <div className={styles.cardContent}>
               <div className={styles.headLogo}>
@@ -84,19 +87,33 @@ const NotesHome = () => {
                 </h2>
               </div>
               <div className={styles.notesList}>
-                <ul className={styles.notes}>
-                  {notesList.map((note) => (
-                    <li key={note._id} onClick={() => navigate(`/notes/note/${note._id}`)}>
-                      <i className="fa-regular fa-note-sticky"></i> {note.title} notes
-                    </li>
-                  ))}
-                </ul>
+                {!isLoading && notesList.length !== 0 && (
+                  <ul className={styles.notes}>
+                    {notesList.map((note) => (
+                      <li
+                        key={note._id}
+                        onClick={() => navigate(`/notes/note/${note._id}`)}
+                      >
+                        <i className="fa-regular fa-note-sticky"></i>{" "}
+                        {note.title} notes
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                {!isLoading && notesList.length === 0 && (
+                  <p>No Notes Available</p>
+                )}
+                {isLoading && <p>Loading...</p>}
               </div>
             </div>
           </div>
 
           <div className={styles.imgParaContainer}>
-            <img src={notesHome} alt="not found :)" className={styles.cardImage}></img>
+            <img
+              src={notesHome}
+              alt="not found :)"
+              className={styles.cardImage}
+            ></img>
             <p className={styles.cardPara}>
               <i className="fa-regular fa-clipboard"></i>
               lets note down the things to keep track
@@ -112,13 +129,23 @@ const NotesHome = () => {
                 </h2>
               </div>
               <div className={styles.notesList}>
-                <ul className={styles.notes}>
-                  {sharedNotesList.map((note) => (
-                    <li key={note._id} onClick={() => saveClickedSharedNote(note._id)}>
-                      <i className="fa-regular fa-note-sticky"></i> {note.title} notes
-                    </li>
-                  ))}
-                </ul>
+                {!isLoading && sharedNotesList.length !== 0 && (
+                  <ul className={styles.notes}>
+                    {sharedNotesList.map((note) => (
+                      <li
+                        key={note._id}
+                        onClick={() => saveClickedSharedNote(note._id)}
+                      >
+                        <i className="fa-regular fa-note-sticky"></i>{" "}
+                        {note.title} notes
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                {!isLoading && sharedNotesList.length === 0 && (
+                  <p>No Notes Available</p>
+                )}
+                {isLoading && <p>Loading...</p>}
               </div>
             </div>
           </div>

@@ -11,6 +11,20 @@
   transition: 0.5s;
 }
 
+.sidenavBtn{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 25px;
+}
+
+.subnavbarLeft{
+  cursor: pointer;
+  font-size: 22px;
+  font-weight: 700;
+}
+
 .closebtn {
   font-size: 2px;
   cursor: pointer;
@@ -135,6 +149,8 @@
   -webkit-user-select: none;
   touch-action: manipulation;
   margin-top: 20px;
+  align-self: center;
+  width: 80%;
 }
 .newNoteButton:not(:disabled):hover,
 .newNoteButton:not(:disabled):focus {

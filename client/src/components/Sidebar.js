@@ -58,7 +58,9 @@ const Sidebar = ({ notes, sharedNotes, handleNoteClick, handleNewNote, closeSide
         )}
       </ul>
       
+      <div className={styles.sidenavBtn}>
       <button className={styles.newNoteButton} onClick={handleNewNote}>New note</button>
+      </div>
     </div>
   );
 };
