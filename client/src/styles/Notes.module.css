@@ -9,7 +9,7 @@
   left: 0;
   background-color: white;
   overflow-x: hidden;
-  margin-top: 50px;
+  margin-top: 65px;
   transition: 0.5s;
   /* align-items: center;   
   justify-content: center;  */
@@ -26,6 +26,7 @@
 
 .sidenav a {
   /* padding: 8px 8px 8px 32px; */
+ 
   text-decoration: none;
   font-size: 20px;
   color: #818181;
@@ -66,7 +67,7 @@
 .navLinks {
   /* height: 100%; */
   list-style-type: none;
-  
+  margin-top: 30px;
 }
 
 .navLinks {

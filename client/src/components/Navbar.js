@@ -86,7 +86,7 @@ const Navbar = () => {
         <div className={styles.dropdown}>
           
           <button className={styles.dropbtn} onClick={() => setDropdownOpen(!dropdownOpen)}>
-            <i className="fa-solid fa-plus"></i>
+            <i class="fa-solid fa-grip-lines"></i>
           </button>
           {dropdownOpen && (
             <div className={styles.dropdowncontent}>
