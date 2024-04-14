@@ -1,98 +1,91 @@
 .popupContainer {
-    position: fixed;
-    top: 20%;
-    left: 30%;
-    width: 40%;
-    height: 60%;
-    background: rgba(255, 255, 255, 0.95);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-direction: column;
-    z-index: 1000;
-    border: 4px solid var(--primary);
-    border-radius: 5px;
-    padding: 20px 20px;
-    /* color: white; */
-  }
+  position: fixed;
+  top: 20%;
+  left: 30%;
+  width: 40%;
+  height: 60%;
+  background: rgba(255, 255, 255, 0.95);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  z-index: 1000;
+  border: 4px solid var(--primary);
+  border-radius: 5px;
+  padding: 20px 20px;
+}
 
 .notePopupContainer {
-    position: fixed;
-    top: 15%;
-    left: 15%;
-    width: 70%;
-    height: 70%;
-    background: rgba(255, 255, 255, 0.95);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-direction: column;
-    z-index: 1000;
-    border: 4px solid var(--primary);
-    border-radius: 5px;
-    padding: 20px 20px;
-    /* color: white; */
-  }
-  
-  .closeBtn {
-    position: absolute;
-    top: 0px;
-    right: 10px;
-    font-size: 25px;
-    cursor: pointer;
-    border: none;
-    background: none;
-    /* color: white; */
-  }
-  
-  .popupContent {
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    /* margin: 15px; */
-    overflow-y: auto;
-    font-size: 25px;
-    
-  }
-  
-  .popupContent .title {
-    /* height: 20%; */
-    width: 100%;
-    text-align: center;
-    font-size: 15px;
-    /* margin-bottom: 15px; */
-    border-bottom: 1px solid #000; /* Adjust the color and thickness as needed */
-    margin: 0 0;
-  }
-.popupContent .title h1{
+  position: fixed;
+  top: 15%;
+  left: 15%;
+  width: 70%;
+  height: 70%;
+  background: rgba(255, 255, 255, 0.95);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  z-index: 1000;
+  border: 4px solid var(--primary);
+  border-radius: 5px;
+  padding: 20px 20px;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 0px;
+  right: 10px;
+  font-size: 25px;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+.popupContent {
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow-y: auto;
+  font-size: 25px;
+}
+
+.popupContent .title {
+  width: 100%;
+  text-align: center;
+  font-size: 15px;
+  border-bottom: 1px solid #000;
+  margin: 0 0;
+}
+.popupContent .title h1 {
   font-size: 38px;
   margin-top: 5px;
 }
 
-.collaboratorsList h2{
+.collaboratorsList h2 {
   font-size: 25px;
 }
 .collaboratorsList p {
   font-size: 18px;
   padding: 0;
-  
 }
 
-.collaboratorInfo{
+.collaboratorInfo {
   margin-top: 0;
   margin-bottom: 5px;
 }
 
 .accessBtn {
-  background-color:#77c9d4;
+  background-color: #77c9d4;
   border-radius: 8px;
   border-style: none;
   box-sizing: border-box;
   color: black;
   cursor: pointer;
   display: inline-block;
-  font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial,
+    sans-serif;
   font-size: 15px;
   font-weight: 500;
   height: 35px;
@@ -116,15 +109,13 @@
 .accessBtn:focus {
   background-color: var(--primary);
   color: white;
-  
 }
 
-
-.popupContent hr{
+.popupContent hr {
   background-color: black;
 }
-  
-.danger{
+
+.danger {
   font-size: 18px;
   color: red;
   font-weight: bold;
@@ -132,6 +123,4 @@
 
 .collaboratorsList {
   font-size: large;
-
 }
-  

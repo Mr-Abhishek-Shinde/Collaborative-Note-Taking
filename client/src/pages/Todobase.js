@@ -40,8 +40,6 @@ const TodoBase = () => {
   useEffect(() => {
     if (user) {
       fetchTodos().then((fetchedTodos) => {
-        console.log("Fetched Todos:", fetchedTodos);
-
         const sortedTodos = sortTodos(fetchedTodos);
         setTodos(sortedTodos);
       });
@@ -57,11 +55,10 @@ const TodoBase = () => {
 
   const createTodo = async (text) => {
     try {
-      const response = await axios.post(
+      await axios.post(
         `http://localhost:4000/api/todo/createTodo`,
         { text, username: user.username }
       );
-      console.log(response.data);
       fetchTodos().then((fetchedTodos) => {
         const sortedTodos = sortTodos(fetchedTodos);
         setTodos(sortedTodos);
@@ -76,11 +73,10 @@ const TodoBase = () => {
 
   const updateTodo = async (todoId, text) => {
     try {
-      const response = await axios.put(
+      await axios.put(
         `http://localhost:4000/api/todo/updateTodo/${todoId}`,
         { text }
       );
-      console.log(response.data);
       fetchTodos().then((fetchedTodos) => {
         const sortedTodos = sortTodos(fetchedTodos);
         setTodos(sortedTodos);
@@ -95,11 +91,10 @@ const TodoBase = () => {
 
   const updateTodoStatus = async (todoId, status) => {
     try {
-      const response = await axios.put(
+      await axios.put(
         `http://localhost:4000/api/todo/updateTodoStatus/${todoId}`,
         { status }
       );
-      console.log(response.data);
       fetchTodos().then((fetchedTodos) => {
         const sortedTodos = sortTodos(fetchedTodos);
         setTodos(sortedTodos);
@@ -113,10 +108,9 @@ const TodoBase = () => {
   const deleteTodo = async (todoId) => {
     try {
       setTodos((prevTodos) => prevTodos.filter((todo) => todo._id !== todoId));
-      const response = await axios.delete(
+      await axios.delete(
         `http://localhost:4000/api/todo/deleteTodo/${todoId}`
       );
-      console.log(response.data);
     } catch (error) {
       console.error("Error deleting todo:", error);
       throw error;
@@ -153,7 +147,6 @@ const TodoBase = () => {
         </div>
         <div className={styles.todoListContainer}>
           <div className={styles.todoList}>
-            {/* Render todos */}
             {todos.map((item) => (
               <TodoEditor
                 key={item._id}

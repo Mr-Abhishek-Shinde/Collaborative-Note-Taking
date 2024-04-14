@@ -10,7 +10,7 @@
   background-color: #b6f3f3c0;
 }
 
-.mainBox{
+.mainBox {
   margin-top: 10px;
 }
 
@@ -18,26 +18,32 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 2px; 
+  margin-top: 2px;
 }
 
-.loginButton, .signupButton {
-    margin-top: 60px;
+.loginButton,
+.signupButton {
+  margin-top: 60px;
   width: 90px;
   height: 18px;
   font-size: 18px;
   margin-bottom: 30px;
   align-items: center;
   appearance: none;
-  background-image: radial-gradient(100% 100% at 100% 0, #5adaff 0, #0fb2c7 100%);
+  background-image: radial-gradient(
+    100% 100% at 100% 0,
+    #5adaff 0,
+    #0fb2c7 100%
+  );
   border: 0;
   border-radius: 6px;
-  box-shadow: rgba(45, 35, 66, .4) 0 2px 4px,rgba(45, 35, 66, .3) 0 7px 13px -3px,rgba(58, 65, 111, .5) 0 -3px 0 inset;
+  box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,
+    rgba(45, 35, 66, 0.3) 0 7px 13px -3px, rgba(58, 65, 111, 0.5) 0 -3px 0 inset;
   box-sizing: border-box;
   color: #fff;
   cursor: pointer;
   display: inline-flex;
-  font-family: "JetBrains Mono",monospace;
+  font-family: "JetBrains Mono", monospace;
   height: 48px;
   justify-content: center;
   line-height: 1;
@@ -48,25 +54,30 @@
   position: relative;
   text-align: left;
   text-decoration: none;
-  transition: box-shadow .15s,transform .15s;
+  transition: box-shadow 0.15s, transform 0.15s;
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
   white-space: nowrap;
-  will-change: box-shadow,transform;
+  will-change: box-shadow, transform;
   font-size: 18px;
 }
 
-.loginButton:hover , .signupButton:hover {
-  box-shadow: rgba(45, 35, 66, .4) 0 4px 8px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #064e58 0 -3px 0 inset;
+.loginButton:hover,
+.signupButton:hover {
+  box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px,
+    rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #064e58 0 -3px 0 inset;
   transform: translateY(-2px);
 }
 
-.loginButton:focus, .signupButton:focus{
-  box-shadow: rgba(45, 35, 66, .4) 0 4px 8px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #064e58 0 -3px 0 inset;
+.loginButton:focus,
+.signupButton:focus {
+  box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px,
+    rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #064e58 0 -3px 0 inset;
 }
 
-.loginButton:active, .signupButton:active {
+.loginButton:active,
+.signupButton:active {
   box-shadow: #0fb2c7 0 3px 7px inset;
   transform: translateY(2px);
 }
@@ -86,10 +97,10 @@
   top: 0;
   left: 0;
   z-index: -1;
-  overflow: hidden; 
+  overflow: hidden;
 }
 
 .imageContainer img {
-  width: 100%; 
+  width: 100%;
   height: auto;
 }

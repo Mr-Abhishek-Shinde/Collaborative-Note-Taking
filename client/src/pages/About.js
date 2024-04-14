@@ -1,8 +1,6 @@
 import React from "react";
 import styles from '../styles/About.module.css';
-//import Carousel from 'react-bootstrap/Carousel';
 import Slider from '../components/Slider'
-// import imgAbt from '../image/about_1.jpg';
 import imgMainAbt from '../image/aboutMain.jpg';
 import imgAbt2 from '../image/about2.png';
 

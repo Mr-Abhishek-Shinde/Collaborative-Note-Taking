@@ -22,10 +22,8 @@ const loginUser = async (req, res) => {
         res.status(200).json({email, username, token});
     }
     catch (err) {
-        console.log(err);
         res.status(400).json({error: err.message});
     }
-    
 }
 
 
@@ -43,8 +41,5 @@ const signupUser = async (req, res) => {
         res.status(400).json({error: err.message});
     }
 }
-
-
-
 
 module.exports = { signupUser, loginUser };

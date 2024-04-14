@@ -14,7 +14,6 @@ const AccessPopup = ({ onClose, noteId }) => {
   };
 
   const showCollaboratorModal = async (type) => {
-    console.log(type === "add");
     const { value: username } = await Swal.fire({
       title: `${type === "add" ? "Add New" : "Remove"} Collaborator`,
       input: "text",
@@ -36,7 +35,6 @@ const AccessPopup = ({ onClose, noteId }) => {
         username: username,
       })
       .then((response) => {
-        console.log(response.data.message);
         fetchCollaborators();
       })
       .catch((error) => {
@@ -54,7 +52,6 @@ const AccessPopup = ({ onClose, noteId }) => {
         data: { username: username },
       })
       .then((response) => {
-        console.log(response.data.message);
         fetchCollaborators();
       })
       .catch((error) => {
@@ -97,7 +94,6 @@ const AccessPopup = ({ onClose, noteId }) => {
                   &#10006;
                 </button>
                 <h1>Manage Note Access</h1>
-                {/* <hr></hr> */}
                 <button className={styles.accessBtn} onClick={() => showCollaboratorModal("add")}>
                   Add  Collaborator
                 </button>
@@ -105,7 +101,6 @@ const AccessPopup = ({ onClose, noteId }) => {
                   Remove  Collaborator
                 </button>
               </div>
-              {/* <hr></hr> */}
               {isLoading ? (
                 <h4>Loading...</h4>
               ) : collaborators ? (

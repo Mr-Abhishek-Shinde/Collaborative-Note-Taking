@@ -1,24 +1,17 @@
 .loginContainer {
-  
-  /* background-color: rgba(255, 255, 255, 0.8); */
   padding: 40px 30px;
-  /* box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2); */
   perspective: 2700px;
-  /* border-radius: 5px; */
-  /* border: 1px solid rgba(255, 255, 255, 0.5); */
-  /* backdrop-filter: blur(9px); */
-  /* -webkit-backdrop-filter: blur(9px); */
   height: 520px;
   width: 400px;
-  background-color: rgba(255,255,255,0.13);
+  background-color: rgba(255, 255, 255, 0.13);
   position: relative;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
   top: 50%;
   left: 50%;
   border-radius: 10px;
   backdrop-filter: blur(10px);
-  border: 2px solid rgba(255,255,255,0.1);
-  box-shadow: 0 0 20px rgba(8,7,16,0.6);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 20px rgba(8, 7, 16, 0.6);
   padding: 50px 35px;
 }
 
@@ -38,7 +31,6 @@
 
 .loginForm .inputBoxes {
   margin-top: 30px;
-  
 }
 
 .loginForm .inputBox {
@@ -48,7 +40,6 @@
   width: 100%;
   margin: 10px 0;
   position: relative;
-  
 }
 
 .inputBox input {
@@ -70,7 +61,7 @@
   border-color: #7d2ae8;
 }
 
-.inputBox i{
+.inputBox i {
   color: var(--primary);
   font-size: larger;
 }

@@ -16,8 +16,6 @@ const SubNavbar = ({
   isSharedNote
 }) => {
   const { user } = useAuthContext();
-  //console.log("isSharedNote:", isSharedNote);
-  
 
   const [recognition, setRecognition] = useState(null);
   const [isRecognitionOn, setIsRecognitionOn] = useState(false);

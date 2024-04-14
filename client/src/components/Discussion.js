@@ -53,7 +53,6 @@ const Discussion = ({ username, roomId }) => {
       if (!response.data.success) {
         throw new Error('Failed to save message');
       }
-      console.log('Message saved to MongoDB:', message);
     } catch (error) {
       console.error(error);
     }

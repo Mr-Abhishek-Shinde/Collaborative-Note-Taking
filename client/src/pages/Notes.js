@@ -1,5 +1,3 @@
-// Notes.jsx
-
 import React, { useState } from "react";
 import Sidebar from "../components/Sidebar";
 import SubNavbar from "../components/SubNavbar";
